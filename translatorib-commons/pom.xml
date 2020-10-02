@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>es.caib.translatorib</groupId>
+        <artifactId>translatorib</artifactId>
+        <version>1.0.0</version>
+    </parent>
+
+    <artifactId>translatorib-commons</artifactId>
+    <packaging>jar</packaging>
+    <name>translatorIB - COMMONS</name>
+    <description>Mòdul de classes i recursos comuns translatorIB</description>
+
+    <properties>
+        <!--
+        Si volem emprar el maven.build.timestamp al filtres s'ha de "redefinir" la propietat.
+        Veure: https://issues.apache.org/jira/browse/MASSEMBLY-603
+         -->
+        <project.buildtime>${maven.build.timestamp}</project.buildtime>
+        <maven.build.timestamp.format>dd/MM/yyyy HH:mm</maven.build.timestamp.format>
+    </properties>
+
+    <dependencies>
+        <!-- Especificacions i llibreries proporcionades per JBoss -->
+        <dependency>
+            <groupId>org.jboss.spec</groupId>
+            <artifactId>jboss-javaee-8.0</artifactId>
+            <type>pom</type>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <!-- Dependències de test -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-jdk14</artifactId>
+            <version>1.7.22</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <finalName>${project.artifactId}-${project.version}</finalName>
+        <resources>
+            <!-- Activam filtre per fer substitucions al fitxer Version.properties -->
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+        <plugins>
+            <!-- Defineix la propietat ${buildNumber} que s'empra al filtrat -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>buildnumber-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+</project>

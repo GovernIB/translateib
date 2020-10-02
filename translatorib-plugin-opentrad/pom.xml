@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <artifactId>translatorib</artifactId>
+        <groupId>es.caib.translatorib</groupId>
+        <version>1.0.0</version>
+    </parent>
+
+    <artifactId>translatorib-plugin-opentrad</artifactId>
+    <packaging>jar</packaging>
+    <name>translatorIB - PLUGIN - OPENTRAD</name>
+    <description>PLUGIN OPENTRAD de translatorIB</description>
+
+    <dependencies>
+
+    		<!-- PLUGIN API -->
+	  		<dependency>
+				<groupId>es.caib.translatorib</groupId>
+				<artifactId>translatorib-plugin</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>es.caib.translatorib</groupId>
+				<artifactId>translatorib-ejb-api</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+	            <groupId>org.slf4j</groupId>
+	            <artifactId>slf4j-api</artifactId>
+	            <scope>provided</scope>
+	        </dependency>
+
+			<!-- XML BEANS -->
+			<dependency>
+				<groupId>org.apache.xmlbeans</groupId>
+				<artifactId>xmlbeans</artifactId>
+				<version>${xmlbeans.version}</version>
+			</dependency>
+
+			<!-- Commons -->
+			<dependency>
+			    <groupId>org.apache.commons</groupId>
+			    <artifactId>commons-lang3</artifactId>
+			    <version>${commons-lang3.version}</version>
+			</dependency>
+
+		    <!-- CXF -->
+			<dependency>
+			    <groupId>org.apache.cxf</groupId>
+			    <artifactId>cxf-rt-frontend-jaxws</artifactId>
+			    <version>${cxf.version}</version>
+			 <!--  <scope>provided</scope>  -->
+			</dependency>
+
+			<dependency>
+			    <groupId>org.apache.cxf</groupId>
+			    <artifactId>cxf-rt-transports-http</artifactId>
+			    <version>${cxf.version}</version>
+			  	<!--  <scope>provided</scope>  -->
+			</dependency>
+
+			<!--  JAXB -->
+			<dependency>
+			    <groupId>javax.xml.ws</groupId>
+			    <artifactId>jaxws-api</artifactId>
+			    <version>2.3.1</version>
+			    <scope>provided</scope>
+			</dependency>
+			
+			 <!-- Plugins IB -->
+	        <dependency>
+	            <groupId>org.fundaciobit.pluginsib.core</groupId>
+	            <artifactId>pluginsib-core</artifactId>
+	            <version>${plugins-ib.version}</version>
+	        </dependency>
+	        <dependency>
+			    <groupId>com.sun.xml.messaging.saaj</groupId>
+			    <artifactId>saaj-impl</artifactId>
+			    <version>1.3.16.SP1-redhat-6</version>
+			</dependency>
+	        
+    </dependencies>
+
+     <build>
+        <finalName>${project.artifactId}-${project.version}</finalName>
+        <resources>
+            <!-- Activam filtre per fer substitucions al fitxer Version.properties -->
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+        <plugins>
+            <!-- Defineix la propietat ${buildNumber} que s'empra al filtrat -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>buildnumber-maven-plugin</artifactId>
+            </plugin>
+        <plugin>
+				<groupId>org.apache.cxf</groupId>
+				<artifactId>cxf-codegen-plugin</artifactId>
+				<version>${cxf.version}</version>
+				<executions>
+					<execution>
+						<id>generate-sources</id>
+						<phase>generate-sources</phase>
+						<configuration>
+							<wsdlOptions>
+								<wsdlOption>
+									<wsdl>src/main/resources/wsdl/Translator_opentrad_v2.xml</wsdl>
+									<wsdlLocation>classpath:wsdl/Translator_opentrad_v2.xml</wsdlLocation>
+                                    <extendedSoapHeaders>true</extendedSoapHeaders>
+									<extraargs>
+										<extraarg>-client</extraarg>
+										<extraarg>-verbose</extraarg>
+										<extraarg>-p</extraarg>
+										<extraarg>es.caib.translatorib.opentrad.rest.cxf</extraarg>
+									</extraargs>
+								</wsdlOption>
+							</wsdlOptions>
+						</configuration>
+						<goals>
+							<goal>wsdl2java</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			</plugins>
+
+    </build>
+</project>
