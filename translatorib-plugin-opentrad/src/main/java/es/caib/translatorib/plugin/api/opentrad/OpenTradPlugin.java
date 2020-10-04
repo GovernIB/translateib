@@ -41,7 +41,7 @@ public class OpenTradPlugin extends AbstractPluginProperties implements ITraducc
 	@Override
 	public Resultado realizarTraduccion(final String textoEntrada, final TipoEntrada tipoEntrada,
 			final Idioma idiomaEntrada, final Idioma idiomaSalida, final Opciones opciones) throws TraduccionException {
-		final String url = getPropiedad("url");// "http://traductorbal.imaxin.com/TranslatorService_v2/Translator_v2";
+		final String url = getPropiedad("url");
 		final Resultado resultado = new Resultado();
 		URL wsdlURL;
 		/***
@@ -68,11 +68,11 @@ public class OpenTradPlugin extends AbstractPluginProperties implements ITraducc
 		}
 
 		// TODO Añadir parámetro
-		final TranslatorV2Service ss = new TranslatorV2Service(); // (wsdlURL);
+		final TranslatorV2Service ss = new TranslatorV2Service(wsdlURL);
 		final TranslatorV2 port = ss.getTranslatorV2Port();
 
-		final String user = getPropiedad("user"); // "$rolsac_opentrad";
-		final String pass = getPropiedad("pass"); // "dgdtgoib01";
+		final String user = getPropiedad("user");
+		final String pass = getPropiedad("pass");
 		final Long timeout = 6000l;
 
 		try {
@@ -138,7 +138,7 @@ public class OpenTradPlugin extends AbstractPluginProperties implements ITraducc
 	@Override
 	public Resultado realizarTraduccionDocumento(final byte[] documentoEntrada, final TipoDocumento tipoDocumento,
 			final Idioma idiomaEntrada, final Idioma idiomaSalida, final Opciones opciones) throws TraduccionException {
-		final String url = getPropiedad("url"); // "http://traductorbal.imaxin.com/TranslatorService_v2/Translator_v2";
+		final String url = getPropiedad("url");
 		final Resultado resultado = new Resultado();
 		URL wsdlURL;
 		/***
@@ -157,7 +157,6 @@ public class OpenTradPlugin extends AbstractPluginProperties implements ITraducc
 		try {
 			wsdlURL = new URL(url);
 		} catch (final MalformedURLException e) {
-			// throw new TraduccionException("URL mal formada", e.getCause());
 
 			resultado.setError(true);
 			resultado.setDescripcionError("URL mal formada: " + ExceptionUtils.getMessage(e));
@@ -165,11 +164,11 @@ public class OpenTradPlugin extends AbstractPluginProperties implements ITraducc
 		}
 
 		// TODO Añadir parámetro
-		final TranslatorV2Service ss = new TranslatorV2Service(); // (wsdlURL);
+		final TranslatorV2Service ss = new TranslatorV2Service(wsdlURL);
 		final TranslatorV2 port = ss.getTranslatorV2Port();
 
-		final String user = getPropiedad("user"); // "$rolsac_opentrad";
-		final String pass = getPropiedad("pass"); // "dgdtgoib01";
+		final String user = getPropiedad("user");
+		final String pass = getPropiedad("pass");
 		final Long timeout = 6000l;
 
 		try {
@@ -208,7 +207,7 @@ public class OpenTradPlugin extends AbstractPluginProperties implements ITraducc
 			final MessageDigest md = MessageDigest.getInstance("MD5"); // SHA, MD2, MD5, SHA-256, SHA-38
 			String valorChecksum = (new HexBinaryAdapter()).marshal(md.digest(documentoEntrada));
 			final String valorChecksum2 = DatatypeConverter
-					.printHexBinary(MessageDigest.getInstance("MD5").digest("a".getBytes("UTF-8")));
+					.printHexBinary(MessageDigest.getInstance("MD5").digest(documentoEntrada));
 			valorChecksum = "6A8289620BBF89BCC28AE45B6EDFE9D5";
 			// String checkSUM = checksum
 			final String textoResultado = port.translateFileByte(proxyCache, translationEngine, documentBase64,
