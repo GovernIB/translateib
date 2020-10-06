@@ -2,6 +2,9 @@ package es.caib.translatorib.ejb.api.model;
 
 import java.io.Serializable;
 
+import org.eclipse.microprofile.openapi.annotations.media.Schema;
+
+@Schema(name = "PropiedadValor")
 public class PropiedadValor implements Serializable {
 
 	/** Serial Version UID */

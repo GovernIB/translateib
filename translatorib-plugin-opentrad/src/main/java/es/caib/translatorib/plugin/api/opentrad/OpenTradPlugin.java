@@ -8,10 +8,17 @@ import java.util.Properties;
 
 import javax.xml.bind.DatatypeConverter;
 import javax.xml.bind.annotation.adapters.HexBinaryAdapter;
+import javax.xml.namespace.QName;
 import javax.xml.ws.BindingProvider;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.apache.cxf.endpoint.Client;
+import org.apache.cxf.frontend.ClientProxy;
+import org.apache.cxf.transport.http.HTTPConduit;
+import org.apache.cxf.transports.http.configuration.HTTPClientPolicy;
 import org.fundaciobit.pluginsib.core.utils.AbstractPluginProperties;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import es.caib.translatorib.ejb.api.model.Idioma;
 import es.caib.translatorib.ejb.api.model.Opciones;
@@ -25,14 +32,18 @@ import es.caib.translatorib.plugin.api.TraduccionException;
 
 /**
  * Interface pasarela pago.
- *
+ * 
+ * @see Solucion al problema de proxy:
+ *      https://stackoverflow.com/questions/19815145/jax-ws-client-without-a-wsdl-document-file
  * @author Indra
  *
  */
 public class OpenTradPlugin extends AbstractPluginProperties implements ITraduccionPlugin {
 
+	private static final Logger LOG = LoggerFactory.getLogger(OpenTradPlugin.class);
+
 	/** Prefix. */
-	public static final String IMPLEMENTATION_BASE_PROPERTY = "opentrad.";
+	public static final String IMPLEMENTATION_BASE_PROPERTY = "traductor.opentrad.";
 
 	public OpenTradPlugin(final String prefijoPropiedades, final Properties properties) {
 		super(prefijoPropiedades, properties);
@@ -41,54 +52,15 @@ public class OpenTradPlugin extends AbstractPluginProperties implements ITraducc
 	@Override
 	public Resultado realizarTraduccion(final String textoEntrada, final TipoEntrada tipoEntrada,
 			final Idioma idiomaEntrada, final Idioma idiomaSalida, final Opciones opciones) throws TraduccionException {
-		final String url = getPropiedad("url");
 		final Resultado resultado = new Resultado();
-		URL wsdlURL;
-		/***
-		 * En caso de error: PKIX path building faild SunCertPathBuilderException... Hay
-		 * que importar, bajarse el certificado del https y ejecutar:
-		 *
-		 * La ruta del keytool y el cacert variará según servidor (cambiar el $JAVA_HOME
-		 * por la ruta correcta) :
-		 *
-		 * $JAVA_HOME\jre\bin>keytool -import -trustcacerts -keystore
-		 * $JAVA_HOME\jre\lib\security\cacerts -storepass changeit -alias provescaib
-		 * -file provescaibes.crt -noprompt
-		 *
-		 */
-
-		try {
-			wsdlURL = new URL(url);
-		} catch (final MalformedURLException e) {
-			// throw new TraduccionException("URL mal formada", e.getCause());
-
-			resultado.setError(true);
-			resultado.setDescripcionError("URL mal formada: " + ExceptionUtils.getMessage(e));
-			return resultado;
-		}
-
-		// TODO Añadir parámetro
-		final TranslatorV2Service ss = new TranslatorV2Service(wsdlURL);
-		final TranslatorV2 port = ss.getTranslatorV2Port();
-
+		final String url = getPropiedad("url");
 		final String user = getPropiedad("user");
 		final String pass = getPropiedad("pass");
-		final Long timeout = 6000l;
+		final Long timeout = Long.valueOf(getPropiedad("timeout"));
 
 		try {
-			// TODO Descomentar linea
-			// configurarService((BindingProvider) port, getEndpoint(url), user, pass,
-			// timeout, false);
-		} catch (final Exception e1) {
-			// throw new TraduccionException("Mal configuracion del servicio",
-			// e1.getCause());
 
-			resultado.setError(true);
-			resultado.setDescripcionError("Mal configuracion del servicio" + ExceptionUtils.getMessage(e1));
-			return resultado;
-		}
-
-		try {
+			final TranslatorV2 port = getClienteOpenTrad(url, timeout);
 
 			final java.lang.Boolean proxyCache = null;
 			final java.lang.String translationEngine = "Opentrad";
@@ -111,7 +83,7 @@ public class OpenTradPlugin extends AbstractPluginProperties implements ITraducc
 			resultado.setTextoTraducido(textoResultado);
 
 		} catch (final Exception e) {
-			// throw new TraduccionException("Error conectándose a la url", e.getCause());
+			LOG.error("Error realizando la traduccion", e);
 			resultado.setError(true);
 			resultado.setDescripcionError(ExceptionUtils.getMessage(e));
 
@@ -120,71 +92,18 @@ public class OpenTradPlugin extends AbstractPluginProperties implements ITraducc
 		return resultado;
 	}
 
-	/**
-	 * Obtiene propiedad.
-	 *
-	 * @param propiedad propiedad
-	 * @return valor
-	 * @throws AutenticacionPluginException
-	 */
-	private String getPropiedad(final String propiedad) throws TraduccionException {
-		final String res = getProperty(IMPLEMENTATION_BASE_PROPERTY + propiedad);
-		if (res == null) {
-			throw new TraduccionException("No se ha especificado parametro " + propiedad + " en propiedades");
-		}
-		return res;
-	}
-
 	@Override
 	public Resultado realizarTraduccionDocumento(final byte[] documentoEntrada, final TipoDocumento tipoDocumento,
 			final Idioma idiomaEntrada, final Idioma idiomaSalida, final Opciones opciones) throws TraduccionException {
-		final String url = getPropiedad("url");
 		final Resultado resultado = new Resultado();
-		URL wsdlURL;
-		/***
-		 * En caso de error: PKIX path building faild SunCertPathBuilderException... Hay
-		 * que importar, bajarse el certificado del https y ejecutar:
-		 *
-		 * La ruta del keytool y el cacert variará según servidor (cambiar el $JAVA_HOME
-		 * por la ruta correcta) :
-		 *
-		 * $JAVA_HOME\jre\bin>keytool -import -trustcacerts -keystore
-		 * $JAVA_HOME\jre\lib\security\cacerts -storepass changeit -alias provescaib
-		 * -file provescaibes.crt -noprompt
-		 *
-		 */
-
-		try {
-			wsdlURL = new URL(url);
-		} catch (final MalformedURLException e) {
-
-			resultado.setError(true);
-			resultado.setDescripcionError("URL mal formada: " + ExceptionUtils.getMessage(e));
-			return resultado;
-		}
-
-		// TODO Añadir parámetro
-		final TranslatorV2Service ss = new TranslatorV2Service(wsdlURL);
-		final TranslatorV2 port = ss.getTranslatorV2Port();
-
+		final String url = getPropiedad("url");
 		final String user = getPropiedad("user");
 		final String pass = getPropiedad("pass");
-		final Long timeout = 6000l;
+		final Long timeout = Long.valueOf(getPropiedad("timeout"));
 
 		try {
-			// TODO Descomentar linea
-			// configurarService((BindingProvider) port, getEndpoint(url), user, pass,
-			// timeout, false);
-		} catch (final Exception e1) {
-			// throw new TraduccionException("Mal configuracion del servicio",
-			// e1.getCause());
 
-			resultado.setError(true);
-			resultado.setDescripcionError("Mal configuracion del servicio" + ExceptionUtils.getMessage(e1));
-			return resultado;
-		}
-
-		try {
+			final TranslatorV2 port = getClienteOpenTrad(url, timeout);
 
 			final byte[] documentoEntradaEncoded = Base64.getEncoder().encode(documentoEntrada);
 			final java.lang.Boolean proxyCache = null;
@@ -217,13 +136,101 @@ public class OpenTradPlugin extends AbstractPluginProperties implements ITraducc
 			resultado.setTextoTraducido(textoResultado);
 
 		} catch (final Exception e) {
-			// throw new TraduccionException("Error conectándose a la url", e.getCause());
 			resultado.setError(true);
 			resultado.setDescripcionError(ExceptionUtils.getMessage(e));
 
 		}
 
 		return resultado;
+	}
+
+	/**
+	 * GetClientOpenTrad
+	 * 
+	 * @param url
+	 * @param timeout
+	 * @return
+	 * @throws NumberFormatException
+	 * @throws Exception
+	 */
+	private TranslatorV2 getClienteOpenTrad(String url, final Long timeout) throws NumberFormatException, Exception {
+		final QName SERVICE = new QName("http://inteco.minhap.gov/", "Translator_v2Service");
+		final TranslatorV2Service servicio = new TranslatorV2Service(null, SERVICE);
+		// final TranslatorV2Service servicio = new TranslatorV2Service();
+		final TranslatorV2 serviceTasaSoap = servicio.getTranslatorV2Port();
+		final BindingProvider provider = (BindingProvider) serviceTasaSoap;
+		provider.getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, url);
+
+		final Client client = ClientProxy.getClient(serviceTasaSoap);
+		final HTTPConduit conduit = (HTTPConduit) client.getConduit();
+		final HTTPClientPolicy httpClientPolicy = conduit.getClient();
+
+		// Timeout
+		if (timeout != null) {
+			httpClientPolicy.setReceiveTimeout(timeout);
+		}
+
+		// Vemos si hay que pasar por proxy
+		final String proxyHost = System.getProperty("http.proxyHost");
+		if (proxyHost != null && !"".equals(proxyHost)) {
+			if (!validateNonProxyHosts(url)) {
+				final HTTPClientPolicy policy = conduit.getClient();
+				policy.setProxyServer(proxyHost);
+				policy.setProxyServerPort(Integer.parseInt(System.getProperty("http.proxyPort")));
+
+				conduit.getProxyAuthorization().setUserName(System.getProperty("http.proxyUser"));
+				conduit.getProxyAuthorization().setPassword(System.getProperty("http.proxyPassword"));
+			}
+		}
+
+		return serviceTasaSoap;
+
+	}
+
+	/**
+	 * Busca els host de la url indicada dentro de la propiedad http.nonProxyHosts
+	 * de la JVM
+	 *
+	 * @param url Endpoint del ws
+	 * @return true si el host esta dentro de la propiedad, fals en caso contrario
+	 */
+	private static boolean validateNonProxyHosts(final String url) throws Exception {
+		final String nonProxyHosts = System.getProperty("http.nonProxyHosts");
+		boolean existe = false;
+		URL urlURL;
+		try {
+			if (nonProxyHosts != null && !"".equals(nonProxyHosts)) {
+				urlURL = new URL(url);
+				final String[] nonProxyHostsArray = nonProxyHosts.split("\\|");
+				for (int i = 0; i < nonProxyHostsArray.length; i++) {
+					final String a = nonProxyHostsArray[i].replaceAll("\\.", "\\\\.").replaceAll("\\*", ".*");
+					;
+					if (urlURL.getHost().matches(a)) {
+						existe = true;
+						break;
+					}
+				}
+			}
+		} catch (final MalformedURLException e) {
+			LOG.error("Error al validar los nonProxyHost " + e.getCause(), e);
+			throw e;
+		}
+		return existe;
+	}
+
+	/**
+	 * Obtiene propiedad.
+	 *
+	 * @param propiedad propiedad
+	 * @return valor
+	 * @throws AutenticacionPluginException
+	 */
+	private String getPropiedad(final String propiedad) throws TraduccionException {
+		final String res = getProperty(IMPLEMENTATION_BASE_PROPERTY + propiedad);
+		if (res == null) {
+			throw new TraduccionException("No se ha especificado parametro " + propiedad + " en propiedades");
+		}
+		return res;
 	}
 
 	/**

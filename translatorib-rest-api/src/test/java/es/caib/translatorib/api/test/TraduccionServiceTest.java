@@ -1,5 +1,8 @@
 package es.caib.translatorib.api.test;
 
+import java.io.IOException;
+import java.io.InputStream;
+
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
@@ -26,11 +29,15 @@ import es.caib.translatorib.ejb.api.model.TipoEntrada;
 public class TraduccionServiceTest {
 
 	// URL a partir de la qual estan penjats els resources.
+	// private static final String BASE_URL =
+	// "http://caibter.indra.es/translatorib/api/services/traduccion";
 	private static final String BASE_URL = "http://localhost:8080/translatorib/api/services/traduccion";
 
 	// Nom d'usuari i password a emprar per les peticions que necesisten
 	// autenticació. Cal posar un
 	// usuari/password que tengui rol TIB_ADMIN a per el mòdul web de l'api REST.
+	// private static final String USER = "api-tib";
+	// private static final String PASSWORD = "M0n1n@s";
 	private static final String USER = "usuario1";
 	private static final String PASSWORD = "1234";
 
@@ -111,12 +118,18 @@ public class TraduccionServiceTest {
 
 	/**
 	 * Consulta totes les unitats.
+	 * 
+	 * @throws IOException
 	 */
 	@Test
-	public void testTraduccionDoc() {
+	public void testTraduccionDoc() throws IOException {
 
 		final ParametrosTraduccionDoc parametros = new ParametrosTraduccionDoc();
-		parametros.setContenidoDocumento("Texto a traducir".getBytes());
+		final InputStream inputStream = this.getClass().getResourceAsStream("test.txt");
+		final byte[] targetArray = new byte[inputStream.available()];
+		inputStream.read(targetArray);
+
+		parametros.setContenidoDocumento(targetArray);
 		parametros.setTipoDocumento(TipoDocumento.TEXTO_PLANTO);
 
 		parametros.setIdiomaEntrada(Idioma.CASTELLANO);

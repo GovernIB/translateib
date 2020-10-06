@@ -15,7 +15,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.eclipse.microprofile.openapi.annotations.Operation;
-import org.eclipse.microprofile.openapi.annotations.headers.Header;
 import org.eclipse.microprofile.openapi.annotations.media.Content;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import org.eclipse.microprofile.openapi.annotations.parameters.RequestBody;
@@ -63,9 +62,8 @@ public class TraduccionResource {
 	 */
 	@GET
 	@Path("/test")
-	@Operation(operationId = "test", summary = "Obté un procediment")
+	@Operation(operationId = "test", summary = "Test de prueba que devuelve el texto traducir traducido : traduir")
 	@APIResponse(responseCode = "200", description = "Procediment", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Resultado.class)))
-	@APIResponse(responseCode = "404", description = "Recurs no trobat")
 	public Response get() {
 
 		final String textoEntrada = "traducir";
@@ -86,8 +84,12 @@ public class TraduccionResource {
 	 * @throws TraduccionException
 	 */
 	@POST
-	@Path("/realizarTraduccion")
-	public Response realizarTraduccion(@RequestBody final ParametrosTraduccion parametros) throws TraduccionException {
+	@Path("/texto")
+	@Operation(operationId = "texto", summary = "Realiza una traducción de un texto")
+	@APIResponse(responseCode = "200", description = "Traduccion TEXTO", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Resultado.class)))
+	public Response realizarTraduccion(
+			@RequestBody(description = "Parametros para la traducción", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ParametrosTraduccion.class))) @Valid final ParametrosTraduccion parametros)
+			throws TraduccionException {
 		final Resultado resultado = traduccionService.realizarTraduccion(parametros.getTextoEntrada(),
 				parametros.getTipoEntrada(), parametros.getIdiomaEntrada(), parametros.getIdiomaSalida(),
 				parametros.getOpciones());
@@ -108,11 +110,11 @@ public class TraduccionResource {
 	 * @throws TraduccionException
 	 */
 	@POST
-	@Path("realizarTraduccionDocumento")
-	@Operation(operationId = "realizarTraduccionDocumento", summary = "Realiza una traducción de un documento")
-	@APIResponse(responseCode = "201", description = "Traducció document realitzada", headers = @Header(name = "location", description = "Enllaç al nou recurs"))
+	@Path("/documento")
+	@Operation(operationId = "documento", summary = "Realiza una traducción de un documento")
+	@APIResponse(responseCode = "200", description = "Traduccion DOC", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Resultado.class)))
 	public Response realizarTraduccionDocumento(
-			@RequestBody(description = "Parametros para la traducción", content = @Content(mediaType = "application/json", schema = @Schema(implementation = String.class))) @Valid final ParametrosTraduccionDoc parametros) {
+			@RequestBody(description = "Parametros para la traducción", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ParametrosTraduccionDoc.class))) @Valid final ParametrosTraduccionDoc parametros) {
 		final Resultado resultado = traduccionService.realizarTraduccionDocumento(parametros.getContenidoDocumento(),
 				parametros.getTipoDocumento(), parametros.getIdiomaEntrada(), parametros.getIdiomaSalida(),
 				parametros.getOpciones());

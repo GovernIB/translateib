@@ -1,5 +1,8 @@
 package es.caib.translatorib.ejb.api.model;
 
+import org.eclipse.microprofile.openapi.annotations.media.Schema;
+
+@Schema(name = "Resultado")
 public class Resultado {
 
 	/** Campos **/

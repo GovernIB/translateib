@@ -19,6 +19,9 @@ public interface ITraduccionPlugin extends IPlugin {
 	/** Prefix. */
 	public static final String TRANSLATOR_BASE_PROPERTY = "es.caib.translatorib.";
 
+	/** PLUGINS **/
+	public static final String PLUGIN_OPENTRAD = "opentrad";
+
 	/**
 	 * Realizar traduccion de un texto.
 	 *

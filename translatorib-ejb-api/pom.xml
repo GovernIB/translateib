@@ -31,6 +31,13 @@
             <artifactId>translatorib-commons</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <!-- Anotacions de documentació de openapi -->
+        <dependency>
+            <groupId>org.eclipse.microprofile.openapi</groupId>
+            <artifactId>microprofile-openapi-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        
     </dependencies>
 
     <build>

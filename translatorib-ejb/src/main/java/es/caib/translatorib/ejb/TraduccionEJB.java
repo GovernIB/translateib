@@ -9,6 +9,8 @@ import javax.ejb.Stateless;
 
 import org.fundaciobit.pluginsib.core.IPlugin;
 import org.fundaciobit.pluginsib.core.utils.PluginsManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import es.caib.translatorib.commons.utils.Constants;
 import es.caib.translatorib.ejb.api.model.Idioma;
@@ -31,6 +33,8 @@ import es.caib.translatorib.plugin.api.TraduccionException;
 @RolesAllowed(Constants.TIB_ADMIN)
 public class TraduccionEJB implements TraduccionService {
 
+	private static final Logger LOG = LoggerFactory.getLogger(TraduccionEJB.class);
+
 	@EJB
 	PropiedadesTraduccionEJB propiedadesejb;
 
@@ -42,6 +46,7 @@ public class TraduccionEJB implements TraduccionService {
 		try {
 			res = plg.realizarTraduccion(textoEntrada, tipoEntrada, idiomaEntrada, idiomaSalidad, opciones);
 		} catch (final TraduccionException exp) {
+			LOG.error("Error realizando realizarTraduccion", exp);
 			res = new Resultado();
 			res.setError(true);
 			res.setDescripcionError(exp.getMessage());
@@ -59,6 +64,7 @@ public class TraduccionEJB implements TraduccionService {
 			res = plg.realizarTraduccionDocumento(contenidoDocumento, tipoDocumento, idiomaEntrada, idiomaSalidad,
 					opciones);
 		} catch (final TraduccionException exp) {
+			LOG.error("Error realizando realizarTraduccionDocumento", exp);
 			res = new Resultado();
 			res.setError(true);
 			res.setDescripcionError(exp.getMessage());
@@ -81,16 +87,20 @@ public class TraduccionEJB implements TraduccionService {
 	private IPlugin createPlugin(final Opciones opciones) {
 
 		IPlugin plg = null;
+		Properties properties = null;
+		String classname = null;
 		try {
 			final Properties prop = new Properties();
-			final Properties properties = propiedadesejb.getProperties();
-			String classname;
+			properties = propiedadesejb.getProperties();
 
+			String implementacionPlugin;
 			if (opciones == null || !opciones.contains(Opciones.PLUGIN)) {
-				classname = properties.getProperty("translatorib.default");
+				implementacionPlugin = properties.getProperty("default");
+
 			} else {
-				classname = opciones.getValor(Opciones.PLUGIN);
+				implementacionPlugin = opciones.getValor(Opciones.PLUGIN);
 			}
+			classname = properties.getProperty("traductor." + implementacionPlugin + ".classname");
 
 			final Set<String> keys = properties.stringPropertyNames();
 			for (final String key : keys) {
@@ -101,7 +111,15 @@ public class TraduccionEJB implements TraduccionService {
 			plg = (IPlugin) PluginsManager.instancePluginByClassName(classname,
 					ITraduccionPlugin.TRANSLATOR_BASE_PROPERTY, prop);
 		} catch (final Exception e) {
-			System.out.println("Error " + e.getMessage());
+			LOG.error("Error obteniendo el plugin", e);
+			if (properties == null) {
+				LOG.error("El fichero properties es nulo");
+			}
+			if (classname == null) {
+				LOG.error("El classname es nulo");
+			} else {
+				LOG.error("El classname NO es nulo " + classname);
+			}
 		}
 		return plg;
 	}

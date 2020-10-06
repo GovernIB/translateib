@@ -4,6 +4,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.microprofile.openapi.annotations.media.Schema;
+
+@Schema(name = "Opciones")
 public class Opciones implements Serializable {
 
 	/** Serial Version UID */
@@ -11,7 +14,7 @@ public class Opciones implements Serializable {
 	public static final String PLUGIN = "plugin";
 
 	/** Campos **/
-	private List<PropiedadValor> propiedades = new ArrayList<>();
+	private List<PropiedadValor> propiedades = new ArrayList<PropiedadValor>();
 
 	public List<PropiedadValor> getPropiedades() {
 		return propiedades;
@@ -23,7 +26,7 @@ public class Opciones implements Serializable {
 
 	public void addPropiedadValor(final String prop, final String val) {
 		if (propiedades == null) {
-			propiedades = new ArrayList<>();
+			propiedades = new ArrayList<PropiedadValor>();
 		}
 		final PropiedadValor propiedad = new PropiedadValor();
 		propiedad.setPropiedad(prop);

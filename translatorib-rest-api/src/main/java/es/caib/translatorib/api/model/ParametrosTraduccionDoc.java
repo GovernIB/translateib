@@ -1,9 +1,12 @@
 package es.caib.translatorib.api.model;
 
+import org.eclipse.microprofile.openapi.annotations.media.Schema;
+
 import es.caib.translatorib.ejb.api.model.Idioma;
 import es.caib.translatorib.ejb.api.model.Opciones;
 import es.caib.translatorib.ejb.api.model.TipoDocumento;
 
+@Schema(name = "ParametrosTraduccionDoc")
 public class ParametrosTraduccionDoc {
 
 	private byte[] contenidoDocumento;
@@ -48,7 +51,7 @@ public class ParametrosTraduccionDoc {
 		return opciones;
 	}
 
-	public void setOpciones(Opciones opciones) {
+	public void setOpciones(final Opciones opciones) {
 		this.opciones = opciones;
 	}
 

@@ -2,10 +2,13 @@ package es.caib.translatorib.api.model;
 
 import java.io.Serializable;
 
+import org.eclipse.microprofile.openapi.annotations.media.Schema;
+
 import es.caib.translatorib.ejb.api.model.Idioma;
 import es.caib.translatorib.ejb.api.model.Opciones;
 import es.caib.translatorib.ejb.api.model.TipoEntrada;
 
+@Schema(name = "ParametrosTraduccion")
 public class ParametrosTraduccion implements Serializable {
 
 	/** Serial version UID */
