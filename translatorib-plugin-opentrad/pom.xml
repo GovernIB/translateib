@@ -52,14 +52,12 @@
 			    <groupId>org.apache.cxf</groupId>
 			    <artifactId>cxf-rt-frontend-jaxws</artifactId>
 			    <version>${cxf.version}</version>
-			 <!--  <scope>provided</scope>  -->
 			</dependency>
 
 			<dependency>
 			    <groupId>org.apache.cxf</groupId>
 			    <artifactId>cxf-rt-transports-http</artifactId>
 			    <version>${cxf.version}</version>
-			  	<!--  <scope>provided</scope>  -->
 			</dependency>
 
 			<!--  JAXB -->
@@ -68,6 +66,7 @@
 			    <artifactId>jaxws-api</artifactId>
 			    <version>2.3.1</version>
 			    <scope>provided</scope>
+			    
 			</dependency>
 			
 			 <!-- Plugins IB -->

@@ -21,7 +21,7 @@ import org.eclipse.microprofile.openapi.annotations.parameters.RequestBody;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 
 import es.caib.translatorib.api.model.ParametrosTraduccion;
-import es.caib.translatorib.api.model.ParametrosTraduccionDoc;
+import es.caib.translatorib.api.model.ParametrosTraduccionDocumento;
 import es.caib.translatorib.commons.utils.Constants;
 import es.caib.translatorib.ejb.TraduccionService;
 import es.caib.translatorib.ejb.api.model.Idioma;
@@ -114,7 +114,7 @@ public class TraduccionResource {
 	@Operation(operationId = "documento", summary = "Realiza una traducción de un documento")
 	@APIResponse(responseCode = "200", description = "Traduccion DOC", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Resultado.class)))
 	public Response realizarTraduccionDocumento(
-			@RequestBody(description = "Parametros para la traducción", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ParametrosTraduccionDoc.class))) @Valid final ParametrosTraduccionDoc parametros) {
+			@RequestBody(description = "Parametros para la traducción", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ParametrosTraduccionDocumento.class))) @Valid final ParametrosTraduccionDocumento parametros) {
 		final Resultado resultado = traduccionService.realizarTraduccionDocumento(parametros.getContenidoDocumento(),
 				parametros.getTipoDocumento(), parametros.getIdiomaEntrada(), parametros.getIdiomaSalida(),
 				parametros.getOpciones());

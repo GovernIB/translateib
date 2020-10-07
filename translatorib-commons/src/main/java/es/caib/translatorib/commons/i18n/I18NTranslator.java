@@ -2,14 +2,15 @@ package es.caib.translatorib.commons.i18n;
 
 import java.io.Serializable;
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
-import java.util.stream.Collectors;
 
 /**
  * Permet traduir missatges indicant un nom d'etiqueta i opcionalment varis
@@ -111,7 +112,23 @@ public class I18NTranslator implements Serializable {
 			throw new IllegalArgumentException("bundleNames ha de contenir al manco un element");
 		}
 		// Només executa el constructor si dins el map no hi ha la clau indicada
-		return INSTANCES.computeIfAbsent(Arrays.asList(bundleNames), I18NTranslator::new);
+		final List<String> lista = Arrays.asList(bundleNames);
+		I18NTranslator retorno = null;
+		if (lista != null && INSTANCES != null) {
+			for (final Map.Entry<List<String>, I18NTranslator> o : INSTANCES.entrySet()) {
+				if (o == lista) {
+					retorno = o.getValue();
+					break;
+				}
+			}
+		}
+
+		if (retorno == null) {
+			retorno = new I18NTranslator(lista);
+		}
+		return retorno;
+//		JDK11 
+//		return INSTANCES.computeIfAbsent(Arrays.asList(bundleNames), I18NTranslator::new);
 	}
 
 	/**
@@ -125,16 +142,19 @@ public class I18NTranslator implements Serializable {
 	protected ResourceBundle getBundle(final Locale locale) {
 		// Només executa la funció per obtenir el ResourceBundle si no existeix ja dins
 		// el map.
-		return bundleMap.computeIfAbsent(locale, loc -> {
-			if (bundleNamesList.size() == 1) {
-				return ResourceBundle.getBundle(bundleNamesList.get(0), loc, NO_FALLBACK_CONTROL);
-			} else {
-				final List<ResourceBundle> bundles = bundleNamesList.stream()
-						.map(name -> ResourceBundle.getBundle(name, loc, NO_FALLBACK_CONTROL))
-						.collect(Collectors.toList());
-				return new MultipleResourceBundle(bundles);
-			}
-		});
+		final List<ResourceBundle> bundles = new ArrayList<ResourceBundle>();
+		return new MultipleResourceBundle(bundles);
+//		JDK11
+//		return bundleMap.computeIfAbsent(locale, loc -> {
+//			if (bundleNamesList.size() == 1) {
+//				return ResourceBundle.getBundle(bundleNamesList.get(0), loc, NO_FALLBACK_CONTROL);
+//			} else {
+//				final List<ResourceBundle> bundles = bundleNamesList.stream()
+//						.map(name -> ResourceBundle.getBundle(name, loc, NO_FALLBACK_CONTROL))
+//						.collect(Collectors.toList());
+//				return new MultipleResourceBundle(bundles);
+//			}
+//		}); 
 	}
 
 	/**
@@ -172,9 +192,11 @@ public class I18NTranslator implements Serializable {
 			final ResourceBundle bundle = getBundle(locale);
 			message = bundle.getString(label);
 			if (parameters != null && parameters.length > 0) {
-				final Object[] args = Arrays.stream(parameters)
-						.map(param -> param instanceof String ? processStringParam(locale, (String) param) : param)
-						.toArray();
+				final Object[] args = new Object[parameters.length];
+//				JDK11 
+//				final Object[] args = Arrays.stream(parameters)
+//						.map(param -> param instanceof String ? processStringParam(locale, (String) param) : param)
+//						.toArray();
 				message = MessageFormat.format(message, args);
 			}
 		} catch (final MissingResourceException e) {

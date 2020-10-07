@@ -167,7 +167,7 @@ public class OpenTradPlugin extends AbstractPluginProperties implements ITraducc
 
 		// Timeout
 		if (timeout != null) {
-			httpClientPolicy.setReceiveTimeout(timeout);
+			httpClientPolicy.setReceiveTimeout(timeout * 1000);
 		}
 
 		// Vemos si hay que pasar por proxy
@@ -233,34 +233,4 @@ public class OpenTradPlugin extends AbstractPluginProperties implements ITraducc
 		return res;
 	}
 
-	/**
-	 * Configura service.
-	 *
-	 * @param bp       Binding Provider
-	 * @param endpoint Endpoint ws
-	 * @param user     usuario
-	 * @param pass     password
-	 * @throws Exception
-	 */
-	private void configurarService(final BindingProvider bp, final String endpoint, final String user,
-			final String pass, final Long timeout, final boolean logCalls) throws Exception {
-		bp.getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, endpoint);
-		WsClientUtil.configurePort(bp, endpoint, user, pass, "BASIC", timeout, logCalls);
-	}
-
-	/**
-	 * Extrae la url
-	 *
-	 * @param url
-	 * @return
-	 */
-	private String getEndpoint(final String url) {
-		String endpoint;
-		if (url.endsWith("?wsdl")) {
-			endpoint = url.substring(0, url.indexOf("?wsdl"));
-		} else {
-			endpoint = url;
-		}
-		return endpoint;
-	}
 }

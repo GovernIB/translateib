@@ -14,7 +14,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import es.caib.translatorib.api.model.ParametrosTraduccion;
-import es.caib.translatorib.api.model.ParametrosTraduccionDoc;
+import es.caib.translatorib.api.model.ParametrosTraduccionDocumento;
 import es.caib.translatorib.ejb.api.model.Idioma;
 import es.caib.translatorib.ejb.api.model.Opciones;
 import es.caib.translatorib.ejb.api.model.Resultado;
@@ -29,17 +29,17 @@ import es.caib.translatorib.ejb.api.model.TipoEntrada;
 public class TraduccionServiceTest {
 
 	// URL a partir de la qual estan penjats els resources.
+	private static final String BASE_URL = "http://caibter.indra.es/translatorib/api/services/traduccion";
 	// private static final String BASE_URL =
-	// "http://caibter.indra.es/translatorib/api/services/traduccion";
-	private static final String BASE_URL = "http://localhost:8080/translatorib/api/services/traduccion";
+	// "http://localhost:8080/translatorib/api/services/traduccion";
 
 	// Nom d'usuari i password a emprar per les peticions que necesisten
 	// autenticació. Cal posar un
 	// usuari/password que tengui rol TIB_ADMIN a per el mòdul web de l'api REST.
-	// private static final String USER = "api-tib";
-	// private static final String PASSWORD = "M0n1n@s";
-	private static final String USER = "usuario1";
-	private static final String PASSWORD = "1234";
+	private static final String USER = "api-tib";
+	private static final String PASSWORD = "M0n1n@s";
+	// private static final String USER = "usuario1";
+	// private static final String PASSWORD = "1234";
 
 	// Client a reutilitzar durant test
 	private static Client client;
@@ -72,14 +72,10 @@ public class TraduccionServiceTest {
 		final ParametrosTraduccion parametros = new ParametrosTraduccion();
 		parametros.setTextoEntrada("Texto a traducir");
 		parametros.setTipoEntrada(TipoEntrada.TEXTO_PLANTO);
-
 		parametros.setIdiomaEntrada(Idioma.CASTELLANO);
 		parametros.setIdiomaSalida(Idioma.CATALAN);
-//		final Resultado postResponse = client.target(BASE_URL + "/realizarTraduccion").request()
-//				.post(Entity.json(parametros), Resultado.class);
 
-		final Response response = client.target(BASE_URL + "/realizarTraduccion").request()
-				.post(Entity.json(parametros));
+		final Response response = client.target(BASE_URL + "/texto").request().post(Entity.json(parametros));
 
 		final Resultado respuesta = response.readEntity(Resultado.class);
 
@@ -101,13 +97,10 @@ public class TraduccionServiceTest {
 		parametros.setIdiomaEntrada(Idioma.CASTELLANO);
 		parametros.setIdiomaSalida(Idioma.CATALAN);
 		final Opciones opciones = new Opciones();
-		opciones.addPropiedadValor(Opciones.PLUGIN, "es.caib.translatorib.plugin.api.mock.MockTradPlugin");
+		opciones.addPropiedadValor(Opciones.PLUGIN, Opciones.PLUGIN_MOCKUP);
 		parametros.setOpciones(opciones);
-//		final Resultado postResponse = client.target(BASE_URL + "/realizarTraduccion").request()
-//				.post(Entity.json(parametros), Resultado.class);
 
-		final Response response = client.target(BASE_URL + "/realizarTraduccion").request()
-				.post(Entity.json(parametros));
+		final Response response = client.target(BASE_URL + "/texto").request().post(Entity.json(parametros));
 
 		final Resultado respuesta = response.readEntity(Resultado.class);
 
@@ -124,7 +117,7 @@ public class TraduccionServiceTest {
 	@Test
 	public void testTraduccionDoc() throws IOException {
 
-		final ParametrosTraduccionDoc parametros = new ParametrosTraduccionDoc();
+		final ParametrosTraduccionDocumento parametros = new ParametrosTraduccionDocumento();
 		final InputStream inputStream = this.getClass().getResourceAsStream("test.txt");
 		final byte[] targetArray = new byte[inputStream.available()];
 		inputStream.read(targetArray);
@@ -134,11 +127,8 @@ public class TraduccionServiceTest {
 
 		parametros.setIdiomaEntrada(Idioma.CASTELLANO);
 		parametros.setIdiomaSalida(Idioma.CATALAN);
-//		final Resultado postResponse = client.target(BASE_URL + "/realizarTraduccion").request()
-//				.post(Entity.json(parametros), Resultado.class);
 
-		final Response response = client.target(BASE_URL + "/realizarTraduccionDocumento").request()
-				.post(Entity.json(parametros));
+		final Response response = client.target(BASE_URL + "/documento").request().post(Entity.json(parametros));
 
 		final Resultado respuesta = response.readEntity(Resultado.class);
 

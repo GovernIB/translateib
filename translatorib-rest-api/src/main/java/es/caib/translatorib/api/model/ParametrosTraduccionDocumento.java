@@ -6,8 +6,8 @@ import es.caib.translatorib.ejb.api.model.Idioma;
 import es.caib.translatorib.ejb.api.model.Opciones;
 import es.caib.translatorib.ejb.api.model.TipoDocumento;
 
-@Schema(name = "ParametrosTraduccionDoc")
-public class ParametrosTraduccionDoc {
+@Schema(name = "ParametrosTraduccionDocumento")
+public class ParametrosTraduccionDocumento {
 
 	private byte[] contenidoDocumento;
 	private TipoDocumento tipoDocumento;

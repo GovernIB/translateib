@@ -17,7 +17,8 @@
 
     	<!-- PROPIEDADES ARCHETYPE -->
         <!-- Propietats que afecten els plugins -->
-        <maven.compiler.release>11</maven.compiler.release>
+        <!-- JDK1.8 
+        <maven.compiler.release>11</maven.compiler.release>-->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <!-- No fer els tests per defecte. -->
@@ -282,9 +283,9 @@
                         <requireMavenVersion>
                             <version>3.6.1</version>
                         </requireMavenVersion>
-                        <requireJavaVersion>
+                        <!-- JDK1.8 <requireJavaVersion>
                             <version>11</version>
-                        </requireJavaVersion>
+                        </requireJavaVersion>-->
                         <!-- Per detectar problemes de dependències -->
                         <banDuplicatePomDependencyVersions/>
                         <dependencyConvergence/>
