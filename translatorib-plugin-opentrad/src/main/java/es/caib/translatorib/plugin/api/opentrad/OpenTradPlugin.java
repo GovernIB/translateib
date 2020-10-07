@@ -22,7 +22,8 @@ import org.slf4j.LoggerFactory;
 
 import es.caib.translatorib.ejb.api.model.Idioma;
 import es.caib.translatorib.ejb.api.model.Opciones;
-import es.caib.translatorib.ejb.api.model.Resultado;
+import es.caib.translatorib.ejb.api.model.ResultadoTraduccionDocumento;
+import es.caib.translatorib.ejb.api.model.ResultadoTraduccionTexto;
 import es.caib.translatorib.ejb.api.model.TipoDocumento;
 import es.caib.translatorib.ejb.api.model.TipoEntrada;
 import es.caib.translatorib.opentrad.rest.cxf.TranslatorV2;
@@ -50,9 +51,9 @@ public class OpenTradPlugin extends AbstractPluginProperties implements ITraducc
 	}
 
 	@Override
-	public Resultado realizarTraduccion(final String textoEntrada, final TipoEntrada tipoEntrada,
+	public ResultadoTraduccionTexto realizarTraduccion(final String textoEntrada, final TipoEntrada tipoEntrada,
 			final Idioma idiomaEntrada, final Idioma idiomaSalida, final Opciones opciones) throws TraduccionException {
-		final Resultado resultado = new Resultado();
+		final ResultadoTraduccionTexto resultado = new ResultadoTraduccionTexto();
 		final String url = getPropiedad("url");
 		final String user = getPropiedad("user");
 		final String pass = getPropiedad("pass");
@@ -66,7 +67,7 @@ public class OpenTradPlugin extends AbstractPluginProperties implements ITraducc
 			final java.lang.String translationEngine = "Opentrad";
 			final String documentBase64 = null;
 			// final java.lang.String languagePair = "es-ca";
-			final java.lang.String languagePair = idiomaEntrada.toString() + "-" + idiomaSalida.toString();
+			final java.lang.String languagePair = getIdioma(idiomaEntrada, idiomaSalida);
 
 			final java.lang.Boolean ner = false;
 			// final java.lang.String contentType = "txt";
@@ -93,9 +94,10 @@ public class OpenTradPlugin extends AbstractPluginProperties implements ITraducc
 	}
 
 	@Override
-	public Resultado realizarTraduccionDocumento(final byte[] documentoEntrada, final TipoDocumento tipoDocumento,
-			final Idioma idiomaEntrada, final Idioma idiomaSalida, final Opciones opciones) throws TraduccionException {
-		final Resultado resultado = new Resultado();
+	public ResultadoTraduccionDocumento realizarTraduccionDocumento(final byte[] documentoEntrada,
+			final TipoDocumento tipoDocumento, final Idioma idiomaEntrada, final Idioma idiomaSalida,
+			final Opciones opciones) throws TraduccionException {
+		final ResultadoTraduccionDocumento resultado = new ResultadoTraduccionDocumento();
 		final String url = getPropiedad("url");
 		final String user = getPropiedad("user");
 		final String pass = getPropiedad("pass");
@@ -110,7 +112,7 @@ public class OpenTradPlugin extends AbstractPluginProperties implements ITraducc
 			final java.lang.String translationEngine = "Opentrad";
 			final String documentBase64 = null;
 			// final java.lang.String languagePair = "es-ca";
-			final java.lang.String languagePair = idiomaEntrada.toString() + "-" + idiomaSalida.toString();
+			final java.lang.String languagePair = getIdioma(idiomaEntrada, idiomaSalida);
 
 			final java.lang.Boolean ner = false;
 			// final java.lang.String contentType = "txt";
@@ -153,7 +155,8 @@ public class OpenTradPlugin extends AbstractPluginProperties implements ITraducc
 	 * @throws NumberFormatException
 	 * @throws Exception
 	 */
-	private TranslatorV2 getClienteOpenTrad(String url, final Long timeout) throws NumberFormatException, Exception {
+	private TranslatorV2 getClienteOpenTrad(final String url, final Long timeout)
+			throws NumberFormatException, Exception {
 		final QName SERVICE = new QName("http://inteco.minhap.gov/", "Translator_v2Service");
 		final TranslatorV2Service servicio = new TranslatorV2Service(null, SERVICE);
 		// final TranslatorV2Service servicio = new TranslatorV2Service();
@@ -233,4 +236,18 @@ public class OpenTradPlugin extends AbstractPluginProperties implements ITraducc
 		return res;
 	}
 
+	/**
+	 * Calcula el idioma
+	 * 
+	 * @param idiomaEntrada
+	 * @param idiomaSalida
+	 * @return
+	 */
+	private String getIdioma(final Idioma idiomaEntrada, final Idioma idiomaSalida) {
+		String idioma = idiomaEntrada.toString() + "-" + idiomaSalida.toString();
+		if (idiomaEntrada == Idioma.CATALAN_BALEAR || idiomaSalida == Idioma.CATALAN_BALEAR) {
+			idioma = "bal-" + idioma;
+		}
+		return idioma;
+	}
 }

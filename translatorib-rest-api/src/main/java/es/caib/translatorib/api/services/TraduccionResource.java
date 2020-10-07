@@ -20,13 +20,14 @@ import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import org.eclipse.microprofile.openapi.annotations.parameters.RequestBody;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 
-import es.caib.translatorib.api.model.ParametrosTraduccion;
 import es.caib.translatorib.api.model.ParametrosTraduccionDocumento;
+import es.caib.translatorib.api.model.ParametrosTraduccionTexto;
 import es.caib.translatorib.commons.utils.Constants;
 import es.caib.translatorib.ejb.TraduccionService;
 import es.caib.translatorib.ejb.api.model.Idioma;
 import es.caib.translatorib.ejb.api.model.Opciones;
-import es.caib.translatorib.ejb.api.model.Resultado;
+import es.caib.translatorib.ejb.api.model.ResultadoTraduccionDocumento;
+import es.caib.translatorib.ejb.api.model.ResultadoTraduccionTexto;
 import es.caib.translatorib.ejb.api.model.TipoEntrada;
 import es.caib.translatorib.plugin.api.TraduccionException;
 
@@ -63,16 +64,16 @@ public class TraduccionResource {
 	@GET
 	@Path("/test")
 	@Operation(operationId = "test", summary = "Test de prueba que devuelve el texto traducir traducido : traduir")
-	@APIResponse(responseCode = "200", description = "Procediment", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Resultado.class)))
+	@APIResponse(responseCode = "200", description = "Procediment", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ResultadoTraduccionTexto.class)))
 	public Response get() {
 
 		final String textoEntrada = "traducir";
-		final TipoEntrada tipoEntrada = TipoEntrada.TEXTO_PLANTO;
+		final TipoEntrada tipoEntrada = TipoEntrada.TEXTO_PLANO;
 		final Idioma idiomaEntrada = Idioma.CASTELLANO;
 		final Idioma idiomaSalida = Idioma.CATALAN;
 		final Opciones opciones = new Opciones();
-		final Resultado resultado = traduccionService.realizarTraduccion(textoEntrada, tipoEntrada, idiomaEntrada,
-				idiomaSalida, opciones);
+		final ResultadoTraduccionTexto resultado = traduccionService.realizarTraduccion(textoEntrada, tipoEntrada,
+				idiomaEntrada, idiomaSalida, opciones);
 		return Response.ok(resultado).build();
 	}
 
@@ -86,11 +87,11 @@ public class TraduccionResource {
 	@POST
 	@Path("/texto")
 	@Operation(operationId = "texto", summary = "Realiza una traducción de un texto")
-	@APIResponse(responseCode = "200", description = "Traduccion TEXTO", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Resultado.class)))
+	@APIResponse(responseCode = "200", description = "Traduccion TEXTO", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ResultadoTraduccionTexto.class)))
 	public Response realizarTraduccion(
-			@RequestBody(description = "Parametros para la traducción", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ParametrosTraduccion.class))) @Valid final ParametrosTraduccion parametros)
+			@RequestBody(description = "Parametros para la traducción", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ParametrosTraduccionTexto.class))) @Valid final ParametrosTraduccionTexto parametros)
 			throws TraduccionException {
-		final Resultado resultado = traduccionService.realizarTraduccion(parametros.getTextoEntrada(),
+		final ResultadoTraduccionTexto resultado = traduccionService.realizarTraduccion(parametros.getTextoEntrada(),
 				parametros.getTipoEntrada(), parametros.getIdiomaEntrada(), parametros.getIdiomaSalida(),
 				parametros.getOpciones());
 
@@ -112,12 +113,12 @@ public class TraduccionResource {
 	@POST
 	@Path("/documento")
 	@Operation(operationId = "documento", summary = "Realiza una traducción de un documento")
-	@APIResponse(responseCode = "200", description = "Traduccion DOC", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Resultado.class)))
+	@APIResponse(responseCode = "200", description = "Traduccion DOC", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ResultadoTraduccionDocumento.class)))
 	public Response realizarTraduccionDocumento(
 			@RequestBody(description = "Parametros para la traducción", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ParametrosTraduccionDocumento.class))) @Valid final ParametrosTraduccionDocumento parametros) {
-		final Resultado resultado = traduccionService.realizarTraduccionDocumento(parametros.getContenidoDocumento(),
-				parametros.getTipoDocumento(), parametros.getIdiomaEntrada(), parametros.getIdiomaSalida(),
-				parametros.getOpciones());
+		final ResultadoTraduccionDocumento resultado = traduccionService.realizarTraduccionDocumento(
+				parametros.getContenidoDocumento(), parametros.getTipoDocumento(), parametros.getIdiomaEntrada(),
+				parametros.getIdiomaSalida(), parametros.getOpciones());
 
 		if (resultado != null) {
 			return Response.ok(resultado).build();

@@ -13,11 +13,12 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import es.caib.translatorib.api.model.ParametrosTraduccion;
 import es.caib.translatorib.api.model.ParametrosTraduccionDocumento;
+import es.caib.translatorib.api.model.ParametrosTraduccionTexto;
 import es.caib.translatorib.ejb.api.model.Idioma;
 import es.caib.translatorib.ejb.api.model.Opciones;
-import es.caib.translatorib.ejb.api.model.Resultado;
+import es.caib.translatorib.ejb.api.model.ResultadoTraduccionDocumento;
+import es.caib.translatorib.ejb.api.model.ResultadoTraduccionTexto;
 import es.caib.translatorib.ejb.api.model.TipoDocumento;
 import es.caib.translatorib.ejb.api.model.TipoEntrada;
 
@@ -55,8 +56,8 @@ public class TraduccionServiceTest {
 	 */
 	@Test
 	public void test() {
-		final Resultado respuesta = client.target(BASE_URL + "/test").request(MediaType.APPLICATION_JSON)
-				.get(Resultado.class);
+		final ResultadoTraduccionTexto respuesta = client.target(BASE_URL + "/test").request(MediaType.APPLICATION_JSON)
+				.get(ResultadoTraduccionTexto.class);
 
 		Assert.assertTrue(!respuesta.isError());
 		Assert.assertTrue("traduir".equals(respuesta.getTextoTraducido()));
@@ -69,15 +70,15 @@ public class TraduccionServiceTest {
 	@Test
 	public void testTraduccion() {
 
-		final ParametrosTraduccion parametros = new ParametrosTraduccion();
+		final ParametrosTraduccionTexto parametros = new ParametrosTraduccionTexto();
 		parametros.setTextoEntrada("Texto a traducir");
-		parametros.setTipoEntrada(TipoEntrada.TEXTO_PLANTO);
+		parametros.setTipoEntrada(TipoEntrada.TEXTO_PLANO);
 		parametros.setIdiomaEntrada(Idioma.CASTELLANO);
 		parametros.setIdiomaSalida(Idioma.CATALAN);
 
 		final Response response = client.target(BASE_URL + "/texto").request().post(Entity.json(parametros));
 
-		final Resultado respuesta = response.readEntity(Resultado.class);
+		final ResultadoTraduccionTexto respuesta = response.readEntity(ResultadoTraduccionTexto.class);
 
 		Assert.assertTrue(!respuesta.isError());
 		Assert.assertTrue(respuesta != null && !respuesta.isError());
@@ -90,9 +91,9 @@ public class TraduccionServiceTest {
 	@Test
 	public void testTraduccionMockup() {
 
-		final ParametrosTraduccion parametros = new ParametrosTraduccion();
+		final ParametrosTraduccionTexto parametros = new ParametrosTraduccionTexto();
 		parametros.setTextoEntrada("Texto a traducir");
-		parametros.setTipoEntrada(TipoEntrada.TEXTO_PLANTO);
+		parametros.setTipoEntrada(TipoEntrada.TEXTO_PLANO);
 
 		parametros.setIdiomaEntrada(Idioma.CASTELLANO);
 		parametros.setIdiomaSalida(Idioma.CATALAN);
@@ -102,7 +103,7 @@ public class TraduccionServiceTest {
 
 		final Response response = client.target(BASE_URL + "/texto").request().post(Entity.json(parametros));
 
-		final Resultado respuesta = response.readEntity(Resultado.class);
+		final ParametrosTraduccionTexto respuesta = response.readEntity(ResultadoTraduccionTexto.class);
 
 		Assert.assertTrue(!respuesta.isError());
 		Assert.assertTrue(respuesta != null && !respuesta.isError() && respuesta.getTextoTraducido().equals("Hola"));
@@ -123,14 +124,14 @@ public class TraduccionServiceTest {
 		inputStream.read(targetArray);
 
 		parametros.setContenidoDocumento(targetArray);
-		parametros.setTipoDocumento(TipoDocumento.TEXTO_PLANTO);
+		parametros.setTipoDocumento(TipoDocumento.TXT);
 
 		parametros.setIdiomaEntrada(Idioma.CASTELLANO);
 		parametros.setIdiomaSalida(Idioma.CATALAN);
 
 		final Response response = client.target(BASE_URL + "/documento").request().post(Entity.json(parametros));
 
-		final Resultado respuesta = response.readEntity(Resultado.class);
+		final ResultadoTraduccionDocumento respuesta = response.readEntity(ResultadoTraduccionDocumento.class);
 
 		Assert.assertTrue(!respuesta.isError());
 		Assert.assertTrue(respuesta != null && !respuesta.isError());

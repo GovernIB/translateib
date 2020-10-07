@@ -9,7 +9,7 @@ import java.io.Serializable;
  *
  */
 public enum TipoEntrada implements Serializable {
-	TEXTO_PLANTO("txt"), HTML("html"), WXML("wxml");
+	TEXTO_PLANO("txt"), HTML("html"), WXML("wxml");
 
 	private String entrada;
 

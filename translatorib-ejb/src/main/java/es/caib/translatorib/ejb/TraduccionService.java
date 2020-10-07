@@ -4,7 +4,8 @@ import javax.ejb.Local;
 
 import es.caib.translatorib.ejb.api.model.Idioma;
 import es.caib.translatorib.ejb.api.model.Opciones;
-import es.caib.translatorib.ejb.api.model.Resultado;
+import es.caib.translatorib.ejb.api.model.ResultadoTraduccionDocumento;
+import es.caib.translatorib.ejb.api.model.ResultadoTraduccionTexto;
 import es.caib.translatorib.ejb.api.model.TipoDocumento;
 import es.caib.translatorib.ejb.api.model.TipoEntrada;
 
@@ -16,9 +17,9 @@ import es.caib.translatorib.ejb.api.model.TipoEntrada;
 @Local
 public interface TraduccionService {
 
-	public Resultado realizarTraduccion(String textoEntrada, TipoEntrada tipoEntrada, Idioma idiomaEntrada,
-			Idioma idiomaSalidad, Opciones opciones);
-
-	public Resultado realizarTraduccionDocumento(byte[] contenidoDocumento, TipoDocumento tipoDocumento,
+	public ResultadoTraduccionTexto realizarTraduccion(String textoEntrada, TipoEntrada tipoEntrada,
 			Idioma idiomaEntrada, Idioma idiomaSalidad, Opciones opciones);
+
+	public ResultadoTraduccionDocumento realizarTraduccionDocumento(byte[] contenidoDocumento,
+			TipoDocumento tipoDocumento, Idioma idiomaEntrada, Idioma idiomaSalidad, Opciones opciones);
 }

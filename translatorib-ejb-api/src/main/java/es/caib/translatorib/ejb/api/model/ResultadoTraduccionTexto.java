@@ -2,8 +2,8 @@ package es.caib.translatorib.ejb.api.model;
 
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
-@Schema(name = "Resultado")
-public class Resultado {
+@Schema(name = "ResultadoTraduccionTexto")
+public class ResultadoTraduccionTexto {
 
 	/** Campos **/
 	private boolean error = true;

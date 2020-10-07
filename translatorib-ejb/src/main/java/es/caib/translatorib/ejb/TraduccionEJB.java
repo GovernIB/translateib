@@ -15,7 +15,8 @@ import org.slf4j.LoggerFactory;
 import es.caib.translatorib.commons.utils.Constants;
 import es.caib.translatorib.ejb.api.model.Idioma;
 import es.caib.translatorib.ejb.api.model.Opciones;
-import es.caib.translatorib.ejb.api.model.Resultado;
+import es.caib.translatorib.ejb.api.model.ResultadoTraduccionDocumento;
+import es.caib.translatorib.ejb.api.model.ResultadoTraduccionTexto;
 import es.caib.translatorib.ejb.api.model.TipoDocumento;
 import es.caib.translatorib.ejb.api.model.TipoEntrada;
 import es.caib.translatorib.ejb.interceptor.Logged;
@@ -39,15 +40,15 @@ public class TraduccionEJB implements TraduccionService {
 	PropiedadesTraduccionEJB propiedadesejb;
 
 	@Override
-	public Resultado realizarTraduccion(final String textoEntrada, final TipoEntrada tipoEntrada,
+	public ResultadoTraduccionTexto realizarTraduccion(final String textoEntrada, final TipoEntrada tipoEntrada,
 			final Idioma idiomaEntrada, final Idioma idiomaSalidad, final Opciones opciones) {
 		final ITraduccionPlugin plg = (ITraduccionPlugin) createPlugin(opciones);
-		Resultado res;
+		ResultadoTraduccionTexto res;
 		try {
 			res = plg.realizarTraduccion(textoEntrada, tipoEntrada, idiomaEntrada, idiomaSalidad, opciones);
 		} catch (final TraduccionException exp) {
 			LOG.error("Error realizando realizarTraduccion", exp);
-			res = new Resultado();
+			res = new ResultadoTraduccionTexto();
 			res.setError(true);
 			res.setDescripcionError(exp.getMessage());
 		}
@@ -56,16 +57,17 @@ public class TraduccionEJB implements TraduccionService {
 	}
 
 	@Override
-	public Resultado realizarTraduccionDocumento(final byte[] contenidoDocumento, final TipoDocumento tipoDocumento,
-			final Idioma idiomaEntrada, final Idioma idiomaSalidad, final Opciones opciones) {
+	public ResultadoTraduccionDocumento realizarTraduccionDocumento(final byte[] contenidoDocumento,
+			final TipoDocumento tipoDocumento, final Idioma idiomaEntrada, final Idioma idiomaSalidad,
+			final Opciones opciones) {
 		final ITraduccionPlugin plg = (ITraduccionPlugin) createPlugin(opciones);
-		Resultado res;
+		ResultadoTraduccionDocumento res;
 		try {
 			res = plg.realizarTraduccionDocumento(contenidoDocumento, tipoDocumento, idiomaEntrada, idiomaSalidad,
 					opciones);
 		} catch (final TraduccionException exp) {
 			LOG.error("Error realizando realizarTraduccionDocumento", exp);
-			res = new Resultado();
+			res = new ResultadoTraduccionDocumento();
 			res.setError(true);
 			res.setDescripcionError(exp.getMessage());
 		}

@@ -9,18 +9,27 @@ import java.io.Serializable;
  *
  */
 public enum Idioma implements Serializable {
-	CASTELLANO("es"), CASTELLANO_ESPAÑA("es_ES"), CASTELLANO_MEJICO("es_MX"), CATALAN("ca"), CATALAN_CATALUÑA("ca_ES"),
-	CATALAN_BALEAR("ca_ES");
+	CASTELLANO("es", "es"), CASTELLANO_ESPANYA("es", "es_ES"), CASTELLANO_MEJICO("es", "es_MX"), CATALAN("ca", "ca"),
+	CATALAN_CATALUNYA("ca", "ca_ES"), CATALAN_BALEAR("ca", "ca_ES");
 
-	private String valor;
+	private String idioma;
+	private String locale;
 
 	/** Constructor. **/
-	Idioma(final String ivalor) {
-		this.valor = ivalor;
+	Idioma(final String idioma, final String ivalor) {
+		this.locale = ivalor;
+	}
+
+	public String getIdioma() {
+		return this.idioma;
+	}
+
+	public String getLocale() {
+		return this.locale;
 	}
 
 	@Override
 	public String toString() {
-		return this.valor;
+		return this.idioma + " " + this.locale;
 	}
 }
