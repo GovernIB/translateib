@@ -12,6 +12,7 @@ public class Opciones implements Serializable {
 	/** Serial Version UID */
 	private static final long serialVersionUID = 1L;
 	public static final String PLUGIN = "plugin";
+	public static final String PLUGIN_MOCKUP = "mock";
 
 	/** Campos **/
 	private List<PropiedadValor> propiedades = new ArrayList<PropiedadValor>();

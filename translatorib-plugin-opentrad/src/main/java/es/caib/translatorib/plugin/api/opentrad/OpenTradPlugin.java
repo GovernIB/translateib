@@ -6,7 +6,6 @@ import java.security.MessageDigest;
 import java.util.Base64;
 import java.util.Properties;
 
-import javax.xml.bind.DatatypeConverter;
 import javax.xml.bind.annotation.adapters.HexBinaryAdapter;
 import javax.xml.namespace.QName;
 import javax.xml.ws.BindingProvider;
@@ -76,10 +75,14 @@ public class OpenTradPlugin extends AbstractPluginProperties implements ITraducc
 			final java.lang.String checksum = null;
 			final java.lang.String urlX = null;
 			final java.lang.String dirbase = null;
-
+			final java.lang.String openTipoEntrada;
+			if (tipoEntrada == TipoEntrada.XML) {
+				openTipoEntrada = "WXML";
+			} else {
+				openTipoEntrada = tipoEntrada.toString();
+			}
 			final String textoResultado = port.translateString(proxyCache, translationEngine, documentBase64,
-					languagePair, ner, tipoEntrada.toString(), markUnknown, textoEntrada, checksum, urlX, dirbase, user,
-					pass);
+					languagePair, ner, openTipoEntrada, markUnknown, textoEntrada, checksum, urlX, dirbase, user, pass);
 			resultado.setError(false);
 			resultado.setTextoTraducido(textoResultado);
 
@@ -108,16 +111,13 @@ public class OpenTradPlugin extends AbstractPluginProperties implements ITraducc
 			final TranslatorV2 port = getClienteOpenTrad(url, timeout);
 
 			final byte[] documentoEntradaEncoded = Base64.getEncoder().encode(documentoEntrada);
+			final String documentoEntradaEncodedString = Base64.getEncoder().encodeToString(documentoEntrada);
 			final java.lang.Boolean proxyCache = null;
 			final java.lang.String translationEngine = "Opentrad";
-			final String documentBase64 = null;
-			// final java.lang.String languagePair = "es-ca";
 			final java.lang.String languagePair = getIdioma(idiomaEntrada, idiomaSalida);
 
 			final java.lang.Boolean ner = false;
-			// final java.lang.String contentType = "txt";
 			final java.lang.String markUnknown = "";
-			/// final java.lang.String codeTranslate = "hola, prueba de traducción";
 			final java.lang.String urlX = null;
 			final java.lang.String dirbase = null;
 
@@ -125,15 +125,14 @@ public class OpenTradPlugin extends AbstractPluginProperties implements ITraducc
 			// checksum.update(documentoEntrada, 0, documentoEntrada.length);
 			// final long valorChecksum = checksum.getValue();
 
-			final MessageDigest md = MessageDigest.getInstance("MD5"); // SHA, MD2, MD5, SHA-256, SHA-38
-			String valorChecksum = (new HexBinaryAdapter()).marshal(md.digest(documentoEntrada));
-			final String valorChecksum2 = DatatypeConverter
-					.printHexBinary(MessageDigest.getInstance("MD5").digest(documentoEntrada));
-			valorChecksum = "6A8289620BBF89BCC28AE45B6EDFE9D5";
+			// SHA, MD2, MD5, SHA-256, SHA-38
+			final String valorChecksum = (new HexBinaryAdapter())
+					.marshal(MessageDigest.getInstance("MD5").digest(documentoEntrada));
+
 			// String checkSUM = checksum
-			final String textoResultado = port.translateFileByte(proxyCache, translationEngine, documentBase64,
-					languagePair, ner, tipoDocumento.toString(), markUnknown, documentoEntradaEncoded,
-					String.valueOf(valorChecksum), urlX, dirbase, user, pass);
+			final String textoResultado = port.translateFileByte(proxyCache, translationEngine,
+					documentoEntradaEncodedString, languagePair, ner, tipoDocumento.toString(), markUnknown,
+					documentoEntradaEncoded, String.valueOf(valorChecksum), urlX, dirbase, user, pass);
 			resultado.setError(false);
 			resultado.setTextoTraducido(textoResultado);
 
@@ -244,10 +243,11 @@ public class OpenTradPlugin extends AbstractPluginProperties implements ITraducc
 	 * @return
 	 */
 	private String getIdioma(final Idioma idiomaEntrada, final Idioma idiomaSalida) {
-		String idioma = idiomaEntrada.toString() + "-" + idiomaSalida.toString();
+		String idioma = idiomaEntrada.getIdioma() + "-" + idiomaSalida.getIdioma();
 		if (idiomaEntrada == Idioma.CATALAN_BALEAR || idiomaSalida == Idioma.CATALAN_BALEAR) {
 			idioma = "bal-" + idioma;
 		}
 		return idioma;
 	}
+
 }
