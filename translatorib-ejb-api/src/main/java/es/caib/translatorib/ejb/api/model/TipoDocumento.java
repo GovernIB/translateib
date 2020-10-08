@@ -8,7 +8,7 @@ package es.caib.translatorib.ejb.api.model;
  */
 public enum TipoDocumento {
 	DOC("doc"), DOCX("docx"), PPTX("pptx"), XLSX("xlsx"), PDF("pdf"), ODT("odt"), ODS("ods"), ODP("odp"), TXT("txt"),
-	HTML("html"), WXML("wxml");
+	HTML("html"), XML("wxml");
 
 	final String tipo;
 

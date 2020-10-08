@@ -120,6 +120,7 @@ public class OpenTradPlugin extends AbstractPluginProperties implements ITraducc
 			final java.lang.String markUnknown = "";
 			final java.lang.String urlX = null;
 			final java.lang.String dirbase = null;
+			final java.lang.String tipoDocumentoStr = getTipoDocumento(tipoDocumento);
 
 			// final Checksum checksum = new CRC32();
 			// checksum.update(documentoEntrada, 0, documentoEntrada.length);
@@ -131,7 +132,7 @@ public class OpenTradPlugin extends AbstractPluginProperties implements ITraducc
 
 			// String checkSUM = checksum
 			final String textoResultado = port.translateFileByte(proxyCache, translationEngine,
-					documentoEntradaEncodedString, languagePair, ner, tipoDocumento.toString(), markUnknown,
+					documentoEntradaEncodedString, languagePair, ner, tipoDocumentoStr, markUnknown,
 					documentoEntradaEncoded, String.valueOf(valorChecksum), urlX, dirbase, user, pass);
 			resultado.setError(false);
 			resultado.setTextoTraducido(textoResultado);
@@ -187,6 +188,17 @@ public class OpenTradPlugin extends AbstractPluginProperties implements ITraducc
 
 		return serviceTasaSoap;
 
+	}
+
+	private String getTipoDocumento(final TipoDocumento tipoDocumento) {
+		String tipo;
+		if (tipoDocumento == TipoDocumento.XML) {
+			tipo = "WXML";
+		} else {
+			tipo = tipoDocumento.toString();
+		}
+
+		return tipo;
 	}
 
 	/**
