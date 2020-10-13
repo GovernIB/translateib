@@ -15,7 +15,7 @@ import es.caib.translatorib.commons.utils.Constants;
 
 @Singleton
 @Startup
-@RolesAllowed(Constants.TIB_ADMIN)
+@RolesAllowed(Constants.TIB_API)
 public class PropiedadesTraduccionEJB {
 
 	private static final Logger LOG = LoggerFactory.getLogger(TraduccionEJB.class);

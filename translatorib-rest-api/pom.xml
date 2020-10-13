@@ -132,7 +132,7 @@
                         <configuration>
                             <application>es.caib.translatorib.api.config.ApiConfiguration</application>
                             <endpointClasses>
-                                <endpointClass>es.caib.translatorib.api.services.TraduccionResource</endpointClass>
+                                <endpointClass>es.caib.translatorib.api.v1.services.TraduccionResource</endpointClass>
                             </endpointClasses>
                             <output>${project.build.directory}/openapi/openapi.json</output>
                             <info>

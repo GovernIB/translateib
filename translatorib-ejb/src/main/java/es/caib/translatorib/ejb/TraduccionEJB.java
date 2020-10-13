@@ -31,7 +31,7 @@ import es.caib.translatorib.plugin.api.TraduccionException;
  */
 @Logged
 @Stateless
-@RolesAllowed(Constants.TIB_ADMIN)
+@RolesAllowed(Constants.TIB_API)
 public class TraduccionEJB implements TraduccionService {
 
 	private static final Logger LOG = LoggerFactory.getLogger(TraduccionEJB.class);
@@ -41,8 +41,8 @@ public class TraduccionEJB implements TraduccionService {
 
 	@Override
 	public ResultadoTraduccionTexto realizarTraduccion(final String textoEntrada, final TipoEntrada tipoEntrada,
-			final Idioma idiomaEntrada, final Idioma idiomaSalidad, final Opciones opciones) {
-		final ITraduccionPlugin plg = (ITraduccionPlugin) createPlugin(opciones);
+			final Idioma idiomaEntrada, final Idioma idiomaSalidad, final String plugin, final Opciones opciones) {
+		final ITraduccionPlugin plg = (ITraduccionPlugin) createPlugin(plugin);
 		ResultadoTraduccionTexto res;
 		try {
 			res = plg.realizarTraduccion(textoEntrada, tipoEntrada, idiomaEntrada, idiomaSalidad, opciones);
@@ -59,8 +59,8 @@ public class TraduccionEJB implements TraduccionService {
 	@Override
 	public ResultadoTraduccionDocumento realizarTraduccionDocumento(final byte[] contenidoDocumento,
 			final TipoDocumento tipoDocumento, final Idioma idiomaEntrada, final Idioma idiomaSalidad,
-			final Opciones opciones) {
-		final ITraduccionPlugin plg = (ITraduccionPlugin) createPlugin(opciones);
+			final String plugin, final Opciones opciones) {
+		final ITraduccionPlugin plg = (ITraduccionPlugin) createPlugin(plugin);
 		ResultadoTraduccionDocumento res;
 		try {
 			res = plg.realizarTraduccionDocumento(contenidoDocumento, tipoDocumento, idiomaEntrada, idiomaSalidad,
@@ -86,7 +86,7 @@ public class TraduccionEJB implements TraduccionService {
 	 * @param lanzarExcepcion Si lanza excepción
 	 * @return plugin
 	 */
-	private IPlugin createPlugin(final Opciones opciones) {
+	private IPlugin createPlugin(final String plugin) {
 
 		IPlugin plg = null;
 		Properties properties = null;
@@ -96,11 +96,11 @@ public class TraduccionEJB implements TraduccionService {
 			properties = propiedadesejb.getProperties();
 
 			String implementacionPlugin;
-			if (opciones == null || !opciones.contains(Opciones.PLUGIN)) {
+			if (plugin == null) {
 				implementacionPlugin = properties.getProperty("default");
 
 			} else {
-				implementacionPlugin = opciones.getValor(Opciones.PLUGIN);
+				implementacionPlugin = plugin;
 			}
 			classname = properties.getProperty("traductor." + implementacionPlugin + ".classname");
 

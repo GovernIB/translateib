@@ -1,6 +1,5 @@
 package es.caib.translatorib.commons.utils;
 
-
 /**
  * Constants emprades dins tota l'aplicació.
  *
@@ -9,13 +8,13 @@ package es.caib.translatorib.commons.utils;
  */
 public interface Constants {
 
-    /**
-     * Constant pel rol d'Administrador
-     */
-    String TIB_ADMIN = "TIB_ADMIN";
+	/**
+	 * Constant pel rol para acceder al api de traduccion
+	 */
+	String TIB_API = "TIB_API";
 
-    /**
-     * Constant pel rol d'Usuari
-     */
-    String TIB_USER = "TIB_USER";
+	/**
+	 * Constant pel rol d'Usuari
+	 */
+	String TIB_USER = "TIB_API";
 }

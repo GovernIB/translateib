@@ -1,4 +1,4 @@
-package es.caib.translatorib.api.test;
+package es.caib.translatorib.api.test.v1;
 
 import javax.ws.rs.client.ClientRequestContext;
 import javax.ws.rs.client.ClientRequestFilter;

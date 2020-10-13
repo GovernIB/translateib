@@ -1,4 +1,4 @@
-package es.caib.translatorib.api.test;
+package es.caib.translatorib.api.test.v1;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -13,8 +13,8 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import es.caib.translatorib.api.model.ParametrosTraduccionDocumento;
-import es.caib.translatorib.api.model.ParametrosTraduccionTexto;
+import es.caib.translatorib.api.v1.model.ParametrosTraduccionDocumento;
+import es.caib.translatorib.api.v1.model.ParametrosTraduccionTexto;
 import es.caib.translatorib.ejb.api.model.Idioma;
 import es.caib.translatorib.ejb.api.model.Opciones;
 import es.caib.translatorib.ejb.api.model.ResultadoTraduccionDocumento;
@@ -32,15 +32,15 @@ public class TraduccionServiceTest {
 	// URL a partir de la qual estan penjats els resources.
 	// private static final String BASE_URL =
 	// "http://caibter.indra.es/translatorib/api/services/traduccion";
-	private static final String BASE_URL = "http://localhost:8080/translatorib/api/services/traduccion";
+	private static final String BASE_URL = "http://localhost:8080/translatorib/api/services/traduccion/v1";
 
 	// Nom d'usuari i password a emprar per les peticions que necesisten
 	// autenticació. Cal posar un
-	// usuari/password que tengui rol TIB_ADMIN a per el mòdul web de l'api REST.
+	// usuari/password que tengui rol TIB_API a per el mòdul web de l'api REST.
 	// private static final String USER = "api-tib";
-	// private static final String PASSWORD = "X";
+	// private static final String PASSWORD = "M0n1n@s";
 	private static final String USER = "usuario1";
-	private static final String PASSWORD = "X";
+	private static final String PASSWORD = "1234";
 
 	// Client a reutilitzar durant test
 	private static Client client;
@@ -97,9 +97,8 @@ public class TraduccionServiceTest {
 
 		parametros.setIdiomaEntrada(Idioma.CASTELLANO);
 		parametros.setIdiomaSalida(Idioma.CATALAN);
-		final Opciones opciones = new Opciones();
-		opciones.addPropiedadValor(Opciones.PLUGIN, Opciones.PLUGIN_MOCKUP);
-		parametros.setOpciones(opciones);
+		parametros.setPlugin(ParametrosTraduccionTexto.PLUGIN_MOCKUP);
+		parametros.setOpciones(new Opciones());
 
 		final Response response = client.target(BASE_URL + "/texto").request().post(Entity.json(parametros));
 
@@ -107,6 +106,30 @@ public class TraduccionServiceTest {
 
 		Assert.assertTrue(!respuesta.isError());
 		Assert.assertTrue(respuesta != null && !respuesta.isError() && respuesta.getTextoTraducido().equals("Hola"));
+
+	}
+
+	/**
+	 * Consulta totes les unitats.
+	 */
+	@Test
+	public void testTraduccionText() {
+
+		final ParametrosTraduccionTexto parametros = new ParametrosTraduccionTexto();
+		parametros.setTextoEntrada("Texto a traducir");
+		parametros.setTipoEntrada(TipoEntrada.TEXTO_PLANO);
+
+		parametros.setIdiomaEntrada(Idioma.CASTELLANO);
+		parametros.setIdiomaSalida(Idioma.CATALAN);
+		parametros.setOpciones(new Opciones());
+
+		final Response response = client.target(BASE_URL + "/texto").request().post(Entity.json(parametros));
+
+		final ResultadoTraduccionTexto respuesta = response.readEntity(ResultadoTraduccionTexto.class);
+
+		Assert.assertTrue(!respuesta.isError());
+		Assert.assertTrue(
+				respuesta != null && !respuesta.isError() && respuesta.getTextoTraducido().equals("Text a traduir"));
 
 	}
 

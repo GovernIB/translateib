@@ -1,4 +1,4 @@
-package es.caib.translatorib.api.services;
+package es.caib.translatorib.api.v1.services;
 
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
@@ -19,9 +19,11 @@ import org.eclipse.microprofile.openapi.annotations.media.Content;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import org.eclipse.microprofile.openapi.annotations.parameters.RequestBody;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import es.caib.translatorib.api.model.ParametrosTraduccionDocumento;
-import es.caib.translatorib.api.model.ParametrosTraduccionTexto;
+import es.caib.translatorib.api.v1.model.ParametrosTraduccionDocumento;
+import es.caib.translatorib.api.v1.model.ParametrosTraduccionTexto;
 import es.caib.translatorib.commons.utils.Constants;
 import es.caib.translatorib.ejb.TraduccionService;
 import es.caib.translatorib.ejb.api.model.Idioma;
@@ -44,12 +46,14 @@ import es.caib.translatorib.plugin.api.TraduccionException;
  * @author areus
  */
 @Stateless
-@Path("traduccion")
+@Path("traduccion/v1")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-@RolesAllowed({ Constants.TIB_ADMIN })
+@RolesAllowed({ Constants.TIB_API })
 @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
 public class TraduccionResource {
+
+	private static final Logger LOG = LoggerFactory.getLogger(TraduccionResource.class);
 
 	@EJB
 	private TraduccionService traduccionService;
@@ -66,14 +70,14 @@ public class TraduccionResource {
 	@Operation(operationId = "test", summary = "Test de prueba que devuelve el texto traducir traducido : traduir")
 	@APIResponse(responseCode = "200", description = "Procediment", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ResultadoTraduccionTexto.class)))
 	public Response get() {
-
+		LOG.error("TraduccionResources.TEST");
 		final String textoEntrada = "traducir";
 		final TipoEntrada tipoEntrada = TipoEntrada.TEXTO_PLANO;
 		final Idioma idiomaEntrada = Idioma.CASTELLANO;
 		final Idioma idiomaSalida = Idioma.CATALAN;
 		final Opciones opciones = new Opciones();
 		final ResultadoTraduccionTexto resultado = traduccionService.realizarTraduccion(textoEntrada, tipoEntrada,
-				idiomaEntrada, idiomaSalida, opciones);
+				idiomaEntrada, idiomaSalida, null, opciones);
 		return Response.ok(resultado).build();
 	}
 
@@ -91,9 +95,10 @@ public class TraduccionResource {
 	public Response realizarTraduccion(
 			@RequestBody(description = "Parametros para la traducción", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ParametrosTraduccionTexto.class))) @Valid final ParametrosTraduccionTexto parametros)
 			throws TraduccionException {
+		LOG.error("TraduccionResources.traduccion.text");
 		final ResultadoTraduccionTexto resultado = traduccionService.realizarTraduccion(parametros.getTextoEntrada(),
 				parametros.getTipoEntrada(), parametros.getIdiomaEntrada(), parametros.getIdiomaSalida(),
-				parametros.getOpciones());
+				parametros.getPlugin(), parametros.getOpciones());
 
 		if (resultado != null) {
 			return Response.ok(resultado).build();
@@ -116,9 +121,10 @@ public class TraduccionResource {
 	@APIResponse(responseCode = "200", description = "Traduccion DOC", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ResultadoTraduccionDocumento.class)))
 	public Response realizarTraduccionDocumento(
 			@RequestBody(description = "Parametros para la traducción", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ParametrosTraduccionDocumento.class))) @Valid final ParametrosTraduccionDocumento parametros) {
+		LOG.error("TraduccionResources.traduccion.documento");
 		final ResultadoTraduccionDocumento resultado = traduccionService.realizarTraduccionDocumento(
 				parametros.getContenidoDocumento(), parametros.getTipoDocumento(), parametros.getIdiomaEntrada(),
-				parametros.getIdiomaSalida(), parametros.getOpciones());
+				parametros.getIdiomaSalida(), parametros.getPlugin(), parametros.getOpciones());
 
 		if (resultado != null) {
 			return Response.ok(resultado).build();

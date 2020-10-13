@@ -18,8 +18,8 @@ import es.caib.translatorib.ejb.api.model.TipoEntrada;
 public interface TraduccionService {
 
 	public ResultadoTraduccionTexto realizarTraduccion(String textoEntrada, TipoEntrada tipoEntrada,
-			Idioma idiomaEntrada, Idioma idiomaSalidad, Opciones opciones);
+			Idioma idiomaEntrada, Idioma idiomaSalidad, String plugin, Opciones opciones);
 
 	public ResultadoTraduccionDocumento realizarTraduccionDocumento(byte[] contenidoDocumento,
-			TipoDocumento tipoDocumento, Idioma idiomaEntrada, Idioma idiomaSalidad, Opciones opciones);
+			TipoDocumento tipoDocumento, Idioma idiomaEntrada, Idioma idiomaSalidad, String plugin, Opciones opciones);
 }
