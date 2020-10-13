@@ -30,17 +30,17 @@ import es.caib.translatorib.ejb.api.model.TipoEntrada;
 public class TraduccionServiceTest {
 
 	// URL a partir de la qual estan penjats els resources.
-	// private static final String BASE_URL =
-	// "http://caibter.indra.es/translatorib/api/services/traduccion";
-	private static final String BASE_URL = "http://localhost:8080/translatorib/api/services/traduccion/v1";
+	private static final String BASE_URL = "http://caibter.indra.es/translatorib/api/services/traduccion/v1";
+	/// private static final String BASE_URL =
+	/// "http://localhost:8080/translatorib/api/services/traduccion/v1";
 
 	// Nom d'usuari i password a emprar per les peticions que necesisten
 	// autenticació. Cal posar un
 	// usuari/password que tengui rol TIB_API a per el mòdul web de l'api REST.
-	// private static final String USER = "api-tib";
-	// private static final String PASSWORD = "M0n1n@s";
-	private static final String USER = "usuario1";
-	private static final String PASSWORD = "1234";
+	private static final String USER = "api-tib";
+	private static final String PASSWORD = "M0n1n@s";
+	// private static final String USER = "usuario1";
+	// private static final String PASSWORD = "1234";
 
 	// Client a reutilitzar durant test
 	private static Client client;
