@@ -98,7 +98,7 @@
 				<artifactId>maven-war-plugin</artifactId>
 				<version>${maven.war.version}</version>
 				<configuration>
-					<warName>loginib-rest</warName>
+					<warName>translatorib-rest-api</warName>
 					<webResources>
 						<webResource>
 							<directory>src\main\jboss\${translatorConfig.authMethod}</directory>
