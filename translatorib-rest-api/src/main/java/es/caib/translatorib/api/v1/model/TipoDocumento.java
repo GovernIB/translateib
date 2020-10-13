@@ -1,4 +1,4 @@
-package es.caib.translatorib.ejb.api.model;
+package es.caib.translatorib.api.v1.model;
 
 /***
  * Enumerado
@@ -16,7 +16,7 @@ public enum TipoDocumento {
 		this.tipo = iTipo;
 	}
 
-	public static TipoDocumento fromString(final String iTipo) {
+	public TipoDocumento fromString(final String iTipo) {
 		TipoDocumento retorno = null;
 		for (final TipoDocumento tipo : TipoDocumento.values()) {
 			if (tipo.toString().equals(iTipo)) {

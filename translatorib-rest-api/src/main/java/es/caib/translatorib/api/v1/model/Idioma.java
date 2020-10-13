@@ -1,4 +1,4 @@
-package es.caib.translatorib.ejb.api.model;
+package es.caib.translatorib.api.v1.model;
 
 import java.io.Serializable;
 
@@ -33,17 +33,4 @@ public enum Idioma implements Serializable {
 	public String toString() {
 		return this.idioma + " " + this.locale;
 	}
-
-	/** From string. **/
-	public static Idioma fromString(final String iIdioma, final String iValor) {
-		Idioma idioma = null;
-		for (final Idioma idi : Idioma.values()) {
-			if (idi.getIdioma().equals(iIdioma) && idi.getLocale().equals(iValor)) {
-				idioma = idi;
-				break;
-			}
-		}
-		return idioma;
-	}
-
 }

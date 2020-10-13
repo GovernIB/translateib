@@ -1,4 +1,4 @@
-package es.caib.translatorib.ejb.api.model;
+package es.caib.translatorib.api.v1.model;
 
 import java.io.Serializable;
 
@@ -17,8 +17,7 @@ public enum TipoEntrada implements Serializable {
 		this.entrada = iEntrada;
 	}
 
-	/** From string. **/
-	public static TipoEntrada fromString(final String tipoEntrada) {
+	public TipoEntrada fromString(final String tipoEntrada) {
 		TipoEntrada tipo = null;
 		if (tipoEntrada != null && !tipoEntrada.isEmpty()) {
 			for (final TipoEntrada tip : TipoEntrada.values()) {
