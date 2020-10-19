@@ -38,9 +38,9 @@ public class TraduccionServiceTest {
 	// autenticació. Cal posar un
 	// usuari/password que tengui rol TIB_API a per el mòdul web de l'api REST.
 	private static final String USER = "api-tib";
-	private static final String PASSWORD = "M0n1n@s";
+	private static final String PASSWORD = "XXX";
 	// private static final String USER = "usuario1";
-	// private static final String PASSWORD = "1234";
+	// private static final String PASSWORD = "XXX";
 
 	// Client a reutilitzar durant test
 	private static Client client;
