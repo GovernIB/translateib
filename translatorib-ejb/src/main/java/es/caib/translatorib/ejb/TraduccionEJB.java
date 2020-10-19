@@ -97,8 +97,7 @@ public class TraduccionEJB implements TraduccionService {
 
 			String implementacionPlugin;
 			if (plugin == null) {
-				implementacionPlugin = properties.getProperty("default");
-
+				implementacionPlugin = properties.getProperty("traductor.default");
 			} else {
 				implementacionPlugin = plugin;
 			}

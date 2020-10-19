@@ -31,8 +31,8 @@ public class TraduccionServiceTest {
 
 	// URL a partir de la qual estan penjats els resources.
 	private static final String BASE_URL = "http://caibter.indra.es/translatorib/api/services/traduccion/v1";
-	/// private static final String BASE_URL =
-	/// "http://localhost:8080/translatorib/api/services/traduccion/v1";
+	// private static final String BASE_URL =
+	// "http://localhost:8080/translatorib/api/services/traduccion/v1";
 
 	// Nom d'usuari i password a emprar per les peticions que necesisten
 	// autenticació. Cal posar un
@@ -157,6 +157,33 @@ public class TraduccionServiceTest {
 		final ResultadoTraduccionDocumento respuesta = response.readEntity(ResultadoTraduccionDocumento.class);
 
 		Assert.assertTrue(!respuesta.isError());
+		Assert.assertTrue(respuesta != null && !respuesta.isError());
+
+	}
+
+	/**
+	 * Consulta totes les unitats.
+	 * 
+	 * @throws IOException
+	 */
+	@Test
+	public void testTraduccionDocOdt() throws IOException {
+
+		final ParametrosTraduccionDocumento parametros = new ParametrosTraduccionDocumento();
+		final InputStream inputStream = this.getClass().getResourceAsStream("prueba.odt");
+		final byte[] targetArray = new byte[inputStream.available()];
+		inputStream.read(targetArray);
+
+		parametros.setContenidoDocumento(targetArray);
+		parametros.setTipoDocumento(TipoDocumento.ODT);
+
+		parametros.setIdiomaEntrada(Idioma.CASTELLANO);
+		parametros.setIdiomaSalida(Idioma.CATALAN);
+
+		final Response response = client.target(BASE_URL + "/documento").request().post(Entity.json(parametros));
+
+		final ResultadoTraduccionDocumento respuesta = response.readEntity(ResultadoTraduccionDocumento.class);
+
 		Assert.assertTrue(respuesta != null && !respuesta.isError());
 
 	}

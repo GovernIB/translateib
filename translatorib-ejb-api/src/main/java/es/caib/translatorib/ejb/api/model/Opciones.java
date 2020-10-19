@@ -12,6 +12,23 @@ public class Opciones implements Serializable {
 	/** Serial Version UID */
 	private static final long serialVersionUID = 1L;
 
+	/** Opciones en OPENTRAD **/
+	/**
+	 * Indica si se quiere usar detección de entidades o no. Si se decide utilizar,
+	 * los nombres propios que el sistema detecte como tales quedarán sin traducir.
+	 */
+	public static final String OPENTRAD_NER = "NER";
+	public static final String OPENTRAD_NER_VALOR_ACTIVO = "true";
+	public static final String OPENTRAD_NER_VALOR_INACTIVO = "false";
+	/**
+	 * Marcador de palabras desconocidas. En caso de que no se haya encontrado una
+	 * traducción adecuada a una palabra esta quedará marcada por defecto con un
+	 * asterisco (*)
+	 **/
+	public static final String OPENTRAD_MARKUNKNOWN = "NER";
+	public static final String OPENTRAD_MARKUNKNOWN_VALOR_ACTIVO = "-u";
+	public static final String OPENTRAD_MARKUNKNOWN_VALOR_INACTIVO = "";
+
 	/** Campos **/
 	private List<PropiedadValor> propiedades = new ArrayList<PropiedadValor>();
 
@@ -38,7 +55,7 @@ public class Opciones implements Serializable {
 		boolean contiene = false;
 		if (propiedades != null) {
 			for (final PropiedadValor prop : propiedades) {
-				if (prop.getPropiedad().equals(nombrePropiedad)) {
+				if (prop.getPropiedad() != null && prop.getPropiedad().equals(nombrePropiedad)) {
 					contiene = true;
 					break;
 				}

@@ -25,6 +25,7 @@ import es.caib.translatorib.ejb.api.model.ResultadoTraduccionDocumento;
 import es.caib.translatorib.ejb.api.model.ResultadoTraduccionTexto;
 import es.caib.translatorib.ejb.api.model.TipoDocumento;
 import es.caib.translatorib.ejb.api.model.TipoEntrada;
+import es.caib.translatorib.opentrad.rest.cxf.CustomFileResponse;
 import es.caib.translatorib.opentrad.rest.cxf.TranslatorV2;
 import es.caib.translatorib.opentrad.rest.cxf.TranslatorV2Service;
 import es.caib.translatorib.plugin.api.ITraduccionPlugin;
@@ -65,13 +66,10 @@ public class OpenTradPlugin extends AbstractPluginProperties implements ITraducc
 			final java.lang.Boolean proxyCache = null;
 			final java.lang.String translationEngine = "Opentrad";
 			final String documentBase64 = null;
-			// final java.lang.String languagePair = "es-ca";
 			final java.lang.String languagePair = getIdioma(idiomaEntrada, idiomaSalida);
 
-			final java.lang.Boolean ner = false;
-			// final java.lang.String contentType = "txt";
-			final java.lang.String markUnknown = "";
-			/// final java.lang.String codeTranslate = "hola, prueba de traducción";
+			final java.lang.Boolean ner = getNer(opciones);
+			final java.lang.String markUnknown = getMarkunkonw(opciones);
 			final java.lang.String checksum = null;
 			final java.lang.String urlX = null;
 			final java.lang.String dirbase = null;
@@ -110,32 +108,26 @@ public class OpenTradPlugin extends AbstractPluginProperties implements ITraducc
 
 			final TranslatorV2 port = getClienteOpenTrad(url, timeout);
 
-			final byte[] documentoEntradaEncoded = Base64.getEncoder().encode(documentoEntrada);
 			final String documentoEntradaEncodedString = Base64.getEncoder().encodeToString(documentoEntrada);
-			final java.lang.Boolean proxyCache = null;
-			final java.lang.String translationEngine = "Opentrad";
+			final java.lang.Boolean proxyCache = false;
+			final java.lang.String translationEngine = "opentrad";
 			final java.lang.String languagePair = getIdioma(idiomaEntrada, idiomaSalida);
 
-			final java.lang.Boolean ner = false;
-			final java.lang.String markUnknown = "";
+			final java.lang.Boolean ner = getNer(opciones);
+
+			final java.lang.String markUnknown = getMarkunkonw(opciones);
 			final java.lang.String urlX = null;
 			final java.lang.String dirbase = null;
 			final java.lang.String tipoDocumentoStr = getTipoDocumento(tipoDocumento);
 
-			// final Checksum checksum = new CRC32();
-			// checksum.update(documentoEntrada, 0, documentoEntrada.length);
-			// final long valorChecksum = checksum.getValue();
-
-			// SHA, MD2, MD5, SHA-256, SHA-38
+			/*** IMPORTANTE, EL CHECKSUM EN MINÚSCULAS ***/
 			final String valorChecksum = (new HexBinaryAdapter())
-					.marshal(MessageDigest.getInstance("MD5").digest(documentoEntrada));
-
-			// String checkSUM = checksum
-			final String textoResultado = port.translateFileByte(proxyCache, translationEngine,
-					documentoEntradaEncodedString, languagePair, ner, tipoDocumentoStr, markUnknown,
-					documentoEntradaEncoded, String.valueOf(valorChecksum), urlX, dirbase, user, pass);
+					.marshal(MessageDigest.getInstance("MD5").digest(documentoEntrada)).toLowerCase();
+			final CustomFileResponse textoResultado = port.translateFile(proxyCache, translationEngine,
+					documentoEntradaEncodedString, languagePair, ner, tipoDocumentoStr, markUnknown, null,
+					valorChecksum, urlX, dirbase, user, pass);
 			resultado.setError(false);
-			resultado.setTextoTraducido(textoResultado);
+			resultado.setTextoTraducido(textoResultado.getDocumentBase64());
 
 		} catch (final Exception e) {
 			resultado.setError(true);
@@ -262,4 +254,35 @@ public class OpenTradPlugin extends AbstractPluginProperties implements ITraducc
 		return idioma;
 	}
 
+	/**
+	 * Obtiene la opcion de markunknow si se ha pasado por opciones
+	 * 
+	 * @param opciones
+	 * @return
+	 */
+	private String getMarkunkonw(final Opciones opciones) {
+		String markUnknown;
+		if (opciones != null && opciones.contains(Opciones.OPENTRAD_MARKUNKNOWN)) {
+			markUnknown = opciones.getValor(Opciones.OPENTRAD_MARKUNKNOWN);
+		} else {
+			markUnknown = Opciones.OPENTRAD_MARKUNKNOWN_VALOR_ACTIVO;
+		}
+		return markUnknown;
+	}
+
+	/**
+	 * Obtiene el valor de ner si se ha pasado por opciones
+	 * 
+	 * @param opciones
+	 * @return
+	 */
+	private Boolean getNer(final Opciones opciones) {
+		Boolean ner;
+		if (opciones != null && opciones.contains(Opciones.OPENTRAD_NER)) {
+			ner = Boolean.valueOf(opciones.getValor(Opciones.OPENTRAD_NER));
+		} else {
+			ner = Boolean.valueOf(Opciones.OPENTRAD_NER_VALOR_INACTIVO);
+		}
+		return ner;
+	}
 }
