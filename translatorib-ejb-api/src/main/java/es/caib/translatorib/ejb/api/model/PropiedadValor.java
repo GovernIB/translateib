@@ -14,6 +14,17 @@ public class PropiedadValor implements Serializable {
 	private String propiedad;
 	private String valor;
 
+	/** Constructor **/
+	public PropiedadValor() {
+		// Vacio
+	}
+
+	/** Constructor **/
+	public PropiedadValor(final String iPropiedad, final String iValor) {
+		this.propiedad = iPropiedad;
+		this.valor = iValor;
+	}
+
 	public String getPropiedad() {
 		return propiedad;
 	}

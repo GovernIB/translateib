@@ -4,10 +4,6 @@ import java.io.Serializable;
 
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
-import es.caib.translatorib.ejb.api.model.Idioma;
-import es.caib.translatorib.ejb.api.model.Opciones;
-import es.caib.translatorib.ejb.api.model.TipoDocumento;
-
 @Schema(name = "ParametrosTraduccionDocumento")
 public class ParametrosTraduccionDocumento extends ParametrosTraduccion implements Serializable {
 

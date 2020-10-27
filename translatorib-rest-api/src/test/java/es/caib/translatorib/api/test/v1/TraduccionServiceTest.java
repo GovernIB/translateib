@@ -13,14 +13,14 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import es.caib.translatorib.api.v1.model.Idioma;
+import es.caib.translatorib.api.v1.model.Opciones;
 import es.caib.translatorib.api.v1.model.ParametrosTraduccionDocumento;
 import es.caib.translatorib.api.v1.model.ParametrosTraduccionTexto;
-import es.caib.translatorib.ejb.api.model.Idioma;
-import es.caib.translatorib.ejb.api.model.Opciones;
-import es.caib.translatorib.ejb.api.model.ResultadoTraduccionDocumento;
-import es.caib.translatorib.ejb.api.model.ResultadoTraduccionTexto;
-import es.caib.translatorib.ejb.api.model.TipoDocumento;
-import es.caib.translatorib.ejb.api.model.TipoEntrada;
+import es.caib.translatorib.api.v1.model.ResultadoTraduccionDocumento;
+import es.caib.translatorib.api.v1.model.ResultadoTraduccionTexto;
+import es.caib.translatorib.api.v1.model.TipoDocumento;
+import es.caib.translatorib.api.v1.model.TipoEntrada;
 
 /**
  * Clase d'exemple de client de l'api REST. Empra l'api estàndard de Client de
@@ -30,7 +30,7 @@ import es.caib.translatorib.ejb.api.model.TipoEntrada;
 public class TraduccionServiceTest {
 
 	// URL a partir de la qual estan penjats els resources.
-	private static final String BASE_URL = "http://XXX/translatorib/api/services/traduccion/v1";
+	private static final String BASE_URL = "http://caibter.indra.es/translatorib/api/services/traduccion/v1";
 	// private static final String BASE_URL =
 	// "http://localhost:8080/translatorib/api/services/traduccion/v1";
 

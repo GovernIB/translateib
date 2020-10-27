@@ -1,5 +1,8 @@
 package es.caib.translatorib.api.v1.services;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -28,6 +31,8 @@ import es.caib.translatorib.api.v1.model.ResultadoTraduccionDocumento;
 import es.caib.translatorib.api.v1.model.ResultadoTraduccionTexto;
 import es.caib.translatorib.commons.utils.Constants;
 import es.caib.translatorib.ejb.TraduccionService;
+import es.caib.translatorib.ejb.api.model.Opciones;
+import es.caib.translatorib.ejb.api.model.PropiedadValor;
 import es.caib.translatorib.plugin.api.TraduccionException;
 
 /**
@@ -98,10 +103,11 @@ public class TraduccionResource {
 				.fromString(parametros.getIdiomaEntrada().getIdioma(), parametros.getIdiomaEntrada().getLocale());
 		final es.caib.translatorib.ejb.api.model.Idioma idiomaSalida = es.caib.translatorib.ejb.api.model.Idioma
 				.fromString(parametros.getIdiomaSalida().getIdioma(), parametros.getIdiomaSalida().getLocale());
+		final es.caib.translatorib.ejb.api.model.Opciones opciones = crearOpciones(parametros.getOpciones());
 
 		final es.caib.translatorib.ejb.api.model.ResultadoTraduccionTexto resultado = traduccionService
 				.realizarTraduccion(parametros.getTextoEntrada(), tipoEntrada, idiomaEntrada, idiomaSalida,
-						parametros.getPlugin(), parametros.getOpciones());
+						parametros.getPlugin(), opciones);
 
 		if (resultado != null) {
 			return Response.ok(cast(resultado)).build();
@@ -131,10 +137,11 @@ public class TraduccionResource {
 				.fromString(parametros.getIdiomaEntrada().getIdioma(), parametros.getIdiomaEntrada().getLocale());
 		final es.caib.translatorib.ejb.api.model.Idioma idiomaSalida = es.caib.translatorib.ejb.api.model.Idioma
 				.fromString(parametros.getIdiomaSalida().getIdioma(), parametros.getIdiomaSalida().getLocale());
+		final es.caib.translatorib.ejb.api.model.Opciones opciones = crearOpciones(parametros.getOpciones());
 
 		final es.caib.translatorib.ejb.api.model.ResultadoTraduccionDocumento resultado = traduccionService
 				.realizarTraduccionDocumento(parametros.getContenidoDocumento(), tipoDocumento, idiomaEntrada,
-						idiomaSalida, parametros.getPlugin(), parametros.getOpciones());
+						idiomaSalida, parametros.getPlugin(), opciones);
 
 		if (resultado != null) {
 			return Response.ok(cast(resultado)).build();
@@ -166,5 +173,16 @@ public class TraduccionResource {
 			res.setTextoTraducido(resultado.getTextoTraducido());
 		}
 		return res;
+	}
+
+	private Opciones crearOpciones(final es.caib.translatorib.api.v1.model.Opciones opciones) {
+		final Opciones resultado = new Opciones();
+		if (opciones != null && opciones.getPropiedades() != null && opciones.getPropiedades().isEmpty()) {
+			final List<PropiedadValor> propiedades = new ArrayList();
+			for (final es.caib.translatorib.api.v1.model.PropiedadValor prop : opciones.getPropiedades()) {
+				propiedades.add(new PropiedadValor(prop.getPropiedad(), prop.getValor()));
+			}
+		}
+		return resultado;
 	}
 }
