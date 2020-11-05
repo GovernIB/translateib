@@ -51,7 +51,7 @@ import es.caib.translatorib.plugin.api.TraduccionException;
 @Path("traduccion/v1")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-@RolesAllowed({ Constants.TIB_API })
+@RolesAllowed({ Constants.TIB_ADMIN })
 @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
 public class TraduccionResource {
 

@@ -11,7 +11,7 @@ public class ParametrosTraduccionDocumento extends ParametrosTraduccion implemen
 	private static final long serialVersionUID = 1L;
 
 	/** Contenido documento **/
-	private byte[] contenidoDocumento;
+	private String contenidoDocumento;
 
 	/** Tipo de documento **/
 	private TipoDocumento tipoDocumento;
@@ -28,14 +28,14 @@ public class ParametrosTraduccionDocumento extends ParametrosTraduccion implemen
 	/**
 	 * @return the contenidoDocumento
 	 */
-	public byte[] getContenidoDocumento() {
+	public String getContenidoDocumento() {
 		return contenidoDocumento;
 	}
 
 	/**
 	 * @param contenidoDocumento the contenidoDocumento to set
 	 */
-	public void setContenidoDocumento(final byte[] contenidoDocumento) {
+	public void setContenidoDocumento(final String contenidoDocumento) {
 		this.contenidoDocumento = contenidoDocumento;
 	}
 

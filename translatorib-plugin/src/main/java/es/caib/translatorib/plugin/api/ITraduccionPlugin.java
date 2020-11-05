@@ -47,7 +47,7 @@ public interface ITraduccionPlugin extends IPlugin {
 	 * @param opciones
 	 * @return
 	 */
-	ResultadoTraduccionDocumento realizarTraduccionDocumento(final byte[] documentoEntrada,
+	ResultadoTraduccionDocumento realizarTraduccionDocumento(final String documentoEntradaB64,
 			final TipoDocumento tipoDocumento, final Idioma idiomaEntrada, final Idioma idiomaSalida,
 			final Opciones opciones) throws TraduccionException;
 

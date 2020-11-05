@@ -50,7 +50,7 @@
     </login-config>
 
     <security-role>
-        <role-name>TIB_API</role-name>
+        <role-name>TIB_ADMIN</role-name>
     </security-role>
 
 </web-app>

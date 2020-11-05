@@ -95,7 +95,7 @@ public class OpenTradPlugin extends AbstractPluginProperties implements ITraducc
 	}
 
 	@Override
-	public ResultadoTraduccionDocumento realizarTraduccionDocumento(final byte[] documentoEntrada,
+	public ResultadoTraduccionDocumento realizarTraduccionDocumento(final String documentoEntradaB64,
 			final TipoDocumento tipoDocumento, final Idioma idiomaEntrada, final Idioma idiomaSalida,
 			final Opciones opciones) throws TraduccionException {
 		final ResultadoTraduccionDocumento resultado = new ResultadoTraduccionDocumento();
@@ -108,7 +108,6 @@ public class OpenTradPlugin extends AbstractPluginProperties implements ITraducc
 
 			final TranslatorV2 port = getClienteOpenTrad(url, timeout);
 
-			final String documentoEntradaEncodedString = Base64.getEncoder().encodeToString(documentoEntrada);
 			final java.lang.Boolean proxyCache = false;
 			final java.lang.String translationEngine = "opentrad";
 			final java.lang.String languagePair = getIdioma(idiomaEntrada, idiomaSalida);
@@ -120,12 +119,12 @@ public class OpenTradPlugin extends AbstractPluginProperties implements ITraducc
 			final java.lang.String dirbase = null;
 			final java.lang.String tipoDocumentoStr = getTipoDocumento(tipoDocumento);
 
-			/*** IMPORTANTE, EL CHECKSUM EN MINÚSCULAS ***/
-			final String valorChecksum = (new HexBinaryAdapter())
-					.marshal(MessageDigest.getInstance("MD5").digest(documentoEntrada)).toLowerCase();
+			/*** IMPORTANTE, EL CHECKSUM EN MINUSCULAS ***/
+			final byte[] targetArray = Base64.getDecoder().decode(documentoEntradaB64);
+			final String valorChecksum = (new HexBinaryAdapter()).marshal(MessageDigest.getInstance("MD5").digest(targetArray)).toLowerCase();
 			final CustomFileResponse textoResultado = port.translateFile(proxyCache, translationEngine,
-					documentoEntradaEncodedString, languagePair, ner, tipoDocumentoStr, markUnknown, null,
-					valorChecksum, urlX, dirbase, user, pass);
+					documentoEntradaB64, languagePair, ner, tipoDocumentoStr, markUnknown, null, valorChecksum, urlX,
+					dirbase, user, pass);
 			resultado.setError(false);
 			resultado.setTextoTraducido(textoResultado.getDocumentBase64());
 

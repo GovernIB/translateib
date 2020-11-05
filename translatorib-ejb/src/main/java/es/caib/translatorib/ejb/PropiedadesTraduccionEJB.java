@@ -15,7 +15,7 @@ import es.caib.translatorib.commons.utils.Constants;
 
 @Singleton
 @Startup
-@RolesAllowed(Constants.TIB_API)
+@RolesAllowed(Constants.TIB_ADMIN)
 public class PropiedadesTraduccionEJB {
 
 	private static final Logger LOG = LoggerFactory.getLogger(TraduccionEJB.class);
@@ -25,12 +25,13 @@ public class PropiedadesTraduccionEJB {
 	@PostConstruct
 	public void init() {
 
-		final String ruta = System.getProperty("es.caib.translatorib.properties.path");
+		String ruta = System.getProperty("es.caib.translatorib.properties.path");
 		// final InputStream inputStream =
 		// this.getClass().getClassLoader().getResourceAsStream(ruta);
 		// this.getClass().getClassLoader().getResourceAsStream("P:/app/caib/translatorib/translatorib.properties");
 		// new
 		// java.io.FileInputStream("\\app\\caib\\translatorib\\translatorib.properties");
+		//ruta = "\\app\\caib\\translatorib\\translatorib.properties";
 		properties = new Properties();
 		FileInputStream inputStream = null;
 
@@ -38,7 +39,7 @@ public class PropiedadesTraduccionEJB {
 			// Loading the properties
 
 			inputStream = new FileInputStream(ruta);
-			
+
 			properties.load(inputStream);
 
 			// Printing the properties

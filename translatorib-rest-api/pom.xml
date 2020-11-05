@@ -8,7 +8,7 @@
     </parent>
 
     <artifactId>translatorib-rest-api</artifactId>
-    <packaging>jar</packaging>
+    <packaging>war</packaging>
     <name>translatorIB - REST - API</name>
     <description>API REST de translatorIB</description>
 

@@ -17,7 +17,7 @@
 
     	<!-- PROPIEDADES ARCHETYPE -->
         <!-- Propietats que afecten els plugins -->
-        <!-- JDK1.8 -->
+        <!--  JDK1.8 Comentar la siguiente linea -->
         <maven.compiler.release>11</maven.compiler.release>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -47,7 +47,6 @@
         <plugins-ib.version>2.0.0</plugins-ib.version>
         <xmlbeans.version>3.0.2</xmlbeans.version>
         <commons-lang3.version>3.7</commons-lang3.version>
-        
         
     </properties>
     <dependencyManagement>
@@ -283,7 +282,7 @@
                         <requireMavenVersion>
                             <version>3.6.1</version>
                         </requireMavenVersion>
-                        <!-- JDK1.8 -->
+                        <!--  JDK1.8 Seleccionar version 1.8 o 11--> 
                         <requireJavaVersion>
                             <version>11</version>
                         </requireJavaVersion>

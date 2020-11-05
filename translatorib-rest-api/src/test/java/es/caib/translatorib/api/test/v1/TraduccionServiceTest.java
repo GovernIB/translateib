@@ -2,6 +2,7 @@ package es.caib.translatorib.api.test.v1;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Base64;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
@@ -21,6 +22,7 @@ import es.caib.translatorib.api.v1.model.ResultadoTraduccionDocumento;
 import es.caib.translatorib.api.v1.model.ResultadoTraduccionTexto;
 import es.caib.translatorib.api.v1.model.TipoDocumento;
 import es.caib.translatorib.api.v1.model.TipoEntrada;
+import es.caib.translatorib.api.test.v1.BasicAuthenticator;
 
 /**
  * Clase d'exemple de client de l'api REST. Empra l'api estàndard de Client de
@@ -30,17 +32,17 @@ import es.caib.translatorib.api.v1.model.TipoEntrada;
 public class TraduccionServiceTest {
 
 	// URL a partir de la qual estan penjats els resources.
-	private static final String BASE_URL = "http://caibter.indra.es/translatorib/api/services/traduccion/v1";
 	// private static final String BASE_URL =
-	// "http://localhost:8080/translatorib/api/services/traduccion/v1";
+	// "http://caibter.indra.es/translatorib/api/services/traduccion/v1";
+	private static final String BASE_URL = "http://localhost:8080/translatorib/api/services/traduccion/v1";
 
 	// Nom d'usuari i password a emprar per les peticions que necesisten
 	// autenticació. Cal posar un
 	// usuari/password que tengui rol TIB_API a per el mòdul web de l'api REST.
-	private static final String USER = "api-tib";
-	private static final String PASSWORD = "XXX";
-	// private static final String USER = "usuario1";
+	// private static final String USER = "api-tib";
 	// private static final String PASSWORD = "XXX";
+	private static final String USER = "usuario1";
+	private static final String PASSWORD = "XXX";
 
 	// Client a reutilitzar durant test
 	private static Client client;
@@ -145,8 +147,9 @@ public class TraduccionServiceTest {
 		final InputStream inputStream = this.getClass().getResourceAsStream("test.txt");
 		final byte[] targetArray = new byte[inputStream.available()];
 		inputStream.read(targetArray);
+		final String documentoEntradaEncodedString = Base64.getEncoder().encodeToString(targetArray);
 
-		parametros.setContenidoDocumento(targetArray);
+		parametros.setContenidoDocumento(documentoEntradaEncodedString);
 		parametros.setTipoDocumento(TipoDocumento.TXT);
 
 		parametros.setIdiomaEntrada(Idioma.CASTELLANO);
@@ -173,8 +176,9 @@ public class TraduccionServiceTest {
 		final InputStream inputStream = this.getClass().getResourceAsStream("prueba.odt");
 		final byte[] targetArray = new byte[inputStream.available()];
 		inputStream.read(targetArray);
+		final String documentoEntradaEncodedString = Base64.getEncoder().encodeToString(targetArray);
 
-		parametros.setContenidoDocumento(targetArray);
+		parametros.setContenidoDocumento(documentoEntradaEncodedString);
 		parametros.setTipoDocumento(TipoDocumento.ODT);
 
 		parametros.setIdiomaEntrada(Idioma.CASTELLANO);
@@ -200,8 +204,9 @@ public class TraduccionServiceTest {
 		final InputStream inputStream = this.getClass().getResourceAsStream("test.pdf");
 		final byte[] targetArray = new byte[inputStream.available()];
 		inputStream.read(targetArray);
+		final String documentoEntradaEncodedString = Base64.getEncoder().encodeToString(targetArray);
 
-		parametros.setContenidoDocumento(targetArray);
+		parametros.setContenidoDocumento(documentoEntradaEncodedString);
 		parametros.setTipoDocumento(TipoDocumento.PDF);
 
 		parametros.setIdiomaEntrada(Idioma.CASTELLANO);

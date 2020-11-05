@@ -31,7 +31,7 @@ import es.caib.translatorib.plugin.api.TraduccionException;
  */
 @Logged
 @Stateless
-@RolesAllowed(Constants.TIB_API)
+@RolesAllowed(Constants.TIB_ADMIN)
 public class TraduccionEJB implements TraduccionService {
 
 	private static final Logger LOG = LoggerFactory.getLogger(TraduccionEJB.class);
@@ -57,13 +57,13 @@ public class TraduccionEJB implements TraduccionService {
 	}
 
 	@Override
-	public ResultadoTraduccionDocumento realizarTraduccionDocumento(final byte[] contenidoDocumento,
+	public ResultadoTraduccionDocumento realizarTraduccionDocumento(final String contenidoDocumentoB64,
 			final TipoDocumento tipoDocumento, final Idioma idiomaEntrada, final Idioma idiomaSalidad,
 			final String plugin, final Opciones opciones) {
 		final ITraduccionPlugin plg = (ITraduccionPlugin) createPlugin(plugin);
 		ResultadoTraduccionDocumento res;
 		try {
-			res = plg.realizarTraduccionDocumento(contenidoDocumento, tipoDocumento, idiomaEntrada, idiomaSalidad,
+			res = plg.realizarTraduccionDocumento(contenidoDocumentoB64, tipoDocumento, idiomaEntrada, idiomaSalidad,
 					opciones);
 		} catch (final TraduccionException exp) {
 			LOG.error("Error realizando realizarTraduccionDocumento", exp);
@@ -124,5 +124,4 @@ public class TraduccionEJB implements TraduccionService {
 		}
 		return plg;
 	}
-
 }

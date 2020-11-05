@@ -26,7 +26,7 @@ public class MockTradPlugin implements ITraduccionPlugin {
 	}
 
 	@Override
-	public ResultadoTraduccionDocumento realizarTraduccionDocumento(final byte[] documentoEntrada,
+	public ResultadoTraduccionDocumento realizarTraduccionDocumento(final String documentoEntradaB64,
 			final TipoDocumento tipoDocumento, final Idioma idiomaEntrada, final Idioma idiomaSalida,
 			final Opciones opciones) {
 		final ResultadoTraduccionDocumento resultado = new ResultadoTraduccionDocumento();

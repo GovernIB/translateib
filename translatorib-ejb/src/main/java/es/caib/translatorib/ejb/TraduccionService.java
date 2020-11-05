@@ -20,6 +20,6 @@ public interface TraduccionService {
 	public ResultadoTraduccionTexto realizarTraduccion(String textoEntrada, TipoEntrada tipoEntrada,
 			Idioma idiomaEntrada, Idioma idiomaSalidad, String plugin, Opciones opciones);
 
-	public ResultadoTraduccionDocumento realizarTraduccionDocumento(byte[] contenidoDocumento,
+	public ResultadoTraduccionDocumento realizarTraduccionDocumento(String contenidoDocumentoB64,
 			TipoDocumento tipoDocumento, Idioma idiomaEntrada, Idioma idiomaSalidad, String plugin, Opciones opciones);
 }
