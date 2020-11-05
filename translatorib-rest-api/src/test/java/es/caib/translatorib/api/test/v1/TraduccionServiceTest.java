@@ -1,7 +1,12 @@
 package es.caib.translatorib.api.test.v1;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Base64;
 
 import javax.ws.rs.client.Client;
@@ -32,17 +37,17 @@ import es.caib.translatorib.api.test.v1.BasicAuthenticator;
 public class TraduccionServiceTest {
 
 	// URL a partir de la qual estan penjats els resources.
-	// private static final String BASE_URL =
-	// "http://caibter.indra.es/translatorib/api/services/traduccion/v1";
-	private static final String BASE_URL = "http://localhost:8080/translatorib/api/services/traduccion/v1";
+	 private static final String BASE_URL =
+	 "http://caibter.indra.es/translatorib/api/services/traduccion/v1";
+	//private static final String BASE_URL = "http://localhost:8080/translatorib/api/services/traduccion/v1";
 
 	// Nom d'usuari i password a emprar per les peticions que necesisten
 	// autenticació. Cal posar un
 	// usuari/password que tengui rol TIB_API a per el mòdul web de l'api REST.
-	// private static final String USER = "api-tib";
-	// private static final String PASSWORD = "XXX";
-	private static final String USER = "usuario1";
-	private static final String PASSWORD = "XXX";
+	 private static final String USER = "api-tib";
+	 private static final String PASSWORD = "M0n1n@s";
+	//private static final String USER = "usuario1";
+	//private static final String PASSWORD = "1234";
 
 	// Client a reutilitzar durant test
 	private static Client client;
@@ -162,6 +167,19 @@ public class TraduccionServiceTest {
 		Assert.assertTrue(!respuesta.isError());
 		Assert.assertTrue(respuesta != null && !respuesta.isError());
 
+		File file = new File("P://txtTraducido.txt");
+
+		FileOutputStream fos = null;
+	    try  { 
+	      fos = new FileOutputStream(file); 
+	      byte[] datos = Base64.getDecoder().decode(respuesta.getTextoTraducido());
+	      fos.write(datos);
+	      System.out.println("TXT File Saved");
+	    } catch (Exception e) {
+	      e.printStackTrace();
+	    } finally {
+	    	fos.close();
+	    }
 	}
 
 	/**
@@ -190,6 +208,19 @@ public class TraduccionServiceTest {
 
 		Assert.assertTrue(respuesta != null && !respuesta.isError());
 
+		File file = new File("P://odtTraducido.odt");
+
+		 FileOutputStream fos = null;
+	    try {   
+	    	fos = new FileOutputStream(file);
+	    	byte[] datos = Base64.getDecoder().decode(respuesta.getTextoTraducido());
+		    fos.write(datos);
+	      System.out.println("ODT File Saved");
+	    } catch (Exception e) {
+	      e.printStackTrace();
+	    } finally {
+	    	fos.close();
+	    }
 	}
 
 	/**
@@ -216,9 +247,129 @@ public class TraduccionServiceTest {
 
 		final ResultadoTraduccionDocumento respuesta = response.readEntity(ResultadoTraduccionDocumento.class);
 
+		
+		
 		Assert.assertTrue(!respuesta.isError());
 		Assert.assertTrue(respuesta != null && !respuesta.isError());
 
+		File file = new File("P://pdfTraducido.pdf");
+
+		FileOutputStream fos = null;
+	    try {  
+	      fos = new FileOutputStream(file);
+	      byte[] datos = Base64.getDecoder().decode(respuesta.getTextoTraducido());
+		    fos.write(datos);
+	      System.out.println("PDF File Saved");
+	    } catch (Exception e) {
+	      e.printStackTrace();
+	    } finally {
+	    	fos.close();
+	    }
+		
+		//byte[] datosTraducidos = Base64.getEncoder().encode(respuesta.getTextoTraducido().getBytes());
+		//byte[] datosTraducidos = Base64.getDecoder().decode(respuesta.getTextoTraducido());
+		//Path path = Paths.get("P://pdfTraducido.pdf");
+		//Files.write(path, datosTraducidos);
+	}
+	
+	
+	/**
+	 * Consulta totes les unitats.
+	 * 
+	 * @throws IOException
+	 */
+	@Test
+	public void testTraduccionDocDOC() throws IOException {
+
+		final ParametrosTraduccionDocumento parametros = new ParametrosTraduccionDocumento();
+		final InputStream inputStream = this.getClass().getResourceAsStream("prueba.doc");
+		final byte[] targetArray = new byte[inputStream.available()];
+		inputStream.read(targetArray);
+		final String documentoEntradaEncodedString = Base64.getEncoder().encodeToString(targetArray);
+
+		parametros.setContenidoDocumento(documentoEntradaEncodedString);
+		parametros.setTipoDocumento(TipoDocumento.DOC);
+
+		parametros.setIdiomaEntrada(Idioma.CASTELLANO);
+		parametros.setIdiomaSalida(Idioma.CATALAN);
+
+		final Response response = client.target(BASE_URL + "/documento").request().post(Entity.json(parametros));
+
+		final ResultadoTraduccionDocumento respuesta = response.readEntity(ResultadoTraduccionDocumento.class);
+
+		
+		
+		Assert.assertTrue(!respuesta.isError());
+		Assert.assertTrue(respuesta != null && !respuesta.isError());
+
+		File file = new File("P://docTraducido.doc");
+
+		FileOutputStream fos = null;
+	    try {  
+	      fos = new FileOutputStream(file);
+	      byte[] datos = Base64.getDecoder().decode(respuesta.getTextoTraducido());
+		    fos.write(datos);
+		    System.out.println("DOC File Saved");
+	    } catch (Exception e) {
+	      e.printStackTrace();
+	    } finally {
+	    	fos.close();
+	    }
+		
+		//byte[] datosTraducidos = Base64.getEncoder().encode(respuesta.getTextoTraducido().getBytes());
+		//byte[] datosTraducidos = Base64.getDecoder().decode(respuesta.getTextoTraducido());
+		//Path path = Paths.get("P://pdfTraducido.pdf");
+		//Files.write(path, datosTraducidos);
+	}
+	
+	
+	/**
+	 * Consulta totes les unitats.
+	 * 
+	 * @throws IOException
+	 */
+	@Test
+	public void testTraduccionDocDOCX() throws IOException {
+
+		final ParametrosTraduccionDocumento parametros = new ParametrosTraduccionDocumento();
+		final InputStream inputStream = this.getClass().getResourceAsStream("prueba.docx");
+		final byte[] targetArray = new byte[inputStream.available()];
+		inputStream.read(targetArray);
+		final String documentoEntradaEncodedString = Base64.getEncoder().encodeToString(targetArray);
+
+		parametros.setContenidoDocumento(documentoEntradaEncodedString);
+		parametros.setTipoDocumento(TipoDocumento.DOCX);
+
+		parametros.setIdiomaEntrada(Idioma.CASTELLANO);
+		parametros.setIdiomaSalida(Idioma.CATALAN);
+
+		final Response response = client.target(BASE_URL + "/documento").request().post(Entity.json(parametros));
+
+		final ResultadoTraduccionDocumento respuesta = response.readEntity(ResultadoTraduccionDocumento.class);
+
+		
+		
+		Assert.assertTrue(!respuesta.isError());
+		Assert.assertTrue(respuesta != null && !respuesta.isError());
+
+		File file = new File("P://docxTraducido.docx");
+
+		FileOutputStream fos = null;
+	    try {  
+	      fos = new FileOutputStream(file);
+	      byte[] datos = Base64.getDecoder().decode(respuesta.getTextoTraducido());
+		    fos.write(datos);
+		    System.out.println("DOCX File Saved");
+	    } catch (Exception e) {
+	      e.printStackTrace();
+	    } finally {
+	    	fos.close();
+	    }
+		
+		//byte[] datosTraducidos = Base64.getEncoder().encode(respuesta.getTextoTraducido().getBytes());
+		//byte[] datosTraducidos = Base64.getDecoder().decode(respuesta.getTextoTraducido());
+		//Path path = Paths.get("P://pdfTraducido.pdf");
+		//Files.write(path, datosTraducidos);
 	}
 
 }

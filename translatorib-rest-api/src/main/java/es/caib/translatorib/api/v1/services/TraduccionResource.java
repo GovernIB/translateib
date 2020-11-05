@@ -171,6 +171,9 @@ public class TraduccionResource {
 			res.setError(resultado.isError());
 			res.setDescripcionError(resultado.getDescripcionError());
 			res.setTextoTraducido(resultado.getTextoTraducido());
+			res.setChecksum(resultado.getChecksum());
+			res.setTipo(resultado.getTipo());
+			res.setDireccion(resultado.getDireccion());
 		}
 		return res;
 	}

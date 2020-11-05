@@ -45,7 +45,7 @@
     </security-constraint>
 
     <login-config>
-        <auth-method>BASIC</auth-method>
+        <auth-method>${translatorConfig.authMethod}</auth-method>
         <realm-name>Govern de les Illes Balears</realm-name>
     </login-config>
 

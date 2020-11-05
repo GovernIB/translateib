@@ -127,6 +127,10 @@ public class OpenTradPlugin extends AbstractPluginProperties implements ITraducc
 					dirbase, user, pass);
 			resultado.setError(false);
 			resultado.setTextoTraducido(textoResultado.getDocumentBase64());
+			resultado.setDireccion(textoResultado.getDirectionOfTranslate());
+			resultado.setChecksum(textoResultado.getDocumentChecksum());
+			resultado.setTipo(textoResultado.getDocumentType());
+			resultado.setDescripcionError(textoResultado.getError());
 
 		} catch (final Exception e) {
 			resultado.setError(true);

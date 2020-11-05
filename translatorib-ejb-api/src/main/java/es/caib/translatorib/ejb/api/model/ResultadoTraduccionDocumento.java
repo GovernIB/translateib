@@ -9,6 +9,10 @@ public class ResultadoTraduccionDocumento {
 	private boolean error = true;
 	private String descripcionError;
 	private String textoTraducido;
+	private String direccion;
+	private String checksum;
+	private String tipo;
+	
 
 	public boolean isError() {
 		return error;
@@ -32,6 +36,30 @@ public class ResultadoTraduccionDocumento {
 
 	public void setTextoTraducido(final String textoTraducido) {
 		this.textoTraducido = textoTraducido;
+	}
+
+	public String getDireccion() {
+		return direccion;
+	}
+
+	public void setDireccion(String direccion) {
+		this.direccion = direccion;
+	}
+
+	public String getChecksum() {
+		return checksum;
+	}
+
+	public void setChecksum(String checksum) {
+		this.checksum = checksum;
+	}
+
+	public String getTipo() {
+		return tipo;
+	}
+
+	public void setTipo(String tipo) {
+		this.tipo = tipo;
 	}
 
 }
