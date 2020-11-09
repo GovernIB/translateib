@@ -49,7 +49,7 @@ import es.caib.translatorib.plugin.api.TraduccionException;
  */
 @Stateless
 @Path("traduccion/v1")
-@Produces(MediaType.APPLICATION_JSON)
+@Produces(MediaType.APPLICATION_JSON+ ";charset=utf-8")
 @Consumes(MediaType.APPLICATION_JSON)
 @RolesAllowed({ Constants.TIB_ADMIN })
 @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
