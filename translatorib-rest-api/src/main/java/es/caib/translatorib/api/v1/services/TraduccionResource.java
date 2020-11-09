@@ -83,6 +83,7 @@ public class TraduccionResource {
 		return Response.ok(cast(resultado)).build();
 	}
 
+	
 	/**
 	 * Realiza una traducción de un texto.
 	 *
