@@ -45,6 +45,7 @@
     </security-constraint>
 
     <login-config>
+    	<!-- Actualiza el parámetro del translatorConfig.authMethod en el translatorib.properties -->
         <auth-method>${translatorConfig.authMethod}</auth-method>
         <realm-name>Govern de les Illes Balears</realm-name>
     </login-config>

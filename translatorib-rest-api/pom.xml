@@ -93,6 +93,8 @@
 				</executions>
 			</plugin>
 
+			<!-- Lo del filtering y el web.xml es para cambiar la autenticacion en el web.xml dependiendo del valor
+					 de translatorConfig.authMethod que hay en el translatorib.properties -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-war-plugin</artifactId>
