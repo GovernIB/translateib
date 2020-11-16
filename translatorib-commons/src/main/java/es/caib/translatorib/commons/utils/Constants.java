@@ -11,6 +11,6 @@ public interface Constants {
 	/**
 	 * Constant pel rol para acceder al api de traduccion
 	 */
-	String TIB_ADMIN = "TIB_ADMIN";
+	String TIB_API = "TIB_API";
 
 }

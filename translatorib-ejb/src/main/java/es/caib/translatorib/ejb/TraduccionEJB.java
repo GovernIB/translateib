@@ -31,7 +31,7 @@ import es.caib.translatorib.plugin.api.TraduccionException;
  */
 @Logged
 @Stateless
-@RolesAllowed(Constants.TIB_ADMIN)
+@RolesAllowed(Constants.TIB_API)
 public class TraduccionEJB implements TraduccionService {
 
 	private static final Logger LOG = LoggerFactory.getLogger(TraduccionEJB.class);

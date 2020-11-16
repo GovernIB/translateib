@@ -45,9 +45,9 @@ public class TraduccionServiceTest {
 	// autenticació. Cal posar un
 	// usuari/password que tengui rol TIB_API a per el mòdul web de l'api REST.
 	 private static final String USER = "api-tib";
-	 private static final String PASSWORD = "M0n1n@s";
+	 private static final String PASSWORD = "XXXX";
 	//private static final String USER = "usuario1";
-	//private static final String PASSWORD = "1234";
+	//private static final String PASSWORD = "XXXX";
 
 	// Client a reutilitzar durant test
 	private static Client client;
@@ -128,6 +128,31 @@ public class TraduccionServiceTest {
 
 		parametros.setIdiomaEntrada(Idioma.CASTELLANO);
 		parametros.setIdiomaSalida(Idioma.CATALAN);
+		parametros.setOpciones(new Opciones());
+
+		final Response response = client.target(BASE_URL + "/texto").request().post(Entity.json(parametros));
+
+		final ResultadoTraduccionTexto respuesta = response.readEntity(ResultadoTraduccionTexto.class);
+
+		Assert.assertTrue(!respuesta.isError());
+		Assert.assertTrue(
+				respuesta != null && !respuesta.isError() && respuesta.getTextoTraducido().equals("Text a traduir"));
+
+	}
+	
+	
+	/**
+	 * Consulta totes les unitats.
+	 */
+	@Test
+	public void testTraduccionText2() {
+
+		final ParametrosTraduccionTexto parametros = new ParametrosTraduccionTexto();
+		parametros.setTextoEntrada("article");
+		parametros.setTipoEntrada(TipoEntrada.TEXTO_PLANO);
+
+		parametros.setIdiomaEntrada(Idioma.CATALAN);
+		parametros.setIdiomaSalida(Idioma.CASTELLANO);
 		parametros.setOpciones(new Opciones());
 
 		final Response response = client.target(BASE_URL + "/texto").request().post(Entity.json(parametros));

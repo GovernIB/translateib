@@ -94,8 +94,6 @@ public class OpenTradPlugin extends AbstractPluginProperties implements ITraducc
 		return resultado;
 	}
 
-	
-	
 	@Override
 	public ResultadoTraduccionDocumento realizarTraduccionDocumento(final String documentoEntradaB64,
 			final TipoDocumento tipoDocumento, final Idioma idiomaEntrada, final Idioma idiomaSalida,

@@ -51,7 +51,7 @@ import es.caib.translatorib.plugin.api.TraduccionException;
 @Path("traduccion/v1")
 @Produces(MediaType.APPLICATION_JSON+ ";charset=utf-8")
 @Consumes(MediaType.APPLICATION_JSON)
-@RolesAllowed({ Constants.TIB_ADMIN })
+@RolesAllowed({ Constants.TIB_API })
 @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
 public class TraduccionResource {
 
@@ -83,7 +83,6 @@ public class TraduccionResource {
 		return Response.ok(cast(resultado)).build();
 	}
 
-	
 	/**
 	 * Realiza una traducción de un texto.
 	 *

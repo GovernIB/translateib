@@ -10,7 +10,7 @@ public class ParametrosTraduccionDocumento extends ParametrosTraduccion implemen
 	/** Serial Version UID */
 	private static final long serialVersionUID = 1L;
 
-	/** Contenido documento (se ha pasado de byte[] a String) **/
+	/** Contenido documento **/
 	private String contenidoDocumento;
 
 	/** Tipo de documento **/
