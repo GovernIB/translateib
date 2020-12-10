@@ -97,11 +97,11 @@ public class TraduccionEJB implements TraduccionService {
 
 			String implementacionPlugin;
 			if (plugin == null) {
-				implementacionPlugin = properties.getProperty("traductor.default");
+				implementacionPlugin = properties.getProperty("es.caib.translatorib.default");
 			} else {
 				implementacionPlugin = plugin;
 			}
-			classname = properties.getProperty("traductor." + implementacionPlugin + ".classname");
+			classname = properties.getProperty("es.caib.translatorib." + implementacionPlugin + ".classname");
 
 			final Set<String> keys = properties.stringPropertyNames();
 			for (final String key : keys) {

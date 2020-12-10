@@ -9,7 +9,7 @@ import es.caib.translatorib.ejb.api.model.TipoEntrada;
 import es.caib.translatorib.plugin.api.ITraduccionPlugin;
 
 /**
- * Interface pasarela pago.
+ * Implementacion Mockup.
  *
  * @author Indra
  *
