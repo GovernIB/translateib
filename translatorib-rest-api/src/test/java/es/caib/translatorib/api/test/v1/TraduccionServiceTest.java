@@ -4,9 +4,9 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.security.MessageDigest;
 import java.util.Base64;
 
 import javax.ws.rs.client.Client;
@@ -14,7 +14,13 @@ import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.xml.bind.annotation.adapters.HexBinaryAdapter;
+import javax.xml.namespace.QName;
+import javax.xml.ws.BindingProvider;
 
+import org.apache.cxf.frontend.ClientProxy;
+import org.apache.cxf.transport.http.HTTPConduit;
+import org.apache.cxf.transports.http.configuration.HTTPClientPolicy;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -27,27 +33,28 @@ import es.caib.translatorib.api.v1.model.ResultadoTraduccionDocumento;
 import es.caib.translatorib.api.v1.model.ResultadoTraduccionTexto;
 import es.caib.translatorib.api.v1.model.TipoDocumento;
 import es.caib.translatorib.api.v1.model.TipoEntrada;
-import es.caib.translatorib.api.test.v1.BasicAuthenticator;
+import es.caib.translatorib.opentrad.rest.cxf.CustomFileResponse;
+import es.caib.translatorib.opentrad.rest.cxf.TranslatorV2;
+import es.caib.translatorib.opentrad.rest.cxf.TranslatorV2Service;
 
 /**
  * Clase d'exemple de client de l'api REST. Empra l'api estàndard de Client de
- * JAX-RS 2.1. El test requereix que hi hagi una unitat orgànica amb id = 1 i
- * codiDir3 = A00000001. També requereix que no existeix el codiDir3 = U87654321
+ * JAX-RS 2.1.  
  */
 public class TraduccionServiceTest {
 
 	// URL a partir de la qual estan penjats els resources.
-	 private static final String BASE_URL =
-	 "http://caibter.indra.es/translatorib/api/services/traduccion/v1";
-	//private static final String BASE_URL = "http://localhost:8080/translatorib/api/services/traduccion/v1";
+	// private static final String BASE_URL =
+	// "http://caibter.indra.es/translatorib/api/services/traduccion/v1";
+	private static final String BASE_URL = "http://localhost:8080/translatorib/api/services/traduccion/v1";
 
 	// Nom d'usuari i password a emprar per les peticions que necesisten
 	// autenticació. Cal posar un
 	// usuari/password que tengui rol TIB_API a per el mòdul web de l'api REST.
-	 private static final String USER = "api-tib";
-	 private static final String PASSWORD = "XXXX";
-	//private static final String USER = "usuario1";
-	//private static final String PASSWORD = "XXXX";
+	// private static final String USER = "api-tib";
+	// private static final String PASSWORD = "XXX";
+	private static final String USER = "usuario1";
+	private static final String PASSWORD = "XXX";
 
 	// Client a reutilitzar durant test
 	private static Client client;
@@ -161,7 +168,7 @@ public class TraduccionServiceTest {
 
 		Assert.assertTrue(!respuesta.isError());
 		Assert.assertTrue(
-				respuesta != null && !respuesta.isError() && respuesta.getTextoTraducido().equals("Text a traduir"));
+				respuesta != null && !respuesta.isError() && respuesta.getTextoTraducido().equals("artículo"));
 
 	}
 
@@ -311,7 +318,7 @@ public class TraduccionServiceTest {
 		final byte[] targetArray = new byte[inputStream.available()];
 		inputStream.read(targetArray);
 		final String documentoEntradaEncodedString = Base64.getEncoder().encodeToString(targetArray);
-
+		
 		parametros.setContenidoDocumento(documentoEntradaEncodedString);
 		parametros.setTipoDocumento(TipoDocumento.DOC);
 
@@ -321,8 +328,6 @@ public class TraduccionServiceTest {
 		final Response response = client.target(BASE_URL + "/documento").request().post(Entity.json(parametros));
 
 		final ResultadoTraduccionDocumento respuesta = response.readEntity(ResultadoTraduccionDocumento.class);
-
-		
 		
 		Assert.assertTrue(!respuesta.isError());
 		Assert.assertTrue(respuesta != null && !respuesta.isError());
@@ -340,11 +345,6 @@ public class TraduccionServiceTest {
 	    } finally {
 	    	fos.close();
 	    }
-		
-		//byte[] datosTraducidos = Base64.getEncoder().encode(respuesta.getTextoTraducido().getBytes());
-		//byte[] datosTraducidos = Base64.getDecoder().decode(respuesta.getTextoTraducido());
-		//Path path = Paths.get("P://pdfTraducido.pdf");
-		//Files.write(path, datosTraducidos);
 	}
 	
 	
@@ -390,11 +390,6 @@ public class TraduccionServiceTest {
 	    } finally {
 	    	fos.close();
 	    }
-		
-		//byte[] datosTraducidos = Base64.getEncoder().encode(respuesta.getTextoTraducido().getBytes());
-		//byte[] datosTraducidos = Base64.getDecoder().decode(respuesta.getTextoTraducido());
-		//Path path = Paths.get("P://pdfTraducido.pdf");
-		//Files.write(path, datosTraducidos);
 	}
 
 }
