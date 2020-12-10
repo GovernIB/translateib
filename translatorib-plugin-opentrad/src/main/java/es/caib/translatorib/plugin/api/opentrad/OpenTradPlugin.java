@@ -32,10 +32,7 @@ import es.caib.translatorib.plugin.api.ITraduccionPlugin;
 import es.caib.translatorib.plugin.api.TraduccionException;
 
 /**
- * Interface pasarela pago.
- * 
- * @see Solucion al problema de proxy:
- *      https://stackoverflow.com/questions/19815145/jax-ws-client-without-a-wsdl-document-file
+ * Interfaz opentrad
  * @author Indra
  *
  */
@@ -44,7 +41,7 @@ public class OpenTradPlugin extends AbstractPluginProperties implements ITraducc
 	private static final Logger LOG = LoggerFactory.getLogger(OpenTradPlugin.class);
 
 	/** Prefix. */
-	public static final String IMPLEMENTATION_BASE_PROPERTY = "traductor.opentrad.";
+	public static final String IMPLEMENTATION_BASE_PROPERTY = "es.caib.translatorib.opentrad.";
 
 	public OpenTradPlugin(final String prefijoPropiedades, final Properties properties) {
 		super(prefijoPropiedades, properties);
@@ -120,13 +117,14 @@ public class OpenTradPlugin extends AbstractPluginProperties implements ITraducc
 			final java.lang.String tipoDocumentoStr = getTipoDocumento(tipoDocumento);
 
 			/*** IMPORTANTE, EL CHECKSUM EN MINUSCULAS ***/
-			final byte[] targetArray = Base64.getDecoder().decode(documentoEntradaB64);
+			final byte[] targetArray = Base64.getDecoder().decode(documentoEntradaB64); 
 			final String valorChecksum = (new HexBinaryAdapter()).marshal(MessageDigest.getInstance("MD5").digest(targetArray)).toLowerCase();
 			final CustomFileResponse textoResultado = port.translateFile(proxyCache, translationEngine,
 					documentoEntradaB64, languagePair, ner, tipoDocumentoStr, markUnknown, null, valorChecksum, urlX,
 					dirbase, user, pass);
 			resultado.setError(false);
-			resultado.setTextoTraducido(textoResultado.getDocumentBase64());
+			final String textoTrad = textoResultado.getDocumentBase64().replaceAll("\n", "");
+			resultado.setTextoTraducido(textoTrad);
 			resultado.setDireccion(textoResultado.getDirectionOfTranslate());
 			resultado.setChecksum(textoResultado.getDocumentChecksum());
 			resultado.setTipo(textoResultado.getDocumentType());
