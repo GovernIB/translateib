@@ -99,10 +99,8 @@ public class TraduccionResource {
 		LOG.error("TraduccionResources.traduccion.text");
 		final es.caib.translatorib.ejb.api.model.TipoEntrada tipoEntrada = es.caib.translatorib.ejb.api.model.TipoEntrada
 				.fromString(parametros.getTipoEntrada().toString());
-		final es.caib.translatorib.ejb.api.model.Idioma idiomaEntrada = es.caib.translatorib.ejb.api.model.Idioma
-				.fromString(parametros.getIdiomaEntrada().getIdioma(), parametros.getIdiomaEntrada().getLocale());
-		final es.caib.translatorib.ejb.api.model.Idioma idiomaSalida = es.caib.translatorib.ejb.api.model.Idioma
-				.fromString(parametros.getIdiomaSalida().getIdioma(), parametros.getIdiomaSalida().getLocale());
+		final es.caib.translatorib.ejb.api.model.Idioma idiomaEntrada = getIdioma(parametros.getIdiomaEntrada());
+		final es.caib.translatorib.ejb.api.model.Idioma idiomaSalida = getIdioma(parametros.getIdiomaSalida());
 		final es.caib.translatorib.ejb.api.model.Opciones opciones = crearOpciones(parametros.getOpciones());
 
 		final es.caib.translatorib.ejb.api.model.ResultadoTraduccionTexto resultado = traduccionService
@@ -115,6 +113,28 @@ public class TraduccionResource {
 
 			return Response.status(Response.Status.NOT_FOUND).build();
 		}
+	}
+
+	public es.caib.translatorib.ejb.api.model.Idioma getIdioma(es.caib.translatorib.api.v1.model.Idioma idioma) {
+		es.caib.translatorib.ejb.api.model.Idioma idi = null;
+		switch (idioma) {
+		case CASTELLANO:
+			idi = es.caib.translatorib.ejb.api.model.Idioma.CASTELLANO;
+			break;
+		case CASTELLANO_ESPANYA:
+			idi = es.caib.translatorib.ejb.api.model.Idioma.CASTELLANO_ESPANYA;
+			break;
+		case CATALAN:
+			idi = es.caib.translatorib.ejb.api.model.Idioma.CATALAN;
+			break;
+		case CATALAN_BALEAR:
+			idi = es.caib.translatorib.ejb.api.model.Idioma.CATALAN_BALEAR;
+			break;
+		case CATALAN_CATALUNYA:
+			idi = es.caib.translatorib.ejb.api.model.Idioma.CATALAN_CATALUNYA;
+			break;
+		}
+		return idi;
 	}
 
 	/**
@@ -133,10 +153,8 @@ public class TraduccionResource {
 		LOG.error("TraduccionResources.traduccion.documento");
 		final es.caib.translatorib.ejb.api.model.TipoDocumento tipoDocumento = es.caib.translatorib.ejb.api.model.TipoDocumento
 				.fromString(parametros.getTipoDocumento().toString());
-		final es.caib.translatorib.ejb.api.model.Idioma idiomaEntrada = es.caib.translatorib.ejb.api.model.Idioma
-				.fromString(parametros.getIdiomaEntrada().getIdioma(), parametros.getIdiomaEntrada().getLocale());
-		final es.caib.translatorib.ejb.api.model.Idioma idiomaSalida = es.caib.translatorib.ejb.api.model.Idioma
-				.fromString(parametros.getIdiomaSalida().getIdioma(), parametros.getIdiomaSalida().getLocale());
+		final es.caib.translatorib.ejb.api.model.Idioma idiomaEntrada = getIdioma(parametros.getIdiomaEntrada());
+		final es.caib.translatorib.ejb.api.model.Idioma idiomaSalida = getIdioma(parametros.getIdiomaSalida());
 		final es.caib.translatorib.ejb.api.model.Opciones opciones = crearOpciones(parametros.getOpciones());
 
 		final es.caib.translatorib.ejb.api.model.ResultadoTraduccionDocumento resultado = traduccionService
