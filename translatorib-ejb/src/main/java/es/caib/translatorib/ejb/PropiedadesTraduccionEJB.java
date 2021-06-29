@@ -25,13 +25,14 @@ public class PropiedadesTraduccionEJB {
 	@PostConstruct
 	public void init() {
 
-		String ruta = System.getProperty("es.caib.translatorib.properties");
+		String ruta = System.getProperty("es.caib.translatorib.properties.path");
 		// final InputStream inputStream =
 		// this.getClass().getClassLoader().getResourceAsStream(ruta);
 		// this.getClass().getClassLoader().getResourceAsStream("P:/app/caib/translatorib/translatorib.properties");
 		// new
 		// java.io.FileInputStream("\\app\\caib\\translatorib\\translatorib.properties");
-		//ruta = "\\app\\caib\\translatorib\\translatorib.properties";
+		// ruta = "\\workspace\\traslatorib\\scripts\\conf\\translatorib.properties";
+		ruta = "\\app\\caib\\translatorib\\translatorib.properties";
 		properties = new Properties();
 		FileInputStream inputStream = null;
 

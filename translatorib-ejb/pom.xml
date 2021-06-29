@@ -47,12 +47,17 @@
     	    <artifactId>translatorib-plugin-opentrad</artifactId>
     	    <version>${project.version}</version>
         </dependency>
+          <dependency>
+            <groupId>es.caib.translatorib</groupId>
+    	    <artifactId>translatorib-plugin-plata</artifactId>
+    	    <version>${project.version}</version>
+        </dependency>
         <dependency>
             <groupId>es.caib.translatorib</groupId>
     	    <artifactId>translatorib-plugin-mock</artifactId>
     	    <version>${project.version}</version>
         </dependency>
-        
+
         <!-- PLUGINSIB -->
         <dependency>
 			<groupId>org.fundaciobit.pluginsib.documentconverter</groupId>
@@ -68,12 +73,12 @@
 			      <groupId>commons-logging</groupId>
 			      <artifactId>commons-logging</artifactId>
 			    </exclusion>
-			    <!-- 
+			    <!--
 			    <exclusion>
 			      <groupId>xerces</groupId>
 			      <artifactId>xercesImpl</artifactId>
 			    </exclusion>
-			    
+
 			    <exclusion>
 			      <groupId>com.sun.xml.bind</groupId>
 			      <artifactId>jaxb-impl</artifactId>
@@ -121,7 +126,7 @@
 			<artifactId>pluginsib-documentconverter-openoffice</artifactId>
 			<version>${plugins-ib.version}</version>
 		</dependency>
-        
+
     </dependencies>
 
     <build>

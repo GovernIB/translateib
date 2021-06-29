@@ -25,29 +25,29 @@ import java.util.concurrent.ConcurrentMap;
  * <p>
  * Exemple d'ús: Suposem que tenim un fitxer <code>Labels_ca.properties</code>
  * amb el següent contingut:
- * 
+ *
  * <pre>
  *      error.tamany=El camp {0} només pot tenir {1} caràcters.
  *      camp.nom=Nom
  * </pre>
- * 
+ *
  * Amb el codi:
- * 
+ *
  * <pre>
  * I18NTranslator translator = I18NTranslator.from("Labels");
  * String message = translator.translate(locale, "error.tamany", "{camp.nom}", 20);
  * </pre>
- * 
+ *
  * Obtendrem el missatge: <code>El camp Nom només pot tenir 20 caràcters</code>.
  * Si per exemle, l'etiqueta <code>error.tamany</code> la tenim a un fitxer
  * <code>ErrorLabels_ca.properties</code> i l'etiqueta <code>camp.nom</code> a
  * un fitxer <code>FieldLabels_ca.properties</code>, empraríem:
- * 
+ *
  * <pre>
  *      I18NTranslator translator = I18NTranslator.from("ErrorLabels", "FieldLabels);
  *      String message = translator.translate(locale, "error.tamany", "{camp.nom}", 20);
  * </pre>
- * 
+ *
  * Amb idèntic resultat.
  * </p>
  * <p>
@@ -56,11 +56,11 @@ import java.util.concurrent.ConcurrentMap;
  * traueix, mentre que <code>"{camp.nom}"</code> si que n'ha de dur, perquè és
  * un paràmetre i si no en dugués el que faria seria emprar com a paràemtre el
  * literal. P.e.
- * 
+ *
  * <pre>
  * String message = translator.translate(locale, "error.tamany", "camp.nom", 20);
  * </pre>
- * 
+ *
  * Produiria: <code>El camp camp.nom només pot tenir 20 caràcters</code>
  * </p>
  */
@@ -92,7 +92,7 @@ public class I18NTranslator implements Serializable {
 
 	/**
 	 * Construeix una instància a partir de la llista de noms de resource bundle.
-	 * 
+	 *
 	 * @param bundleNamesList llista de noms de resource bundle.
 	 */
 	private I18NTranslator(final List<String> bundleNamesList) {
@@ -103,7 +103,7 @@ public class I18NTranslator implements Serializable {
 	 * Retorna una instància a partir dels noms de resource bundle indicats. Si no
 	 * existeix, la crea. Per cada llista de noms de resource bundle es crea una
 	 * instància única.
-	 * 
+	 *
 	 * @param bundleNames noms de resource bundle.
 	 * @return una instància que correspon als noms de resource bundle indicats.
 	 */
@@ -127,7 +127,7 @@ public class I18NTranslator implements Serializable {
 			retorno = new I18NTranslator(lista);
 		}
 		return retorno;
-//		JDK11 
+//		JDK11
 //		return INSTANCES.computeIfAbsent(Arrays.asList(bundleNames), I18NTranslator::new);
 	}
 
@@ -135,7 +135,7 @@ public class I18NTranslator implements Serializable {
 	 * Obté el resource bundle per el locale indicat. L'agafa a partir dels noms de
 	 * resource bundle amb que s'ha creat la intància. Si són varis retorna un
 	 * {{@link MultipleResourceBundle}.
-	 * 
+	 *
 	 * @param locale locale del resource bundle.
 	 * @return resource bundle corresponent al locale indicat.
 	 */
@@ -154,14 +154,14 @@ public class I18NTranslator implements Serializable {
 //						.collect(Collectors.toList());
 //				return new MultipleResourceBundle(bundles);
 //			}
-//		}); 
+//		});
 	}
 
 	/**
 	 * Procesa un paràmetre de tipus string. Si comença i acaba amb claus
 	 * <code>{}</code> i no té espais ni <code>=</code> el tracte com una etiqueta i
 	 * intenta traduir-ho. Sinó el retorna talment com a literal.
-	 * 
+	 *
 	 * @param locale idioma a emprar si cal traduir
 	 * @param string paràmetre string a processar
 	 * @return el mateix string si no necessita processar o el resultat de traduir
@@ -179,7 +179,7 @@ public class I18NTranslator implements Serializable {
 	 * Tradueix una etiqueta amb l'idioma, i la formateja amb els paràmetres
 	 * indicats. Els paràmetres de tipus <code>String</code> que estan entre claus
 	 * es tradueixen prèviament al seu ús com a paràmetres.
-	 * 
+	 *
 	 * @param locale     idioma de la traducció.
 	 * @param label      etiqueta a traduïr
 	 * @param parameters paràmetres a emprar pel formateig.
@@ -193,7 +193,7 @@ public class I18NTranslator implements Serializable {
 			message = bundle.getString(label);
 			if (parameters != null && parameters.length > 0) {
 				final Object[] args = new Object[parameters.length];
-//				JDK11 
+//				JDK11
 //				final Object[] args = Arrays.stream(parameters)
 //						.map(param -> param instanceof String ? processStringParam(locale, (String) param) : param)
 //						.toArray();
@@ -207,7 +207,7 @@ public class I18NTranslator implements Serializable {
 
 	/**
 	 * Tradueix l'etiqueta amb l'idioma indicat.
-	 * 
+	 *
 	 * @param locale idioma de la traducció.
 	 * @param label  etiqueta a traduïr
 	 * @return etiqueta traduida, o la cadena <code>{<i>label</i>}</code> si no
@@ -222,7 +222,7 @@ public class I18NTranslator implements Serializable {
 	 * Tradueix una etiqueta amb l'idioma per defecte, i la formateja amb els
 	 * paràmetres indicats. Els paràmetres de tipus <code>String</code> que estan
 	 * entre claus es tradueixen prèviament al seu ús com a paràmetres.
-	 * 
+	 *
 	 * @param label      etiqueta a traduïr
 	 * @param parameters paràmetres a emprar pel formateig.
 	 * @return etiqueta traduida, o la cadena <code>{<i>label</i>}</code> si no
@@ -235,7 +235,7 @@ public class I18NTranslator implements Serializable {
 
 	/**
 	 * Tradueix l'etiqueta amb l'idioma per defecte.
-	 * 
+	 *
 	 * @param label etiqueta a traduïr
 	 * @return etiqueta traduida, o la cadena <code>{<i>label</i>}</code> si no
 	 *         existeix traducció.

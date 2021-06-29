@@ -4,9 +4,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.security.MessageDigest;
 import java.util.Base64;
 
 import javax.ws.rs.client.Client;
@@ -14,13 +11,7 @@ import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import javax.xml.bind.annotation.adapters.HexBinaryAdapter;
-import javax.xml.namespace.QName;
-import javax.xml.ws.BindingProvider;
 
-import org.apache.cxf.frontend.ClientProxy;
-import org.apache.cxf.transport.http.HTTPConduit;
-import org.apache.cxf.transports.http.configuration.HTTPClientPolicy;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -33,13 +24,10 @@ import es.caib.translatorib.api.v1.model.ResultadoTraduccionDocumento;
 import es.caib.translatorib.api.v1.model.ResultadoTraduccionTexto;
 import es.caib.translatorib.api.v1.model.TipoDocumento;
 import es.caib.translatorib.api.v1.model.TipoEntrada;
-import es.caib.translatorib.opentrad.rest.cxf.CustomFileResponse;
-import es.caib.translatorib.opentrad.rest.cxf.TranslatorV2;
-import es.caib.translatorib.opentrad.rest.cxf.TranslatorV2Service;
 
 /**
  * Clase d'exemple de client de l'api REST. Empra l'api estàndard de Client de
- * JAX-RS 2.1.  
+ * JAX-RS 2.1.
  */
 public class TraduccionServiceTest {
 
@@ -52,9 +40,9 @@ public class TraduccionServiceTest {
 	// autenticació. Cal posar un
 	// usuari/password que tengui rol TIB_API a per el mòdul web de l'api REST.
 	// private static final String USER = "api-tib";
-	// private static final String PASSWORD = "XXX";
+	// private static final String PASSWORD = "M0n1n@s";
 	private static final String USER = "usuario1";
-	private static final String PASSWORD = "XXX";
+	private static final String PASSWORD = "1234";
 
 	// Client a reutilitzar durant test
 	private static Client client;
@@ -130,7 +118,7 @@ public class TraduccionServiceTest {
 	public void testTraduccionText() {
 
 		final ParametrosTraduccionTexto parametros = new ParametrosTraduccionTexto();
-		parametros.setTextoEntrada("Texto a traducir");
+		parametros.setTextoEntrada("Texto a traducir.");
 		parametros.setTipoEntrada(TipoEntrada.TEXTO_PLANO);
 
 		parametros.setIdiomaEntrada(Idioma.CASTELLANO);
@@ -143,11 +131,11 @@ public class TraduccionServiceTest {
 
 		Assert.assertTrue(!respuesta.isError());
 		Assert.assertTrue(
-				respuesta != null && !respuesta.isError() && respuesta.getTextoTraducido().equals("Text a traduir"));
+				respuesta != null && !respuesta.isError() && respuesta.getTextoTraducido().equals("Text a traduir."));
 
 	}
-	
-	
+
+
 	/**
 	 * Consulta totes les unitats.
 	 */
@@ -174,7 +162,7 @@ public class TraduccionServiceTest {
 
 	/**
 	 * Consulta totes les unitats.
-	 * 
+	 *
 	 * @throws IOException
 	 */
 	@Test
@@ -202,8 +190,8 @@ public class TraduccionServiceTest {
 		File file = new File("P://txtTraducido.txt");
 
 		FileOutputStream fos = null;
-	    try  { 
-	      fos = new FileOutputStream(file); 
+	    try  {
+	      fos = new FileOutputStream(file);
 	      byte[] datos = Base64.getDecoder().decode(respuesta.getTextoTraducido());
 	      fos.write(datos);
 	      System.out.println("TXT File Saved");
@@ -214,9 +202,10 @@ public class TraduccionServiceTest {
 	    }
 	}
 
+
 	/**
 	 * Consulta totes les unitats.
-	 * 
+	 *
 	 * @throws IOException
 	 */
 	@Test
@@ -243,7 +232,7 @@ public class TraduccionServiceTest {
 		File file = new File("P://odtTraducido.odt");
 
 		 FileOutputStream fos = null;
-	    try {   
+	    try {
 	    	fos = new FileOutputStream(file);
 	    	byte[] datos = Base64.getDecoder().decode(respuesta.getTextoTraducido());
 		    fos.write(datos);
@@ -257,7 +246,7 @@ public class TraduccionServiceTest {
 
 	/**
 	 * Consulta totes les unitats.
-	 * 
+	 *
 	 * @throws IOException
 	 */
 	@Test
@@ -279,15 +268,15 @@ public class TraduccionServiceTest {
 
 		final ResultadoTraduccionDocumento respuesta = response.readEntity(ResultadoTraduccionDocumento.class);
 
-		
-		
+
+
 		Assert.assertTrue(!respuesta.isError());
 		Assert.assertTrue(respuesta != null && !respuesta.isError());
 
 		File file = new File("P://pdfTraducido.pdf");
 
 		FileOutputStream fos = null;
-	    try {  
+	    try {
 	      fos = new FileOutputStream(file);
 	      byte[] datos = Base64.getDecoder().decode(respuesta.getTextoTraducido());
 		    fos.write(datos);
@@ -297,17 +286,17 @@ public class TraduccionServiceTest {
 	    } finally {
 	    	fos.close();
 	    }
-		
+
 		//byte[] datosTraducidos = Base64.getEncoder().encode(respuesta.getTextoTraducido().getBytes());
 		//byte[] datosTraducidos = Base64.getDecoder().decode(respuesta.getTextoTraducido());
 		//Path path = Paths.get("P://pdfTraducido.pdf");
 		//Files.write(path, datosTraducidos);
 	}
-	
-	
+
+
 	/**
 	 * Consulta totes les unitats.
-	 * 
+	 *
 	 * @throws IOException
 	 */
 	@Test
@@ -318,7 +307,7 @@ public class TraduccionServiceTest {
 		final byte[] targetArray = new byte[inputStream.available()];
 		inputStream.read(targetArray);
 		final String documentoEntradaEncodedString = Base64.getEncoder().encodeToString(targetArray);
-		
+
 		parametros.setContenidoDocumento(documentoEntradaEncodedString);
 		parametros.setTipoDocumento(TipoDocumento.DOC);
 
@@ -328,14 +317,14 @@ public class TraduccionServiceTest {
 		final Response response = client.target(BASE_URL + "/documento").request().post(Entity.json(parametros));
 
 		final ResultadoTraduccionDocumento respuesta = response.readEntity(ResultadoTraduccionDocumento.class);
-		
+
 		Assert.assertTrue(!respuesta.isError());
 		Assert.assertTrue(respuesta != null && !respuesta.isError());
 
 		File file = new File("P://docTraducido.doc");
 
 		FileOutputStream fos = null;
-	    try {  
+	    try {
 	      fos = new FileOutputStream(file);
 	      byte[] datos = Base64.getDecoder().decode(respuesta.getTextoTraducido());
 		    fos.write(datos);
@@ -346,11 +335,11 @@ public class TraduccionServiceTest {
 	    	fos.close();
 	    }
 	}
-	
-	
+
+
 	/**
 	 * Consulta totes les unitats.
-	 * 
+	 *
 	 * @throws IOException
 	 */
 	@Test
@@ -372,15 +361,15 @@ public class TraduccionServiceTest {
 
 		final ResultadoTraduccionDocumento respuesta = response.readEntity(ResultadoTraduccionDocumento.class);
 
-		
-		
+
+
 		Assert.assertTrue(!respuesta.isError());
 		Assert.assertTrue(respuesta != null && !respuesta.isError());
 
 		File file = new File("P://docxTraducido.docx");
 
 		FileOutputStream fos = null;
-	    try {  
+	    try {
 	      fos = new FileOutputStream(file);
 	      byte[] datos = Base64.getDecoder().decode(respuesta.getTextoTraducido());
 		    fos.write(datos);
@@ -392,4 +381,53 @@ public class TraduccionServiceTest {
 	    }
 	}
 
+	/**
+	 * Consulta totes les unitats.
+	 */
+	//@Test
+	//Activar el test sólo si se está seguro que traduce al balear
+	public void testTraduccionTextABalear() {
+
+		final ParametrosTraduccionTexto parametros = new ParametrosTraduccionTexto();
+		parametros.setTextoEntrada("Texto a traducir. Gato. Beso. Murciélago.");
+		parametros.setTipoEntrada(TipoEntrada.TEXTO_PLANO);
+
+		parametros.setIdiomaEntrada(Idioma.CASTELLANO);
+		parametros.setIdiomaSalida(Idioma.CATALAN_BALEAR);
+		parametros.setOpciones(new Opciones());
+
+		final Response response = client.target(BASE_URL + "/texto").request().post(Entity.json(parametros));
+
+		final ResultadoTraduccionTexto respuesta = response.readEntity(ResultadoTraduccionTexto.class);
+
+		Assert.assertTrue(!respuesta.isError());
+		Assert.assertTrue(
+				respuesta != null && !respuesta.isError() && respuesta.getTextoTraducido().equals("Text a traduir. Moix. Petó. Ratapinyada."));
+
+	}
+
+	/**
+	 * Consulta totes les unitats.
+	 */
+	@Test
+	//Activar el test sólo si se está seguro que traduce al balear
+	public void testTraduccionTextDesdeBalear() {
+
+		final ParametrosTraduccionTexto parametros = new ParametrosTraduccionTexto();
+		parametros.setTextoEntrada("Text a traduir. Moix. Petó. Ratapinyada.");
+		parametros.setTipoEntrada(TipoEntrada.TEXTO_PLANO);
+
+		parametros.setIdiomaEntrada(Idioma.CATALAN_BALEAR);
+		parametros.setIdiomaSalida(Idioma.CASTELLANO);
+		parametros.setOpciones(new Opciones());
+
+		final Response response = client.target(BASE_URL + "/texto").request().post(Entity.json(parametros));
+
+		final ResultadoTraduccionTexto respuesta = response.readEntity(ResultadoTraduccionTexto.class);
+
+		Assert.assertTrue(!respuesta.isError());
+		Assert.assertTrue(
+				respuesta != null && !respuesta.isError() && respuesta.getTextoTraducido().equals("Texto a traducir. Gato. Beso. Murciélago."));
+
+	}
 }

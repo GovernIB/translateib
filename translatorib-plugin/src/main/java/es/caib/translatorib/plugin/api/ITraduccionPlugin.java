@@ -23,6 +23,8 @@ public interface ITraduccionPlugin extends IPlugin {
 	/** PLUGINS **/
 	public static final String PLUGIN_OPENTRAD = "opentrad";
 
+	public static final String PLUGIN_PLATA = "plata";
+
 	/**
 	 * Realizar traduccion de un texto.
 	 *

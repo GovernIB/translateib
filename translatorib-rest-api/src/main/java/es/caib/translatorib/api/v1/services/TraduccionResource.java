@@ -49,7 +49,7 @@ import es.caib.translatorib.plugin.api.TraduccionException;
  */
 @Stateless
 @Path("traduccion/v1")
-@Produces(MediaType.APPLICATION_JSON+ ";charset=utf-8")
+@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
 @Consumes(MediaType.APPLICATION_JSON)
 @RolesAllowed({ Constants.TIB_API })
 @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
@@ -76,7 +76,7 @@ public class TraduccionResource {
 		final String textoEntrada = "traducir";
 		final es.caib.translatorib.ejb.api.model.TipoEntrada tipoEntrada = es.caib.translatorib.ejb.api.model.TipoEntrada.TEXTO_PLANO;
 		final es.caib.translatorib.ejb.api.model.Idioma idiomaEntrada = es.caib.translatorib.ejb.api.model.Idioma.CASTELLANO;
-		final es.caib.translatorib.ejb.api.model.Idioma idiomaSalida = es.caib.translatorib.ejb.api.model.Idioma.CATALAN;
+		final es.caib.translatorib.ejb.api.model.Idioma idiomaSalida = es.caib.translatorib.ejb.api.model.Idioma.CATALAN_BALEAR;
 		final es.caib.translatorib.ejb.api.model.Opciones opciones = new es.caib.translatorib.ejb.api.model.Opciones();
 		final es.caib.translatorib.ejb.api.model.ResultadoTraduccionTexto resultado = traduccionService
 				.realizarTraduccion(textoEntrada, tipoEntrada, idiomaEntrada, idiomaSalida, null, opciones);
@@ -115,7 +115,7 @@ public class TraduccionResource {
 		}
 	}
 
-	public es.caib.translatorib.ejb.api.model.Idioma getIdioma(es.caib.translatorib.api.v1.model.Idioma idioma) {
+	public es.caib.translatorib.ejb.api.model.Idioma getIdioma(final es.caib.translatorib.api.v1.model.Idioma idioma) {
 		es.caib.translatorib.ejb.api.model.Idioma idi = null;
 		switch (idioma) {
 		case CASTELLANO:

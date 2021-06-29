@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:tns="http://inteco.minhap.gov/" xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0" targetNamespace="http://inteco.minhap.gov/">
+<xs:element name="SOAPException" type="tns:SOAPException"/>
+<xs:element name="translate_file" type="tns:translate_file"/>
+<xs:element name="translate_fileResponse" type="tns:translate_fileResponse"/>
+<xs:element name="translate_file_byte" type="tns:translate_file_byte"/>
+<xs:element name="translate_file_byteResponse" type="tns:translate_file_byteResponse"/>
+<xs:element name="translate_string" type="tns:translate_string"/>
+<xs:element name="translate_stringResponse" type="tns:translate_stringResponse"/>
+<xs:element name="translate_url" type="tns:translate_url"/>
+<xs:element name="translate_urlResponse" type="tns:translate_urlResponse"/>
+<xs:complexType name="translate_url">
+<xs:sequence>
+<xs:element name="proxyCache" type="xs:boolean" minOccurs="0"/>
+<xs:element name="translationEngine" type="xs:string" minOccurs="0"/>
+<xs:element name="documentBase64" type="xs:string" minOccurs="0"/>
+<xs:element name="languagePair" type="xs:string" minOccurs="0"/>
+<xs:element name="ner" type="xs:boolean" minOccurs="0"/>
+<xs:element name="contentType" type="xs:string" minOccurs="0"/>
+<xs:element name="markUnknown" type="xs:string" minOccurs="0"/>
+<xs:element name="codeTranslate" type="xs:string" minOccurs="0"/>
+<xs:element name="checksum" type="xs:string" minOccurs="0"/>
+<xs:element name="url" type="xs:string" minOccurs="0"/>
+<xs:element name="dirbase" type="xs:string" minOccurs="0"/>
+<xs:element name="userName" type="xs:string" minOccurs="0"/>
+<xs:element name="userPass" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="translate_urlResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="SOAPException">
+<xs:sequence>
+<xs:element name="message" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="translate_string">
+<xs:sequence>
+<xs:element name="proxyCache" type="xs:boolean" minOccurs="0"/>
+<xs:element name="translationEngine" type="xs:string" minOccurs="0"/>
+<xs:element name="documentBase64" type="xs:string" minOccurs="0"/>
+<xs:element name="languagePair" type="xs:string" minOccurs="0"/>
+<xs:element name="ner" type="xs:boolean" minOccurs="0"/>
+<xs:element name="contentType" type="xs:string" minOccurs="0"/>
+<xs:element name="markUnknown" type="xs:string" minOccurs="0"/>
+<xs:element name="codeTranslate" type="xs:string" minOccurs="0"/>
+<xs:element name="checksum" type="xs:string" minOccurs="0"/>
+<xs:element name="url" type="xs:string" minOccurs="0"/>
+<xs:element name="dirbase" type="xs:string" minOccurs="0"/>
+<xs:element name="userName" type="xs:string" minOccurs="0"/>
+<xs:element name="userPass" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="translate_stringResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="translate_file_byte">
+<xs:sequence>
+<xs:element name="proxyCache" type="xs:boolean" minOccurs="0"/>
+<xs:element name="translationEngine" type="xs:string" minOccurs="0"/>
+<xs:element name="documentBase64" type="xs:string" minOccurs="0"/>
+<xs:element name="languagePair" type="xs:string" minOccurs="0"/>
+<xs:element name="ner" type="xs:boolean" minOccurs="0"/>
+<xs:element name="contentType" type="xs:string" minOccurs="0"/>
+<xs:element name="markUnknown" type="xs:string" minOccurs="0"/>
+<xs:element name="codeTranslate" type="xs:base64Binary" nillable="true" minOccurs="0"/>
+<xs:element name="checksum" type="xs:string" minOccurs="0"/>
+<xs:element name="url" type="xs:string" minOccurs="0"/>
+<xs:element name="dirbase" type="xs:string" minOccurs="0"/>
+<xs:element name="userName" type="xs:string" minOccurs="0"/>
+<xs:element name="userPass" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="translate_file_byteResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="translate_file">
+<xs:sequence>
+<xs:element name="proxyCache" type="xs:boolean" minOccurs="0"/>
+<xs:element name="translationEngine" type="xs:string" minOccurs="0"/>
+<xs:element name="documentBase64" type="xs:string" minOccurs="0"/>
+<xs:element name="languagePair" type="xs:string" minOccurs="0"/>
+<xs:element name="ner" type="xs:boolean" minOccurs="0"/>
+<xs:element name="contentType" type="xs:string" minOccurs="0"/>
+<xs:element name="markUnknown" type="xs:string" minOccurs="0"/>
+<xs:element name="codeTranslate" type="xs:string" minOccurs="0"/>
+<xs:element name="checksum" type="xs:string" minOccurs="0"/>
+<xs:element name="url" type="xs:string" minOccurs="0"/>
+<xs:element name="dirbase" type="xs:string" minOccurs="0"/>
+<xs:element name="userName" type="xs:string" minOccurs="0"/>
+<xs:element name="userPass" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="translate_fileResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:customFileResponse" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="customFileResponse">
+<xs:sequence>
+<xs:element name="directionOfTranslate" type="xs:string" minOccurs="0"/>
+<xs:element name="documentBase64" type="xs:string" minOccurs="0"/>
+<xs:element name="documentChecksum" type="xs:string" minOccurs="0"/>
+<xs:element name="documentType" type="xs:string" minOccurs="0"/>
+<xs:element name="error" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+</xs:schema>
