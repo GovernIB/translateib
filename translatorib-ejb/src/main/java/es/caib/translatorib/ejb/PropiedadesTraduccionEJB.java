@@ -25,7 +25,7 @@ public class PropiedadesTraduccionEJB {
 	@PostConstruct
 	public void init() {
 
-		String ruta = System.getProperty("es.caib.translatorib.properties.path");
+		String ruta = System.getProperty("es.caib.translatorib.properties");
 		properties = new Properties();
 		FileInputStream inputStream = null;
 
