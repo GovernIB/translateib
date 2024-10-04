@@ -34,10 +34,19 @@
         </dependency>
         <dependency>
             <groupId>es.caib.translatorib</groupId>
-            <artifactId>translatorib-ejb</artifactId>
+            <artifactId>translatorib-lib</artifactId>
             <version>${project.version}</version>
             <scope>provided</scope>
+            <type>pom</type>
         </dependency>
+
+        <!--
+        <dependency>
+            <groupId>es.caib.translatorib</groupId>
+            <artifactId>translatorib-core-api</artifactId>
+            <version>${project.version}</version>
+            <type>ejb</type>
+        </dependency>-->
         <!-- Anotacions de documentació de openapi -->
         <dependency>
             <groupId>org.eclipse.microprofile.openapi</groupId>
@@ -108,13 +117,14 @@
 				            <filtering>true</filtering>
 						</webResource>
 						<webResource>
-							<directory>src\main\jboss\${translatorConfig.authMethod}</directory>
+							<!--<directory>src\main\jboss\${loginConfig.authMethod}</directory>-->
+                            <directory>src\main\jboss\BASIC</directory>
 				            <targetPath>/WEB-INF</targetPath>
 						</webResource>
 					</webResources>
 				</configuration>
 			</plugin>
-
+<!--
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
@@ -125,7 +135,7 @@
                         </resource>
                     </webResources>
                 </configuration>
-            </plugin>
+            </plugin> -->
             <!-- Genera el descriptor openapi.json de forma estàtica després el posarem l'arrel del WAR -->
             <plugin>
                 <groupId>org.apache.geronimo</groupId>
@@ -150,6 +160,39 @@
                         </configuration>
                     </execution>
                 </executions>
+            </plugin>
+            <!-- Genera el descriptor openapi.json de forma estàtica després el posarem l'arrel del WAR -->
+            <plugin>
+                <groupId>org.apache.geronimo</groupId>
+                <artifactId>geronimo-openapi-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>generate-openapi.json</id>
+                        <goals>
+                            <goal>openapi.json</goal>
+                        </goals>
+                        <configuration>
+                            <application>es.caib.translatorib.api.JAXRSConfiguration</application>
+                            <endpointClasses>
+                                <endpointClass>es.caib.translatorib.api.v1.services.TraduccionResource</endpointClass>
+                            </endpointClasses>
+                            <output>${project.build.directory}/openapi/openapi.json</output>
+                            <info>
+                                <version>${project.version}</version>
+                                <title>${project.name}</title>
+                                <description>${project.description}</description>
+                            </info>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>8</source>
+                    <target>8</target>
+                </configuration>
             </plugin>
         </plugins>
     </build>
@@ -216,6 +259,30 @@
                                 </resource>
                             </webResources>
                         </configuration>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.geronimo</groupId>
+                        <artifactId>geronimo-openapi-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>generate-openapi.json</id>
+                                <goals>
+                                    <goal>openapi.json</goal>
+                                </goals>
+                                <configuration>
+                                    <application>es.caib.translatorib.api.config.ApiConfiguration</application>
+                                    <endpointClasses>
+                                        <endpointClass>es.caib.translatorib.api.v1.services.TraduccionResource</endpointClass>
+                                    </endpointClasses>
+                                    <output>${project.build.directory}/openapi/openapi.json</output>
+                                    <info>
+                                        <version>${project.version}</version>
+                                        <title>${project.name}</title>
+                                        <description>${project.description}</description>
+                                    </info>
+                                </configuration>
+                            </execution>
+                        </executions>
                     </plugin>
                 </plugins>
             </build>

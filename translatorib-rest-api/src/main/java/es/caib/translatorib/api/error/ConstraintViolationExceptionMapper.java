@@ -13,7 +13,7 @@ import javax.ws.rs.ext.Provider;
  * Aquest tipus d'excepció es produeix quan fallen les validacions establertes als camps de la petició.
  * La resposta retornada serà un codi 400, ja que és un error del client.
  *
- * @author areus
+ * @author Indra
  */
 @Provider
 public class ConstraintViolationExceptionMapper implements ExceptionMapper<ConstraintViolationException> {

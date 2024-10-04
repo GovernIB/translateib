@@ -18,7 +18,7 @@ import javax.ws.rs.ext.Provider;
  * Els filtres s'ordenen per prioritat ascendent a l'entrada i prioritat descendent a la sortida. Això assegura que
  * a l'entrada sigui el primer i a la sortida el darrer.
  *
- * @author areus
+ * @author Indra
  */
 @Provider
 @PreMatching

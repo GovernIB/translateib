@@ -1,0 +1,105 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:pe="http://primefaces.org/ui/extensions"
+                template="../../layout/mainLayout.xhtml">
+
+    <f:metadata>
+        <f:viewAction action="#{viewConfiguracionesGlobales.init}" />
+    </f:metadata>
+
+    <ui:define name="pageTitle">
+        <h:outputFormat value="#{msg['viewConfigGlobales.titulo']}"/>
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form>
+            <p:commandButton value="actualizarBusqueda" id="actualizarBusqueda" style="display:none" ajax="false"
+                             action="#{viewConfiguracionesGlobales.buscar}" update="dataTable"/>
+
+            <p:toolbar id="toolbar">
+                <f:facet name="left">
+                            <h:outputFormat value="#{msg['dict.filtro']}:" styleClass="estiloGrande ml-3 mr-2" />
+                            <p:inputText id="filtroBusqueda" value="#{viewConfiguracionesGlobales.filtroTexto}"  styleClass="estiloGrande ml-2 mr-2" />
+                            <p:commandButton value="#{msg['dict.busqueda']}" icon="pi pi-search" update="messages dataTable"
+                                             actionListener="#{viewConfiguracionesGlobales.buscar()}" process="@form" />
+                </f:facet>
+                <f:facet name="right">
+                            <p:commandButton value="#{msg['dict.editar']}" icon="pi pi-pencil" iconPos="top" styleClass="mr-2"
+                                             actionListener="#{viewConfiguracionesGlobales.editarConfiguracionGlobal}"
+                                             process="@form" update="messages">
+                                <p:ajax event="dialogReturn" listener="#{viewConfiguracionesGlobales.returnDialogo}"
+                                        update="messages dataTable"/>
+                            </p:commandButton>
+                </f:facet>
+            </p:toolbar>
+
+            <p:dataTable id="dataTable" value="#{viewConfiguracionesGlobales.lazyModel}" var="configuracionGlobal"
+                         paginator="true" lazy="true" filterDelay="300" widgetVar="configuracionGlobalTable"
+                         rows="#{viewConfiguracionesGlobales.filtro.paginaTamanyo}" rowsPerPageTemplate="10,20,50,100"
+                         first="#{viewConfiguracionesGlobales.filtro.paginaFirst}"
+                         paginatorPosition="bottom" paginatorAlwaysVisible="true"
+                         paginatorTemplate="{RowsPerPageLabel} {RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport}
+                         {NextPageLink} {LastPageLink}"
+                         currentPageReportTemplate="#{labels.dataTable_currentPageReport}"
+                         emptyMessage="#{msg['dict.noHayDatos']}"
+                         selectionMode="single" selection="#{viewConfiguracionesGlobales.datoSeleccionado}"
+                         reflow="true"
+                         style="min-height: 300px;"
+            >
+                <!--
+                rowKey="#{configuracionGlobal.codigo}"
+                sortBy="#{viewConfiguracionesGlobales.filtro.orderBy}"
+                sortOrder="#{viewConfiguracionesGlobales.filtro.order}"
+                         -->
+                <p:ajax
+                        event="rowDblselect"
+                        oncomplete="triggerDblClick();"
+                        global="false"/>
+                <f:facet name="{RowsPerPageLabel}">
+                    #{labels.dataTable_rowsPerPage}
+                </f:facet>
+                <p:column sortBy="#{configuracionGlobal.codigo}" headerText="#{msg['dict.codigo']}">
+                    <f:facet name="header"/>
+                    <h:outputText value="#{configuracionGlobal.propiedad}"/>
+                </p:column>
+                <p:column sortBy="#{configuracionGlobal.noModificable}" headerText="#{msg['viewConfiguacionesGlobales.noModificable']}">
+                    <f:facet name="header"/>
+                    <h:selectBooleanCheckbox value="#{configuracionGlobal.noModificable}" disabled="true"/>
+                </p:column>
+                <p:column sortBy="#{configuracionGlobal.valor}" headerText="#{msg['dict.valor']}">
+                    <f:facet name="header"/>
+                    <h:outputText value="#{configuracionGlobal.valor}"/>
+                </p:column>
+                <p:column sortBy="#{configuracionGlobal.descripcion}" headerText="#{msg['dict.descripcion']}">
+                    <f:facet name="header"/>
+                    <h:outputText value="#{configuracionGlobal.descripcion}"/>
+                </p:column>
+            </p:dataTable>
+
+            <h:outputScript>
+                function triggerDblClick() {
+                    myDoubleClickCommand();
+                    /*$('#form\\:btnConsultaHidden').click();*/
+                }
+            </h:outputScript>
+
+            <p:remoteCommand name="myDoubleClickCommand"
+                             widgetVar="myDoubleClickCommand"
+                             action="#{viewConfiguracionesGlobales.editarConfiguracionGlobal}"
+                             autoRun="false"
+                             partialSubmit="true"
+                             process="@this"/>
+            <p:commandButton id="btnConsultaHidden" name="btnConsultaHidden" widgetVar="btnConsultarHidden"
+                             actionListener="#{viewConfiguracionesGlobales.consultarConfiguracionGlobal}"
+                             process="@this" update="messages"
+                             style="display: none">
+                <p:ajax event="dialogReturn" listener="#{viewConfiguracionesGlobales.returnDialogo}"
+                        update="messages dataTable"/>
+            </p:commandButton>
+        </h:form>
+    </ui:define>
+</ui:composition>
+

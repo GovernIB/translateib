@@ -1,0 +1,67 @@
+<html lang="#{sessionBean.lang}"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="../../layout/layoutDialog.xhtml">
+    <ui:define name="metadata">
+        	<!-- Parametros dialogo -->
+			<f:metadata>
+				<f:viewParam id="MODO_ACCESO" name="MODO_ACCESO" value="#{dialogPropiedad.modoAcceso}"/>
+				<f:viewParam id="DATO" name="DATO" value="#{dialogPropiedad.iData}"/>
+				<f:viewParam id="OCULTARVALOR" name="OCULTARVALOR" value="#{dialogPropiedad.ocultarValor}" />
+				<f:viewAction action="#{dialogPropiedad.load}" />
+			</f:metadata>
+    </ui:define>
+    <ui:define name="pageTitleDialog">
+        <h:outputFormat value="#{msg['dialogPropiedad.titulo']}"/>
+    </ui:define>
+    <ui:define name="contentDialog">
+		<h:outputStylesheet>
+			
+		</h:outputStylesheet>
+        <h:form id="dialogPropiedad" styleClass="margin-top-10">
+  			<p:outputPanel>
+				<!-- Contenido dialogo -->
+				<!-- Growl mensajes -->
+				<p:growl id="growlDialog" widgetVar="growlDialog"/>
+				<p:focus />
+
+				<div class="formgrid p-4">
+
+					<div class="field">
+						<p:outputLabel for="codigo" value="#{msg['dict.codigo']}"/>
+						<p:inputText id="codigo" value="#{dialogPropiedad.data.codigo}"
+									 disabled="#{dialogPropiedad.isConsulta()}"
+									 required="#{empty param['formDialog:closeButton']}"
+						styleClass="w-full"/>
+					</div>
+					<div class="field">
+						<p:outputLabel for="valor" value="#{msg['dict.valor']}" rendered="#{dialogPropiedad.mostrarValor}" />
+						<p:inputText id="valor" value="#{dialogPropiedad.data.valor}" disabled="#{dialogPropiedad.isConsulta()}" required="#{dialogPropiedad.mostrarValor}"
+									 rendered="#{dialogPropiedad.mostrarValor}"
+									 styleClass="w-full"/>
+					</div>
+				</div>
+
+				<!--
+				<h:panelGrid rowClasses=", ui-datatable-odd" columnClasses="padding-left-18 wpx25,padding-right-18" columns = "2" cellpadding = "5" cellspacing = "0" style="width:100%;">
+
+					<p:outputLabel for="codigo" value="#{msg['dict.codigo']}" style="max-width:20px; padding-left: 0.5em;"/>
+				 	<p:inputText id="codigo" value="#{dialogPropiedad.data.codigo}" disabled="#{dialogPropiedad.isConsulta()}" required="#{empty param['formDialog:closeButton']}" style="width:90%;" />
+
+					<p:outputLabel for="valor" value="#{msg['dict.valor']}" rendered="#{dialogPropiedad.mostrarValor}" style="padding-left: 0.5em;"/>
+				 	<p:inputText id="valor" value="#{dialogPropiedad.data.valor}" disabled="#{dialogPropiedad.isConsulta()}" required="#{dialogPropiedad.mostrarValor}" style="width:90%;" rendered="#{dialogPropiedad.mostrarValor}" />
+
+				</h:panelGrid>-->
+			</p:outputPanel>
+	</h:form>
+    </ui:define>
+    <ui:define name="contentFooterDialogRight">
+        <p:commandButton value="#{msg['dict.guardar']}" actionListener="#{dialogPropiedad.aceptar()}" process="@form" update="@form dialogPropiedad:growlDialog" styleClass="mr-3"/>
+		<p:commandButton value="#{msg['dict.cerrar']}" actionListener="#{dialogPropiedad.cancelar()}" process="@this" oncomplete="stopCargando()" onstart="startCargando()"/>
+    </ui:define>
+</ui:composition>
+</html>

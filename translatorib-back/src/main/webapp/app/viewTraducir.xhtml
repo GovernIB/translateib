@@ -1,0 +1,96 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	template="../layout/mainLayout.xhtml">
+
+
+
+	<f:metadata>
+		<f:viewAction action="#{viewTraducir.init}" />
+	</f:metadata>
+
+	<ui:define name="pageTitle">
+		<h:outputFormat value="#{msg['viewTraducir.titulo']}" />
+	</ui:define>
+
+	<ui:define name="content">
+		 
+		<h:form id="form" style="height: 100%">
+
+			<!-- Growl mensajes -->
+			<p:growl id="growl" widgetVar="growl" showDetail="false" life="2000" sticky="false" /> 
+
+			<!-- Toolbar
+			<p:toolbar id="toolbar">
+		        <f:facet name="left">
+		        	IZQ
+		        </f:facet>
+
+		        <f:facet name="right">
+		        	<h:panelGrid id="panelBotones" columns="7" cellspacing="5">
+						DER
+			        </h:panelGrid>
+		        </f:facet>
+		    </p:toolbar>-->
+
+
+			<!-- Data table -->
+			<!--<p:panel header="CAB" id="formDatos">-->
+
+				<div class="form-row m14" >
+					<div class="form-group col-md-12 col-xs-6 mb5">
+
+						<p:selectOneMenu   id="txtPlugins"
+										   value="#{viewTraducir.plugin}"
+										   styleClass="w-11 mr5" autoWidth="false">
+							<f:selectItems value="#{viewTraducir.plugins}" var="plugin"
+										   itemLabel="#{plugin.descripcion}"
+										   itemValue="#{plugin}"/>
+						</p:selectOneMenu>
+
+						<p:outputLabel value="#{msg['viewTraducir.idiomaOrigen']}" styleClass="mr-2 "/>
+						<p:selectOneMenu id="selectId1" value="#{viewTraducir.idiomaOrigen}"
+										 required="false" styleClass="p-0">
+							<f:selectItem itemLabel="#{msg['dict.seleccionar']}" itemValue="#{null}"/>
+							<f:selectItems value="#{viewTraducir.idiomas}" var="lang"
+										   itemLabel="#{msg['idiomas.' += lang]}" itemValue="#{lang}"/>
+							<p:ajax event="change" listener="#{viewTraducir.cambiarIdiomaOrigenAux}" update="tradLiteral selectId1 selectId2"/>
+						</p:selectOneMenu>
+
+						<p:commandButton action="#{viewTraducir.cambioValores}"
+										 update="selectId1 selectId2 tradLiteral"
+										 icon="pi pi-refresh"
+										 process="@this" styleClass="ml2 mr2 " />
+
+						<p:selectOneMenu id="selectId2" value="#{viewTraducir.idiomaDestino}"
+										 required="false" styleClass="p-0">
+							<f:selectItem itemLabel="#{msg['dict.seleccionar']}"
+										  itemValue="#{null}"/>
+							<f:selectItems value="#{viewTraducir.idiomas}" var="lang"
+										   itemLabel="#{msg['idiomas.' += lang]}" itemValue="#{lang}"/>
+							<p:ajax process="@this" listener="#{viewTraducir.cambiarIdiomaDestinoAux}"
+									update="tradLiteral selectId1 selectId2"/>
+						</p:selectOneMenu>
+						<p:outputLabel value="#{msg['viewTraducir.idiomaDestino']}" styleClass="ml-2"/>
+					</div>
+
+					<div class="form-group col-md-12 col-xs-6 mb5">
+						<p:inputTextarea rows="10" autoResize="false" styleClass="w40 mr-2" value="#{viewTraducir.textoOrigen}" />
+						<p:inputTextarea rows="10" autoResize="false" styleClass="w40" value="#{viewTraducir.textoDestino}" />
+					</div>
+
+					<div class="form-group col-md-12 col-xs-6 mb5">
+						<p:commandButton action="#{viewTraducir.traducir()}"
+											 update="selectId1 selectId2 tradLiteral"
+										 value="#{msg['dict.traducir']}"
+											 icon="pi pi-refresh"
+											 process="@this" styleClass="ml2 mr2 " />
+					</div>
+				</div>
+		</h:form>
+	</ui:define>
+
+</ui:composition>

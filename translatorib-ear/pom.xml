@@ -33,13 +33,19 @@
         <!-- Mòduls que van dins l'application.xml -->
         <dependency>
             <groupId>es.caib.translatorib</groupId>
-            <artifactId>translatorib-ejb</artifactId>
+            <artifactId>translatorib-core</artifactId>
             <version>${project.version}</version>
             <type>ejb</type>
         </dependency>
         <dependency>
             <groupId>es.caib.translatorib</groupId>
             <artifactId>translatorib-rest-api</artifactId>
+            <version>${project.version}</version>
+            <type>war</type>
+        </dependency>
+        <dependency>
+            <groupId>es.caib.translatorib</groupId>
+            <artifactId>translatorib-back</artifactId>
             <version>${project.version}</version>
             <type>war</type>
         </dependency>
@@ -53,6 +59,12 @@
             <groupId>es.caib.translatorib</groupId>
             <artifactId>translatorib-commons</artifactId>
             <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-core</artifactId>
+            <version>5.4.32.Final</version>
         </dependency>
 
     </dependencies>
@@ -81,11 +93,15 @@
                     <modules>
                         <ejbModule>
                             <groupId>es.caib.translatorib</groupId>
-                            <artifactId>translatorib-ejb</artifactId>
-                            <bundleFileName>translatorib-ejb.jar</bundleFileName>
+                            <artifactId>translatorib-core</artifactId>
+                            <bundleFileName>translatorib-core.jar</bundleFileName>
                         </ejbModule>
-
-
+                        <webModule>
+                            <groupId>es.caib.translatorib</groupId>
+                            <artifactId>translatorib-back</artifactId>
+                            <contextRoot>/translatoribback</contextRoot>
+                            <bundleFileName>translatorib-back.war</bundleFileName>
+                        </webModule>
                         <webModule>
                             <groupId>es.caib.translatorib</groupId>
                             <artifactId>translatorib-rest-api</artifactId>

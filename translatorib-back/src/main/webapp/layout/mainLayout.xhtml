@@ -1,0 +1,164 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="#{sessionBean.lang}"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+  	xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:p="http://primefaces.org/ui">
+
+<f:view locale="#{sessionBean.locale}" encoding="UTF-8" contentType="text/html">
+
+
+<h:head>
+
+  <title><h:outputText value = "#{msg['aplicacion.titulo']}" /></title>
+
+  <f:facet name="first">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  </f:facet>
+
+  <h:outputScript library="js" name="common.js" target="head" />
+    <h:outputStylesheet>
+
+
+
+
+    </h:outputStylesheet>
+    <h:outputStylesheet name="/css/style.css" />
+    <h:outputStylesheet name="/css/styleHeader.css" />
+    <h:outputStylesheet name="/css/primeflex.3.1.1.css" />
+
+</h:head>
+
+    <h:body>
+        <!--  <ui:include src="./header.xhtml"/> -->
+        <h:form prependId="false" style="margin:0 !important;padding:0 !important;">
+            <div class="container">
+                <header>
+                    <div class="header-left">
+                        <img src="#{request.contextPath}/resources/images/logo.png" alt="Icono CAIB" class="hidden md:block" />
+                        <img src="#{request.contextPath}/resources/images/logoMobile.png" alt="Icono CAIB" class="block md:hidden" />
+                        <h2 class="titol hidden md:block">TRANSLATORIB</h2>
+                        <h3 class="titol block md:hidden">TRANSLATORIB</h3>
+                    </div>
+
+                        <div class="header-right">
+                            <c:if test="${sessionBean.tieneRol()}">
+                                <div class="dropdown">
+                                    <a href="#" class="desplegable">#{msg['dict.opciones']}<i class="pi-caret-down pi" style="color: white;margin-left: 3px;" /> </a>
+                                    <div class="dropdown-content">
+                                        <a href="#{request.contextPath}/secure/app/viewPlugins.xhtml" class="desplegable_elemento">Plugins</a>
+                                        <a href="#{request.contextPath}/viewTraducir.xhtml" class="desplegable_elemento">#{msg['dict.traducir']}</a>
+                                        <a href="#{request.contextPath}/secure/app/viewConfiguracionFrontal.xhtml" class="desplegable_elemento">#{msg['dict.configuracionFrontal']}</a>
+                                        <a href="#{request.contextPath}/secure/app/viewConfiguracionesGlobales.xhtml" class="desplegable_elemento">#{msg['dict.configuracionesGlobales']}</a>
+                                    </div>
+                                </div>
+                            </c:if>
+                            <p:commandButton id="btnCambiarIdiomaCa" name="btnCambiarIdiomaCa" widgetVar="btnCambiarIdiomaCa"
+                                             actionListener="#{sessionBean.cambiarIdioma('ca')}" process="@this" style="display: none">
+                            </p:commandButton>
+                            <p:commandButton id="btnCambiarIdiomaEs" name="btnCambiarIdiomaEs" widgetVar="btnCambiarIdiomaEs"
+                                             actionListener="#{sessionBean.cambiarIdioma('es')}" process="@this" style="display: none">
+                            </p:commandButton>
+                            <c:if test="#{sessionBean.lang != 'ca'}">
+                                <div class="dropdown">
+                                    <a href="#" class="desplegable" onclick="$('#btnCambiarIdiomaCa').click();">#{msg['dict.ca']} </a>
+                                </div>
+                            </c:if>
+                            <c:if test="#{sessionBean.lang != 'es'}">
+                                <div class="dropdown">
+                                    <a href="#" class="desplegable" onclick="$('#btnCambiarIdiomaEs').click();">#{msg['dict.es']} </a>
+                                </div>
+                            </c:if>
+
+                            <!--
+                            <c:if test="#{sessionBean.lang != 'ca'}">
+                                <div class="menu-button cursor-pointer md:hidden block" onclick="$('#btnCambiarIdiomaCa').click();" style="font-size: 14px;">
+                                    #{msg['dict.ca']}
+                                </div>
+                            </c:if>
+                            <c:if test="#{sessionBean.lang != 'es'}">
+                                <div class="menu-button cursor-pointer md:hidden block" onclick="$('#btnCambiarIdiomaEs').click();" style="font-size: 14px;">
+                                     #{msg['dict.es']}
+                                </div>
+                            </c:if>
+                            <select id="opcionSelectMobile"  class="menu-button" onchange="redirectToPage()">
+                                <option value="#" selected="selected" disabled="disabled" class="hidden">#{msg['dict.opciones']}</option>
+                                <option value="#{request.contextPath}/secure/app/viewPlugins.xhtml" class="desplegable_elemento">Plugins</option>
+                                <option value="#{request.contextPath}/viewTraducir.xhtml" class="desplegable_elemento">#{msg['dict.traducir']}</option>
+                                <option value="#{request.contextPath}/secure/app/viewConfiguracionFrontal.xhtml" class="desplegable_elemento">#{msg['dict.configuracionFrontal']}</option>
+                                <option value="#{request.contextPath}/secure/app/viewConfiguracionesGlobales.xhtml" class="desplegable_elemento">#{msg['dict.configuracionesGlobales']}</option>
+                            </select>
+                            -->
+                            <h:outputScript>
+                                function redirectToPage() {
+                                    const selectElement = document.getElementById("opcionSelectMobile");
+                                    const selectedValue = selectElement.value;
+
+                                    if (selectedValue !== '#') {
+                                        window.location.href = selectedValue;
+                                    }
+                                }
+                            </h:outputScript>
+
+                        </div>
+                </header>
+            </div>
+        </h:form>
+        <p:growl id="messages"
+                 globalOnly="false"
+                 showDetail="false"
+                 life="5000"
+                 escape="false"/>
+
+        <!-- Content -->
+        <div class="aplicacio contenido">
+            <div class="bg-white">
+                <!-- Contingut -->
+                <div class="card mb-12 border-0">
+                    <div class="titulo-pagina">
+                        <h2>
+                            <ui:insert name="pageTitle" />
+                        </h2>
+                    </div>
+                    <ui:insert name="content"/>
+                </div>
+                <!-- FI Contingut -->
+            </div>
+        </div>
+
+        <ui:include src="footer.xhtml" />
+
+
+
+  <!-- Para que elementos con global=true mostraran icono cargando (commandbutton, events, ...) -->
+  <p:ajaxStatus id="startAjax" onstart="PF('loading').show();" oncomplete="PF('loading').hide();"  />
+
+
+  <!-- Inclusion popups genericos -->
+  <h:form id="formPopUps">
+    <ui:include src="../secure/common/popups.xhtml" />
+  </h:form>
+
+        <h:outputScript>
+                function toggleDropdowns() {
+                    debugger;
+                    var dropdowns = document.querySelectorAll('.header-right .dropdown');
+                    dropdowns.forEach(function(dropdown) {
+                        var content = dropdown.querySelector('.dropdown-content');
+                        if (content.style.display === 'block') {
+                            content.style.display = 'none';
+                        } else {
+                            content.style.display = 'block';
+                            content.style.position = 'relative';
+                        }
+                    });
+                }
+        </h:outputScript>
+</h:body>
+
+</f:view>
+
+</html>

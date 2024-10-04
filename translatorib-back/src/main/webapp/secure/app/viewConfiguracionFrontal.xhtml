@@ -1,0 +1,107 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:pe="http://primefaces.org/ui/extensions"
+                template="../../layout/mainLayout.xhtml">
+
+    <f:metadata>
+        <f:viewAction action="#{viewConfiguracionFrontal.init}" />
+    </f:metadata>
+
+    <ui:define name="pageTitle">
+        <h:outputFormat value="#{msg['viewConfiguracionFrontal.titulo']}"/>
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form style="padding: 20px">
+            <h:outputStylesheet>
+                .ui-panel-titlebar {
+                    display: none;
+                }
+            </h:outputStylesheet>
+<div class="flex">
+            <p:fieldset legend=" #{msg['dict.datosPorDefectoEnFrontal']}" styleClass="col-12 md:col-4">
+
+                    <h:panelGrid columns="2" cellpadding="5">
+                        <p:outputLabel value="#{msg['dict.plugin']}:" for="txtPlugin"  />
+                        <p:selectOneMenu id="txtPlugin" value="#{viewConfiguracionFrontal.dato.plugin}"
+                                         converter="pluginConverter"
+                                         required="false" styleClass="p-0">
+                            <f:attribute name="listaDatos" value="#{viewConfiguracionFrontal.plugins}" />
+                            <f:selectItem itemLabel="#{msg['dict.seleccionar']}" itemValue="#{null}"/>
+                            <f:selectItems value="#{viewConfiguracionFrontal.plugins}" var="plugin" itemLabel="#{plugin.identificador}" itemValue="#{plugin}"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{msg['dict.idiomaOrigen']}:" for="txtIdiomaOrigen"  />
+
+                        <p:selectOneMenu id="txtIdiomaOrigen" value="#{viewConfiguracionFrontal.dato.idiomaOrigen}" required="false" styleClass="p-0"  converter="idiomaConverter" >
+                            <f:selectItem itemLabel="#{msg['dict.seleccionar']}" itemValue="#{null}"/>
+                            <f:selectItems value="#{viewConfiguracionFrontal.idiomas}" var="idioma" itemValue="#{idioma}" itemLabel="#{msg[idioma.getLiteral()]}"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{msg['dict.idiomaDestino']}:" for="txtIdiomaDestino"/>
+                        <p:selectOneMenu id="txtIdiomaDestino" value="#{viewConfiguracionFrontal.dato.idiomaDestino}"
+                                         required="false" styleClass="p-0"  converter="idiomaConverter">
+                            <f:selectItem itemLabel="#{msg['dict.seleccionar']}" itemValue="#{null}"/>
+                            <f:selectItems value="#{viewConfiguracionFrontal.idiomas}" var="idioma" itemValue="#{idioma}" itemLabel="#{msg[idioma.getLiteral()]}"/>
+                        </p:selectOneMenu>
+                    </h:panelGrid>
+            </p:fieldset>
+
+            <p:fieldset legend="#{msg['dict.pluginsSorportados']}" styleClass="col-12 md:col-8">
+
+                <p:dataTable value="#{viewConfiguracionFrontal.plugins}" var="plugin" selection="#{viewConfiguracionFrontal.selectedPlugins}"
+                             selectionMode="multiple" rowKey="#{plugin.codigo}">
+
+                    <!-- Checkbox para seleccionar el plugin -->
+                    <p:column headerText="#{msg['dict.activo']}"  style="width: 50px;text-align: center;">
+                        <p:selectBooleanCheckbox value="#{plugin.seleccionado}">
+                            <p:ajax update="@parent:btnEditar" />
+                        </p:selectBooleanCheckbox>
+                    </p:column>
+
+                    <!-- Mostrar el nombre del plugin -->
+                    <p:column headerText="Plugin Identificador" styleClass="width:40%">
+                        <h:outputText value="#{plugin.identificador}" />
+                    </p:column>
+
+                    <!-- Botón para editar el plugin -->
+                    <p:column headerText=" " >
+                        <p:commandButton id="btnEditar" value="#{msg['viewConfiguracionFrontal.editarIdiomas']}"
+                                         styleClass="mr-2 ml-2" icon="pi pi-pencil"
+                                         actionListener="#{viewConfiguracionFrontal.editarPlugin(plugin.codigo, plugin.seleccionado)}"
+                                         update="messages"
+                                         disabled="#{!plugin.seleccionado}"
+                                         process="@this" />
+                    </p:column>
+
+                </p:dataTable>
+
+
+            </p:fieldset>
+
+</div>
+
+
+
+
+            <h:outputScript>
+                function triggerDblClick() {
+                    myDoubleClickCommand();
+                    /*$('#form\\:btnConsultaHidden').click();*/
+                }
+            </h:outputScript>
+
+
+            <p:commandButton id="btnGuardar" value="#{msg['dict.guardar']}" styleClass="mt-3"
+                             icon="pi pi-save" iconPos="top"
+                             actionListener="#{viewConfiguracionFrontal.guardar}" process="@form"
+                             update="messages" >
+            </p:commandButton>
+
+        </h:form>
+    </ui:define>
+</ui:composition>
+

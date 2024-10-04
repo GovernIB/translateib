@@ -17,7 +17,7 @@ import java.util.Locale;
  * Són bàsicament excepcions a la lògica de l'aplicació, i per tant enviarem un error
  * 400 al client.
  *
- * @author areus
+ * @author Indra
  */
 @Provider
 public class I18NExceptionMapper implements ExceptionMapper<I18NException> {

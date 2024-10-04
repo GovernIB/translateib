@@ -1,0 +1,678 @@
+@font-face {
+    font-family: 'Bariol Regular';
+    src: url("");
+}
+
+:root {
+    --primary-color: #cc073c; /* Define el color primario */
+    --primary-color0: #e32b5a; /* Define el color primario */
+    --primary-color1: #7d0101;
+    --primary-color2: #888;
+    --primary-color3: #aaa;
+    --primary-color4: #df9a9a;
+    --primary-color5: #fee;
+    --primary-color6: #f0e7e7;
+    --secondary-color: #FFF;
+}
+
+.ui-widget, .ui-widget .ui-widget{
+    font-family: Arial,Helvetica,sans-serif;!important;
+    font-size: 12pt !important;
+}
+
+.blanco {
+    color: #FFF;
+}
+.titol{
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.titulo-pagina {
+    padding: 0;
+    margin:0;
+    background-color: var(--primary-color3);
+    text-align: center;
+    box-shadow: 0 3px 4px -1px rgba(200, 0, 0, 0.2), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.titulo-pagina > h2{
+    font-size: 1.5rem;
+    padding: 0.4rem;
+    margin:0;
+    color: var(--secondary-color);
+    text-align: center;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.noDisableColor>.ui-state-active {
+    opacity: 1 !important;
+}
+
+.text-2xl>span{
+    font-size: 1.5rem !important;
+}
+
+
+/* DIALOG, titulo cabecera y pie */
+.ui-dialog-titlebar {
+    background-color: var(--primary-color) !important;
+    color: #FFFFFF !important;
+}
+.footer {
+    background-color: var(--primary-color6);
+}
+
+body .ui-dialog .ui-dialog-titlebar .ui-dialog-titlebar-icon {
+    background: var(--primary-color);
+    color: var(--secondary-color);
+    border-color: var(--primary-color);
+}
+body .ui-dialog .ui-dialog-titlebar .ui-dialog-titlebar-icon.ui-state-focus {
+    box-shadow: 0 0 0 .2rem var(--primary-color4);
+}
+body .ui-dialog .ui-dialog-titlebar .ui-dialog-titlebar-icon.ui-state-hover {
+    background: var(--primary-color1);
+    color: var(--secondary-color);
+    border-color: var(--primary-color1);
+    box-shadow: 0 3px 4px -1px rgba(0, 0, 0, 0.2), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+
+}
+
+.custom-dialog{
+    max-width: 90vw; /* Ancho máximo al 80% del viewport */
+}
+
+body .ui-card.limpiacardshadow  {
+    box-shadow: none;
+}
+
+body .ui-card.limpiacardpadding > .ui-card-body, body .ui-card.limpiacardpadding .ui-card-content {
+    padding: 0 !important;
+}
+
+body .ui-card.limpiacardmargin > .ui-card-body {
+    margin: 0 !important;
+}
+
+
+
+
+body .ui-datatable .ui-datatable-data > tr.ui-state-highlight {
+    background: var(--primary-color5);
+}
+
+body .ui-paginator .ui-paginator-pages .ui-paginator-page.ui-state-active {
+    background: var(--primary-color5);
+}
+
+.zona-arrastrar {
+    border: .2em dashed var(--primary-color4);
+    border-radius: 5px;
+    padding: 10px;
+    margin: 10px 0;
+    text-align: center;
+   .contenedor{
+        height: 8rem;
+        background-image: url("/translatoribback/resources/images/arrastrarysoltar.png");
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: contain;
+    }
+}
+.zona-arrastrar.ui-state-drag {
+    border: .5em dashed var(--primary-color);
+    border-radius: 5px;
+    .ui-panel-content.ui-widget-content{
+        background-color: var(--primary-color5);
+    }
+}
+
+body .ui-button.boton-color-principal{
+    background: var(--primary-color);
+    color: #fff;
+}
+
+body .ui-button.ui-state-hover.boton-color-principal{
+    background: var(--primary-color1) !important;
+    color: #fff;
+}
+
+
+
+/*******************************************************************************/
+/*******************************************************************************/
+/**                                                                          ***/
+/**  A PARTIR DE AQUI EXTRAIDO DEL TEMA Y MODIFICADO COLORES, MEJOR NO TOCAR ***/
+/**  SE DEJAN SOLO LAS PROPIEDADES MODIFICADAS                               ***/
+/**                                                                          ***/
+/*******************************************************************************/
+/*******************************************************************************/
+
+body .ui-button {
+    background: var(--primary-color2);
+    color: #fff;
+    border: 1px solid var(--primary-color2);
+    transition: background-color .2s,color .2s,border-color .2s,box-shadow .2s,opacity .2s
+}
+
+body .ui-button.ui-state-hover {
+    background: var(--primary-color);
+    border-color: var(--primary-color);
+    color: #fff
+}
+
+.boton-color-principal
+
+body .ui-button.ui-state-focus {
+    box-shadow: 0 0 0 .2em var(--primary-color4)
+}
+
+body .ui-button.ui-state-active,body .ui-button.ui-state-down {
+    background: var(--primary-color3);
+    border-color: var(--primary-color3);
+    color: #fff
+}
+
+body .ui-button.ui-button-outlined {
+    background-color: rgba(0,0,0,0);
+    color: var(--primary-color2);
+}
+
+body .ui-button.ui-button-outlined.ui-state-hover {
+    background: rgb(90, 42, 42);
+    color: var(--primary-color2);
+}
+
+body .ui-button.ui-button-outlined.ui-state-active,body .ui-button.ui-button-outlined.ui-state-down {
+    background: rgba(90,42,42,.16);
+    color: var(--primary-color2);
+}
+
+
+body .ui-button.ui-button-flat {
+    background-color: rgba(0,0,0,0);
+    color: var(--primary-color2);
+    border-color: rgba(0,0,0,0)
+}
+
+body .ui-button.ui-button-flat.ui-state-hover {
+    background: rgba(90,42,42,.04);
+    color: var(--primary-color2);
+    border-color: rgba(0,0,0,0)
+}
+
+body .ui-button.ui-button-flat.ui-state-active,body .ui-button.ui-button-flat.ui-state-down {
+    background: rgba(90,42,42,.16);
+    color: var(--primary-color2);
+    border-color: rgba(0,0,0,0)
+}
+
+
+body .ui-selectbooleanbutton.ui-state-active,body .ui-selectonebutton>.ui-button.ui-state-active,body .ui-selectmanybutton>.ui-button.ui-state-active {
+    background: var(--primary-color2);
+    border-color: var(--primary-color2);
+    color: #fff
+}
+
+
+
+body .ui-selectbooleanbutton.ui-state-active:not(.ui-state-disabled):hover,body .ui-selectonebutton>.ui-button.ui-state-active:not(.ui-state-disabled):hover,body .ui-selectmanybutton>.ui-button.ui-state-active:not(.ui-state-disabled):hover {
+    background: var(--primary-color);
+    border-color: var(--primary-color);
+    color: #fff
+}
+
+
+body .ui-commandlink,body .ui-link {
+    color: var(--primary-color2);
+    transition: background-color .2s,color .2s,border-color .2s,box-shadow .2s,opacity .2s
+}
+
+body .ui-commandlink:hover,body .ui-link:hover {
+    color: var(--primary-color);
+}
+
+body .ui-commandlink:active,body .ui-link:active {
+    color: var(--primary-color3)
+}
+
+
+body .ui-carousel .ui-carousel-content .ui-carousel-prev:focus,body .ui-carousel .ui-carousel-content .ui-carousel-next:focus {
+    box-shadow: 0 0 0 .2rem var(--primary-color4)
+}
+
+
+body .ui-carousel .ui-carousel-indicators .ui-carousel-indicator.ui-state-highlight button {
+    background: var(--primary-color2);
+    color: #fff
+}
+
+body .ui-chronoline .ui-chronoline-event-marker {
+    border: 2px solid var(--primary-color2);
+    background-color: #fff
+}
+
+
+body .ui-datatable thead th .ui-sortable-column-badge {
+    color: #fff;
+    background: var(--primary-color2);
+}
+
+body .ui-datatable thead th.ui-sortable-column.ui-state-focus {
+    box-shadow: inset 0 0 0 .2rem var(--primary-color4)
+}
+
+
+body .ui-datatable thead th.ui-state-active {
+    background: #f8f9fa;
+    color: var(--primary-color2)
+}
+
+body .ui-datatable thead th.ui-state-active.ui-state-hover {
+    background: #e9ecef;
+    color: var(--primary-color2)
+}
+
+body .ui-datatable .ui-datatable-data>tr .ui-row-editor>a:focus {
+    box-shadow: 0 0 0 .2rem var(--primary-color4)
+}
+
+body .ui-datatable .ui-datatable-data>tr .ui-row-toggler:focus {
+    box-shadow: 0 0 0 .2rem var(--primary-color4)
+}
+
+
+body .ui-datatable .ui-datatable-data>tr .ui-rowgroup-toggler .ui-rowgroup-toggler-icon:focus {
+    box-shadow: 0 0 0 .2rem var(--primary-color4)
+}
+
+body .ui-datatable .ui-column-resizer-helper {
+    background: var(--primary-color2)
+}
+
+body .fc .fc-event {
+    background: var(--primary-color);
+    border: 0px solid var(--primary-color);
+    color: #fff
+}
+
+body .fc .fc-divider {
+    background: #f8f9fa;
+    border: 1px solid #dee2e6
+}
+
+body .fc .fc-toolbar .fc-button {
+    background: var(--primary-color2);
+    color: #fff;
+    border: 1px solid var(--primary-color2);
+    transition: background-color .2s,color .2s,border-color .2s,box-shadow .2s,opacity .2s
+}
+
+body .fc .fc-toolbar .fc-button:not(:disabled):hover {
+    background: var(--primary-color);
+    border-color: var(--primary-color);
+    color: #fff
+}
+
+body .fc .fc-toolbar .fc-button:focus {
+    box-shadow: 0 0 0 .2em var(--primary-color4)
+}
+
+body .fc .fc-toolbar .fc-button:active,body .fc .fc-toolbar .fc-button.fc-button-active {
+    background: var(--primary-color3);
+    border-color: var(--primary-color3);
+    color: #fff
+}
+body .ui-paginator .ui-paginator-first.ui-state-focus,body .ui-paginator .ui-paginator-prev.ui-state-focus,body .ui-paginator .ui-paginator-next.ui-state-focus,body .ui-paginator .ui-paginator-last.ui-state-focus {
+    box-shadow: 0 0 0 .2rem var(--primary-color4)
+}
+body .ui-paginator .ui-paginator-pages .ui-paginator-page.ui-state-focus {
+    box-shadow: 0 0 0 .2rem var(--primary-color4)
+}
+body .ui-tree .ui-tree-container .ui-treenode .ui-treenode-content .ui-tree-toggler:focus {
+    box-shadow: 0 0 0 .2rem var(--primary-color4)
+}
+
+body .ui-treetable thead th .ui-sortable-column-badge {
+    color: #fff;
+    background: var(--primary-color2);
+}
+
+body .ui-treetable thead th.ui-sortable-column.ui-state-focus {
+    box-shadow: inset 0 0 0 .2rem var(--primary-color4)
+}
+
+
+body .ui-treetable thead th.ui-state-active {
+    background: #f8f9fa;
+    color: var(--primary-color2)
+}
+
+body .ui-treetable thead th.ui-state-active.ui-state-hover {
+    background: #e9ecef;
+    color: var(--primary-color2)
+}
+
+
+body .ui-treetable .ui-treetable-data>tr>td .ui-treetable-toggler:focus {
+    box-shadow: 0 0 0 .2rem var(--primary-color4)
+}
+
+
+body .ui-treetable .ui-treetable-data>tr .ui-row-editor .ui-icon:focus {
+    box-shadow: 0 0 0 .2rem var(--primary-color4)
+}
+
+body .ui-treetable .ui-column-resizer-helper {
+    background: var(--primary-color2)
+}
+
+
+body .ui-cascadeselect:not(.ui-state-disabled):hover {
+    border-color: var(--primary-color2)
+}
+
+body .ui-cascadeselect:not(.ui-state-disabled).ui-state-focus {
+    border-color: var(--primary-color2);
+    box-shadow: 0 0 0 .2em var(--primary-color4)
+}
+
+body .ui-cascadeselect-panel .ui-cascadeselect-items .ui-cascadeselect-item .ui-cascadeselect-item-content:focus {
+    box-shadow: inset 0 0 0 .15rem var(--primary-color4)
+}
+
+body .ui-chkbox .ui-chkbox-box.ui-state-hover {
+    border-color: var(--primary-color2)
+}
+
+body .ui-chkbox .ui-chkbox-box.ui-state-focus {
+    box-shadow: 0 0 0 .2em var(--primary-color4);
+}
+
+body .ui-chkbox .ui-chkbox-box.ui-state-active {
+    border-color: var(--primary-color2);
+    background: var(--primary-color2);
+    color: #fff
+}
+
+body .ui-chkbox .ui-chkbox-box.ui-state-active.ui-state-hover {
+    background: var(--primary-color)
+}
+
+
+body.ui-input-filled .ui-chkbox .ui-chkbox-box.ui-state-active,body .ui-input-filled .ui-chkbox .ui-chkbox-box.ui-state-active {
+    background: var(--primary-color2)
+}
+
+body.ui-input-filled .ui-chkbox .ui-chkbox-box.ui-state-active.ui-state-hover,body .ui-input-filled .ui-chkbox .ui-chkbox-box.ui-state-active.ui-state-hover {
+    background: var(--primary-color)
+}
+
+
+body .ui-datepicker .ui-timepicker-timeinput input:hover {
+    border-color: var(--primary-color2)
+}
+
+body .ui-datepicker .ui-timepicker-timeinput input:focus {
+    border-color: var(--primary-color2);
+    box-shadow: 0 0 0 .2em var(--primary-color4)
+}
+
+
+body .ui-datepicker .ui-picker-down:focus {
+    box-shadow: 0 0 0 .2rem var(--primary-color4)
+}
+
+
+
+body .ui-inplace .ui-inplace-display.ui-state-focus {
+    border-color: var(--primary-color2);
+    box-shadow: 0 0 0 .2em var(--primary-color4)
+}
+
+
+body .ui-inputfield.ui-state-hover {
+    border-color: var(--primary-color2)
+}
+
+body .ui-inputfield.ui-state-focus {
+    border-color: var(--primary-color2);
+    box-shadow: 0 0 0 .2em var(--primary-color4)
+}
+
+
+body .ui-inputswitch .ui-inputswitch-handle.ui-state-focus {
+    border-color: var(--primary-color2);
+    box-shadow: 0 0 0 .2em var(--primary-color4)
+}
+
+
+
+body .ui-inputswitch.ui-inputswitch-checked {
+    background: var(--primary-color2)
+}
+
+body .ui-inputswitch.ui-inputswitch-checked .ui-inputswitch-handle {
+    background: #fff;
+    border-color: var(--primary-color3);
+    margin-left: 2px
+}
+
+
+body .keypad-popup button.ui-state-active {
+    background: var(--primary-color3);
+    border-color: var(--primary-color3);
+    color: #fff
+}
+
+body .keypad-popup button.keypad-shift,body .keypad-popup button.keypad-spacebar,body .keypad-popup button.keypad-enter,body .keypad-popup button.keypad-clear,body .keypad-popup button.keypad-back,body .keypad-popup button.keypad-close {
+    background: var(--primary-color2);
+    color: #fff;
+    border: 1px solid var(--primary-color2)
+}
+
+body .keypad-popup button.keypad-shift.ui-state-hover,body .keypad-popup button.keypad-spacebar.ui-state-hover,body .keypad-popup button.keypad-enter.ui-state-hover,body .keypad-popup button.keypad-clear.ui-state-hover,body .keypad-popup button.keypad-back.ui-state-hover,body .keypad-popup button.keypad-close.ui-state-hover {
+    background: var(--primary-color);
+    border-color: var(--primary-color);
+    color: #fff
+}
+
+body .keypad-popup button.keypad-shift.ui-state-focus,body .keypad-popup button.keypad-spacebar.ui-state-focus,body .keypad-popup button.keypad-enter.ui-state-focus,body .keypad-popup button.keypad-clear.ui-state-focus,body .keypad-popup button.keypad-back.ui-state-focus,body .keypad-popup button.keypad-close.ui-state-focus {
+    box-shadow: 0 0 0 .2em var(--primary-color4)
+}
+
+body .keypad-popup button.keypad-shift.ui-state-active,body .keypad-popup button.keypad-spacebar.ui-state-active,body .keypad-popup button.keypad-enter.ui-state-active,body .keypad-popup button.keypad-clear.ui-state-active,body .keypad-popup button.keypad-back.ui-state-active,body .keypad-popup button.keypad-close.ui-state-active {
+    background: var(--primary-color3);
+    border-color: var(--primary-color3);
+    color: #fff
+}
+
+
+body .ui-radiobutton .ui-radiobutton-box.ui-state-hover {
+    border-color: var(--primary-color2)
+}
+
+body .ui-radiobutton .ui-radiobutton-box.ui-state-focus {
+    box-shadow: 0 0 0 .2em var(--primary-color4)
+}
+
+body .ui-radiobutton .ui-radiobutton-box.ui-state-active {
+    border-color: var(--primary-color2);
+    background: var(--primary-color2);
+    color: #fff
+}
+
+body .ui-radiobutton .ui-radiobutton-box.ui-state-active.ui-state-hover {
+    background: var(--primary-color)
+}
+
+
+body.ui-input-filled .ui-radiobutton .ui-radiobutton-box.ui-state-active,body .ui-input-filled .ui-radiobutton .ui-radiobutton-box.ui-state-active {
+    background: var(--primary-color2)
+}
+
+body.ui-input-filled .ui-radiobutton .ui-radiobutton-box.ui-state-active.ui-state-hover,body .ui-input-filled .ui-radiobutton .ui-radiobutton-box.ui-state-active.ui-state-hover {
+    background: var(--primary-color)
+}
+
+
+body .ui-rating .ui-rating-cancel.ui-state-focus {
+    box-shadow: 0 0 0 .2rem var(--primary-color4)
+}
+
+
+body .ui-rating .ui-rating-star.ui-state-focus {
+    box-shadow: 0 0 0 .2rem var(--primary-color4)
+}
+
+
+body .ui-rating .ui-rating-star a:hover {
+    color: var(--primary-color)
+}
+
+body .ui-rating .ui-rating-star-on a {
+    color: var(--primary-color2)
+}
+
+
+body .ui-selectcheckboxmenu.ui-state-hover {
+    border-color: var(--primary-color2)
+}
+
+body .ui-selectcheckboxmenu.ui-state-focus {
+    border-color: var(--primary-color2);
+    box-shadow: 0 0 0 .2em var(--primary-color4)
+}
+
+
+body .ui-selectcheckboxmenu-panel .ui-selectcheckboxmenu-header .ui-selectcheckboxmenu-close:focus {
+    box-shadow: 0 0 0 .2rem var(--primary-color4)
+}
+
+
+body .ui-selectonelistbox .ui-selectlistbox-listcontainer .ui-selectlistbox-list .ui-listbox-outline,body .ui-selectmanymenu .ui-selectlistbox-listcontainer .ui-selectlistbox-list .ui-listbox-outline {
+    box-shadow: inset 0 0 0 .15rem var(--primary-color4)
+}
+
+body .ui-selectonemenu.ui-state-hover {
+    border-color: var(--primary-color2)
+}
+
+body .ui-selectonemenu.ui-state-focus {
+    border-color: var(--primary-color2);
+    box-shadow: 0 0 0 .2em var(--primary-color4)
+}
+
+
+body .ui-slider .ui-slider-handle {
+    border: 2px solid var(--primary-color2);
+}
+
+body .ui-slider .ui-slider-handle.ui-state-hover {
+    border-color: var(--primary-color2);
+    background: var(--primary-color2)
+}
+
+body .ui-slider .ui-slider-range {
+    background: var(--primary-color2)
+}
+
+.ui-texteditor .ql-snow.ql-toolbar button.ql-active,.ui-texteditor .ql-snow.ql-toolbar .ql-picker-label.ql-active,.ui-texteditor .ql-snow.ql-toolbar .ql-picker-item.ql-selected {
+    color: var(--primary-color2)
+}
+
+.ui-texteditor .ql-snow.ql-toolbar button.ql-active .ql-stroke,.ui-texteditor .ql-snow.ql-toolbar .ql-picker-label.ql-active .ql-stroke,.ui-texteditor .ql-snow.ql-toolbar .ql-picker-item.ql-selected .ql-stroke {
+    stroke: var(--primary-color2)
+}
+
+.ui-texteditor .ql-snow.ql-toolbar button.ql-active .ql-fill,.ui-texteditor .ql-snow.ql-toolbar .ql-picker-label.ql-active .ql-fill,.ui-texteditor .ql-snow.ql-toolbar .ql-picker-item.ql-selected .ql-fill {
+    fill: var(--primary-color2)
+}
+
+.ui-texteditor .ql-snow.ql-toolbar button.ql-active .ql-picker-label,.ui-texteditor .ql-snow.ql-toolbar .ql-picker-label.ql-active .ql-picker-label,.ui-texteditor .ql-snow.ql-toolbar .ql-picker-item.ql-selected .ql-picker-label {
+    color: var(--primary-color2)
+}
+
+body .ui-toggleswitch.ui-toggleswitch-focus .ui-toggleswitch-slider {
+    box-shadow: 0 0 0 .2rem var(--primary-color4)
+}
+
+body .ui-toggleswitch.ui-toggleswitch-checked .ui-toggleswitch-slider {
+    background: var(--primary-color2)
+}
+
+body .ui-breadcrumb .ui-breadcrumb-items li .ui-menuitem-link:focus {
+    box-shadow: 0 0 0 .2rem var(--primary-color4)
+}
+
+body .ui-tabmenu .ui-tabmenu-nav .ui-tabmenuitem.ui-state-active {
+    background: #fff;
+    border-color: var(--primary-color2)
+}
+
+body .ui-tabmenu .ui-tabmenu-nav .ui-tabmenuitem.ui-state-active a {
+    color: var(--primary-color2)
+}
+
+body .ui-tabmenu .ui-tabmenu-nav .ui-tabmenuitem.ui-state-active a .ui-icon {
+    color: var(--primary-color2)
+}
+
+
+body .ui-tabmenu.ui-tabs-bottom .ui-tabmenu-nav .ui-tabmenuitem.ui-state-active {
+    border-color: var(--primary-color2)
+}
+
+
+body .ui-tabmenu.ui-tabs-left .ui-tabmenu-nav .ui-tabmenuitem.ui-state-active {
+    border-color: var(--primary-color2)
+}
+
+
+
+body .ui-tabmenu.ui-tabs-right .ui-tabmenu-nav .ui-tabmenuitem.ui-state-active {
+    border-color: var(--primary-color2)
+}
+
+body .ui-messages .ui-messages-close:focus {
+    box-shadow: 0 0 0 .2rem var(--primary-color4)
+}
+
+
+body .ui-chip .ui-chip-remove-icon:focus {
+    box-shadow: 0 0 0 .2rem var(--primary-color4)
+}
+
+
+body .ui-galleria .ui-galleria-indicators .ui-galleria-indicator.ui-state-highlight button {
+    background: var(--primary-color2);
+    color: #fff
+}
+
+
+body .ui-galleria .ui-galleria-thumbnail-container .ui-galleria-thumbnail-item-content:focus {
+    box-shadow: 0 0 0 .2rem var(--primary-color4)
+}
+
+
+body .ui-galleria .ui-galleria-link:focus {
+    box-shadow: 0 0 0 .2rem var(--primary-color4)
+}
+
+
+body .ui-log .ui-log-header .ui-log-button:focus {
+    box-shadow: 0 0 0 .2rem var(--primary-color4)
+}
+
+body .ui-panel .ui-panel-titlebar .ui-panel-titlebar-icon:focus {
+    box-shadow: 0 0 0 .2rem var(--primary-color4)
+}
+
+body .ui-tabs.ui-tabs-right>.ui-tabs-nav li.ui-tabs-header.ui-state-active {
+    border-color: var(--primary-color2)
+}
+
+body .ui-tabs.ui-tabs-left>.ui-tabs-nav li.ui-tabs-header.ui-state-active {
+    border-color: var(--primary-color2)
+}
+

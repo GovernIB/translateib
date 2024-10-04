@@ -3,7 +3,7 @@ package es.caib.translatorib.api.config;
 /**
  * Constants emprades a l'API REST
  *
- * @author areus
+ * @author Indra
  */
 public interface ApiConstants {
 

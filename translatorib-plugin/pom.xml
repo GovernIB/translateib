@@ -14,12 +14,7 @@
 
     <dependencies>
 
-			<!-- PLUGIN API -->
-	  		<dependency>
-				<groupId>es.caib.translatorib</groupId>
-				<artifactId>translatorib-ejb-api</artifactId>
-				<version>${project.version}</version>
-			</dependency>
+
 			
 			 <!-- Plugins IB -->
 	        <dependency>
@@ -27,6 +22,12 @@
 	            <artifactId>pluginsib-core</artifactId>
 	            <version>${plugins-ib.version}</version>
 	        </dependency>
+        <dependency>
+            <groupId>es.caib.translatorib</groupId>
+            <artifactId>translatorib-core-api</artifactId>
+            <version>1.0.0</version>
+            <scope>compile</scope>
+        </dependency>
 
     </dependencies>
 

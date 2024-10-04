@@ -19,12 +19,12 @@ import org.fundaciobit.pluginsib.core.utils.AbstractPluginProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import es.caib.translatorib.ejb.api.model.Idioma;
-import es.caib.translatorib.ejb.api.model.Opciones;
-import es.caib.translatorib.ejb.api.model.ResultadoTraduccionDocumento;
-import es.caib.translatorib.ejb.api.model.ResultadoTraduccionTexto;
-import es.caib.translatorib.ejb.api.model.TipoDocumento;
-import es.caib.translatorib.ejb.api.model.TipoEntrada;
+import es.caib.translatorib.core.api.model.Idioma;
+import es.caib.translatorib.core.api.model.Opciones;
+import es.caib.translatorib.core.api.model.ResultadoTraduccionDocumento;
+import es.caib.translatorib.core.api.model.ResultadoTraduccionTexto;
+import es.caib.translatorib.core.api.model.TipoDocumento;
+import es.caib.translatorib.core.api.model.TipoEntrada;
 import es.caib.translatorib.plata.rest.cxf.CustomFileResponse;
 import es.caib.translatorib.plata.rest.cxf.TranslatorV2;
 import es.caib.translatorib.plata.rest.cxf.TranslatorV2Service;
@@ -32,7 +32,7 @@ import es.caib.translatorib.plugin.api.ITraduccionPlugin;
 import es.caib.translatorib.plugin.api.TraduccionException;
 
 /**
- * Interfaz opentrad
+ * Interfaz plata
  *
  * @author Indra
  *
@@ -42,12 +42,27 @@ public class PlataPlugin extends AbstractPluginProperties implements ITraduccion
 	private static final Logger LOG = LoggerFactory.getLogger(PlataPlugin.class);
 
 	/** Prefix. */
-	public static final String IMPLEMENTATION_BASE_PROPERTY = "es.caib.translatorib.plata.";
+	public static final String IMPLEMENTATION_BASE_PROPERTY = "plata.";
 
+	/**
+	 * Constructor
+	 * @param prefijoPropiedades Prefijo propiedades
+	 * @param properties Propiedades
+	 */
 	public PlataPlugin(final String prefijoPropiedades, final Properties properties) {
 		super(prefijoPropiedades, properties);
 	}
 
+	/**
+	 * Realiza la traduccion con plata
+	 * @param codeTranslate Texto de entrada
+	 * @param tipoEntrada Tipo de entrada
+	 * @param idiomaEntrada Idioma entrada
+	 * @param idiomaSalida Idioma salida
+	 * @param opciones Opciones
+	 * @return Resultado de la traduccion
+	 * @throws TraduccionException Excepcion
+	 */
 	@Override
 	public ResultadoTraduccionTexto realizarTraduccion(final String codeTranslate, final TipoEntrada tipoEntrada,
 			final Idioma idiomaEntrada, final Idioma idiomaSalida, final Opciones opciones) throws TraduccionException {
@@ -146,15 +161,16 @@ public class PlataPlugin extends AbstractPluginProperties implements ITraduccion
 	/**
 	 * GetClientOpenTrad
 	 *
-	 * @param url
-	 * @param timeout
-	 * @return
-	 * @throws NumberFormatException
-	 * @throws Exception
+	 * @param url URL
+	 * @param timeout Timeout
+	 * @return Cliente
+	 * @throws NumberFormatException NumberFormatException
+	 * @throws Exception Exception
 	 */
 	private TranslatorV2 getClientePlata(final String url, final Long timeout) throws NumberFormatException, Exception {
 		final QName SERVICE = new QName("http://inteco.minhap.gov/", "Translator_v2Service");
-		final URL wsdlURL = new URL("http://pre-apertium.redsara.es:80/TranslatorService_v2/Translator_v2?wsdl");
+		//final URL wsdlURL = new URL("http://pre-apertium.redsara.es:80/TranslatorService_v2/Translator_v2?wsdl");
+		final URL wsdlURL = new URL(url +"?wsdl");
 		final TranslatorV2Service servicio = new TranslatorV2Service(wsdlURL, SERVICE);
 		// final TranslatorV2Service servicio = new TranslatorV2Service();
 		final TranslatorV2 serviceTasaSoap = servicio.getTranslatorV2Port();
@@ -213,12 +229,11 @@ public class PlataPlugin extends AbstractPluginProperties implements ITraduccion
 		boolean existe = false;
 		URL urlURL;
 		try {
-			if (nonProxyHosts != null && !"".equals(nonProxyHosts)) {
+			if (nonProxyHosts != null && !nonProxyHosts.isEmpty()) {
 				urlURL = new URL(url);
 				final String[] nonProxyHostsArray = nonProxyHosts.split("\\|");
 				for (int i = 0; i < nonProxyHostsArray.length; i++) {
 					final String a = nonProxyHostsArray[i].replaceAll("\\.", "\\\\.").replaceAll("\\*", ".*");
-					;
 					if (urlURL.getHost().matches(a)) {
 						existe = true;
 						break;
@@ -236,8 +251,7 @@ public class PlataPlugin extends AbstractPluginProperties implements ITraduccion
 	 * Obtiene propiedad.
 	 *
 	 * @param propiedad propiedad
-	 * @return valor
-	 * @throws AutenticacionPluginException
+	 * @return El valor de la propiedad
 	 */
 	private String getPropiedad(final String propiedad) throws TraduccionException {
 		final String res = getProperty(IMPLEMENTATION_BASE_PROPERTY + propiedad);
@@ -248,12 +262,26 @@ public class PlataPlugin extends AbstractPluginProperties implements ITraduccion
 	}
 
 	/**
-	 * Calcula el idioma
-	 *
-	 * @param idiomaEntrada
-	 * @param idiomaSalida
-	 * @return
-	 */
+     * Calcula el languagePair. Según la  (<a href="https://administracionelectronica.gob.es/ctt/plata/descargas">documentación oficial</a>), parámetro donde se especifica el par de idiomas que se quiere utilizar en la traducción.
+     * <ul>
+     * <li> es-ca (traducción castellano - catalán)</li>
+     * <li> es-gl (traducción castellano - gallego)</li>
+     * <li> val-es-ca (traducción castellano - valenciano)</li>
+     * <li> bal-es-ca (traducción castellano - balear)</li>
+     * <li> es-pt (traducción castellano - portugués)</li>
+     * <li> fr-es (traducción francés - castellano)</li>
+     * <li> ca-es (traducción catalán - castellano)</li>
+     * <li> gl-es (traducción gallego - castellano)</li>
+     * <li> val-ca-es (traducción valenciano - castellano)</li>
+     * <li> bal-ca-es (traducción balear - castellano)</li>
+     * <li> pt-es (traducción portugués - castellano)</li>
+     * <li> es-fr (traducción castellano - francés)</li>
+     * </ul>
+     *
+     * @param idiomaEntrada Idioma entrada
+     * @param idiomaSalida Idioma salida
+     * @return Idioma para el languagePair de plata
+     */
 	private String getIdioma(final Idioma idiomaEntrada, final Idioma idiomaSalida) {
 		String idioma = idiomaEntrada.getIdioma() + "-" + idiomaSalida.getIdioma();
 		// De momento, PLaTa no soporta el balear, seguramente se añadiría como _balear
@@ -267,8 +295,8 @@ public class PlataPlugin extends AbstractPluginProperties implements ITraduccion
 	/**
 	 * Obtiene la opcion de markunknow si se ha pasado por opciones
 	 *
-	 * @param opciones
-	 * @return
+	 * @param opciones Opciones
+	 * @return markUnknown
 	 */
 	private String getMarkunkonw(final Opciones opciones) {
 		String markUnknown;
@@ -283,8 +311,8 @@ public class PlataPlugin extends AbstractPluginProperties implements ITraduccion
 	/**
 	 * Obtiene el valor de ner si se ha pasado por opciones
 	 *
-	 * @param opciones
-	 * @return
+	 * @param opciones Opciones
+	 * @return ner
 	 */
 	private Boolean getNer(final Opciones opciones) {
 		Boolean ner;

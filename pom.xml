@@ -14,8 +14,12 @@
         <url>https://github.com/GovernIB/translatorib</url>
     </scm>
     <properties>
+         <maven.compiler.version>3.7.0</maven.compiler.version>
+        <java.version>1.8</java.version>
 
-    	<!-- PROPIEDADES ARCHETYPE -->
+        <maven.ear.version>3.0.1</maven.ear.version>
+
+        <!-- PROPIEDADES ARCHETYPE -->
         <!-- Propietats que afecten els plugins -->
         <!--  JDK1.8 Comentar la siguiente linea -->
         <!-- <maven.compiler.release>11</maven.compiler.release>  -->
@@ -29,7 +33,7 @@
         <!-- Versions de diferents llibreries emprades dins els mòduls -->
         <mp-openapi.version>1.0.1</mp-openapi.version>
         <keycloak.version>6.0.1</keycloak.version>
-        <primefaces.version>7.0</primefaces.version>
+        <primefaces.version>14.0.2</primefaces.version>
         <primefaces.theme.version>1.0.10</primefaces.theme.version>
         <!-- Propietats emprades als descriptors en mode Desenvolupament. -->
         <!-- Es poden activar els valors de producció activatn el profile -Pproduccio -->
@@ -46,8 +50,34 @@
         <cxf.version>3.3.5</cxf.version>
         <plugins-ib.version>2.0.0</plugins-ib.version>
         <xmlbeans.version>3.0.2</xmlbeans.version>
-        <commons-lang3.version>3.7</commons-lang3.version>
 
+        <!-- BACK PRIMEFACES -->
+        <spring.version>4.3.13.RELEASE</spring.version>
+        <spring-security.version>4.2.3.RELEASE</spring-security.version>
+        <javax.inject.version>1</javax.inject.version>
+        <ejb-api.version>3.0</ejb-api.version>
+        <servlet-api.version>3.1.0</servlet-api.version>
+        <jstl.version>1.2</jstl.version>
+        <jsf2.version>2.3.0</jsf2.version>
+        <jsf-api.version>2.2.20</jsf-api.version>
+        <commons-beanutils.version>1.9.3</commons-beanutils.version>
+        <primefacesExtensions.version>6.1.1</primefacesExtensions.version>
+        <primefaces.allThemes.version>1.0.10</primefaces.allThemes.version>
+        <xmlbeans.version>2.4.0</xmlbeans.version>
+        <slf4j.version>1.5.8</slf4j.version>
+        <hibernate-jpa-2.1-api.version>1.0.0.Final</hibernate-jpa-2.1-api.version>
+        <jsr250-api.version>1.0</jsr250-api.version>
+        <dom4j.version>1.6.1</dom4j.version>
+
+        <commons-io.version>2.6</commons-io.version>
+        <commons-lang3.version>3.7</commons-lang3.version>
+        <commons-codec.version>1.11</commons-codec.version>
+        <commons-beanutils.version>1.9.3</commons-beanutils.version>
+
+        <itext.version>2.1.7</itext.version>
+        <jackson.version>2.9.5</jackson.version>
+        <loginConfig.authMethod>BASIC</loginConfig.authMethod>
+        <!--TODO <loginConfig.authMethod>KEYCLOAK</loginConfig.authMethod>-->
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -56,22 +86,27 @@
                 <groupId>es.caib.translatorib</groupId>
                 <artifactId>translatorib-commons</artifactId>
                 <version>${project.version}</version>
-            </dependency>
+            </dependency><!--
             <dependency>
                 <groupId>es.caib.translatorib</groupId>
                 <artifactId>translatorib-ejb</artifactId>
+                <version>${project.version}</version>
+            </dependency>-->
+            <dependency>
+                <groupId>es.caib.translatorib</groupId>
+                <artifactId>translatorib-core</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>es.caib.translatorib</groupId>
                 <artifactId>translatorib-back</artifactId>
                 <version>${project.version}</version>
-            </dependency>
+            </dependency><!--
             <dependency>
                 <groupId>es.caib.translatorib</groupId>
                 <artifactId>translatorib-front</artifactId>
                 <version>${project.version}</version>
-            </dependency>
+            </dependency>-->
             <dependency>
                 <groupId>es.caib.translatorib</groupId>
                 <artifactId>translatorib-rest-api</artifactId>
@@ -114,16 +149,37 @@
                 <artifactId>primefaces</artifactId>
                 <version>${primefaces.version}</version>
             </dependency>
-            <dependency>
+          <!--  <dependency>
                 <groupId>org.primefaces.themes</groupId>
                 <artifactId>bootstrap</artifactId>
                 <version>${primefaces.theme.version}</version>
-            </dependency>
+            </dependency>-->
         </dependencies>
     </dependencyManagement>
     <build>
+
         <pluginManagement>
             <plugins>
+                <!-- Inicializar propiedades compilación -->
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>properties-maven-plugin</artifactId>
+                    <version>${maven.properties.version}</version>
+                    <inherited>false</inherited>
+                    <executions>
+                        <execution>
+                            <phase>validate</phase>
+                            <goals>
+                                <goal>read-project-properties</goal>
+                            </goals>
+                            <configuration>
+                                <files>
+                                    <file>${project.basedir}/translatorib.properties</file>
+                                </files>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
                 <!-- Definició dels plugins estàndar de maven -->
                 <plugin>
                     <artifactId>maven-clean-plugin</artifactId>
@@ -311,6 +367,181 @@
                 <persistenceXml.hibernate.showSql>false</persistenceXml.hibernate.showSql>
             </properties>
         </profile>
+        <!-- Profile para obtener commit GIT -->
+        <profile>
+            <id>git-commit</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <build>
+                <plugins>
+                    <!-- Commit ID (GIT) -->
+                    <plugin>
+                        <groupId>pl.project13.maven</groupId>
+                        <artifactId>git-commit-id-plugin</artifactId>
+                        <version>2.1.10</version>
+                        <inherited>false</inherited>
+                        <executions>
+                            <execution>
+                                <phase>validate</phase>
+                                <goals>
+                                    <goal>revision</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <verbose>true</verbose>
+                            <skipPoms>false</skipPoms>
+                            <generateGitPropertiesFile>true</generateGitPropertiesFile>
+                            <generateGitPropertiesFilename>target/git.properties</generateGitPropertiesFilename>
+                        </configuration>
+                    </plugin>
+                    <!-- Commit ID (generación commit.properties) -->
+                    <plugin>
+                        <groupId>com.google.code.maven-replacer-plugin</groupId>
+                        <artifactId>maven-replacer-plugin</artifactId>
+                        <version>1.3.5</version>
+                        <inherited>false</inherited>
+                        <executions>
+                            <execution>
+                                <id>replace-version</id>
+                                <phase>validate</phase>
+                                <goals>
+                                    <goal>replace</goal>
+                                </goals>
+                                <configuration>
+                                    <filesToInclude>sistra-commit.properties</filesToInclude>
+                                    <preserveDir>true</preserveDir>
+                                    <outputDir>target</outputDir>
+                                    <replacements>
+                                        <replacement>
+                                            <token>%COMMIT-GIT%</token>
+                                            <value>${git.commit.id.abbrev}</value>
+                                        </replacement>
+                                        <replacement>
+                                            <token>%COMMIT-SVN%</token>
+                                            <value>${svn.info}</value>
+                                        </replacement>
+                                    </replacements>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <!-- Profile per emprar authenticació BASIC sense keycloak -->
+            <id>authBasic</id>
+            <properties>
+                <webXml.loginConfig.authMethod>BASIC</webXml.loginConfig.authMethod>
+                <loginConfig.authMethod>BASIC</loginConfig.authMethod>
+            </properties>
+        </profile>
+        <!-- Profile para obtener commit SVN -->
+        <profile>
+            <id>svn-commit</id>
+            <build>
+                <!-- Commit ID (SVN) -->
+                <plugins>
+
+                    <!-- Inicializar propiedades compilación -->
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>properties-maven-plugin</artifactId>
+                        <version>${maven.properties.version}</version>
+                        <inherited>false</inherited>
+                        <executions>
+                            <execution>
+                                <phase>validate</phase>
+                                <goals>
+                                    <goal>read-project-properties</goal>
+                                </goals>
+                                <configuration>
+                                    <files>
+                                        <file>${project.basedir}/translatorib.properties</file>
+                                    </files>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-antrun-plugin</artifactId>
+                        <version>1.8</version>
+                        <inherited>false</inherited>
+                        <executions>
+                            <execution>
+                                <id>ant-svnNumber-activo</id>
+                                <phase>validate</phase>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                                <configuration>
+                                    <!-- <skip>${svn.desactivado}</skip> -->
+                                    <exportAntProperties>true</exportAntProperties>
+                                    <target>
+                                        <exec executable="${svn.pathExe}"
+                                              outputProperty="svn.info">
+                                            <arg value="info" />
+                                            <arg value="-r" />
+                                            <arg value="HEAD" />
+                                            <arg value="--show-item=last-changed-revision" />
+                                            <!-- <arg value="../.."/> -->
+                                        </exec>
+                                    </target>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>ant-svnNumber-echo</id>
+                                <phase>validate</phase>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                                <configuration>
+                                    <!-- <skip>${svn.desactivado}</skip> -->
+                                    <target>
+                                        <echo>[svn.info] ${svn.info}</echo>
+                                    </target>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <!-- Commit ID (generación commit.properties) -->
+                    <plugin>
+                        <groupId>com.google.code.maven-replacer-plugin</groupId>
+                        <artifactId>maven-replacer-plugin</artifactId>
+                        <version>1.3.5</version>
+                        <inherited>false</inherited>
+                        <executions>
+                            <execution>
+                                <id>replace-version</id>
+                                <phase>validate</phase>
+                                <goals>
+                                    <goal>replace</goal>
+                                </goals>
+                                <configuration>
+                                    <filesToInclude>translatorib-commit.properties</filesToInclude>
+                                    <preserveDir>true</preserveDir>
+                                    <outputDir>target</outputDir>
+                                    <replacements>
+                                        <replacement>
+                                            <token>%COMMIT-GIT%</token>
+                                            <value>${git.commit.id.abbrev}</value>
+                                        </replacement>
+                                        <replacement>
+                                            <token>%COMMIT-SVN%</token>
+                                            <value>${svn.info}</value>
+                                        </replacement>
+                                    </replacements>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
     </profiles>
     <repositories>
         <!-- Repositori oficial de JBoss -->
@@ -340,14 +571,17 @@
             <url>https://governib.github.io/maven/maven/</url>
         </repository>
     </repositories>
-<modules>  <module>translatorib-commons</module>
-    <module>translatorib-ejb-api</module>
-    <module>translatorib-ejb</module>
+<modules>
+    <module>translatorib-lib</module>
+    <module>translatorib-commons</module>
+    <module>translatorib-core-api</module>
+    <module>translatorib-core</module>
     <module>translatorib-plugin</module>
     <module>translatorib-plugin-opentrad</module>
     <module>translatorib-plugin-plata</module>
     <module>translatorib-plugin-mock</module>
     <module>translatorib-rest-api</module>
+	<module>translatorib-back</module>
     <module>translatorib-ear</module>
   </modules>
 </project>

@@ -11,7 +11,7 @@ import java.util.ResourceBundle;
  * cercar etiquetes dins una llista de bundles.
  *
  * @author anadal
- * @author areus
+ * @author Indra
  */
 public class MultipleResourceBundle extends ResourceBundle {
 

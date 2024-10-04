@@ -11,7 +11,7 @@ import java.util.ResourceBundle;
 
 public class TestI18N {
 
-    private static final Locale LOCALE = Locale.forLanguageTag("ca");
+    private static final Locale LOCALE = new Locale("ca");// Locale.forLanguageTag("ca");
     private static final ResourceBundle BUNDLE = ResourceBundle.getBundle("TestLabels", LOCALE);
 
     @Test

@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.security.RolesAllowed;
-import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
+import javax.inject.Inject;
 import javax.validation.Valid;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -17,6 +17,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import es.caib.translatorib.core.api.service.TraduccionService;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.media.Content;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
@@ -30,22 +31,16 @@ import es.caib.translatorib.api.v1.model.ParametrosTraduccionTexto;
 import es.caib.translatorib.api.v1.model.ResultadoTraduccionDocumento;
 import es.caib.translatorib.api.v1.model.ResultadoTraduccionTexto;
 import es.caib.translatorib.commons.utils.Constants;
-import es.caib.translatorib.ejb.TraduccionService;
-import es.caib.translatorib.ejb.api.model.Opciones;
-import es.caib.translatorib.ejb.api.model.PropiedadValor;
+import es.caib.translatorib.core.api.model.Opciones;
+import es.caib.translatorib.core.api.model.PropiedadValor;
 import es.caib.translatorib.plugin.api.TraduccionException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  * Recurs REST per accedir a la traducció.
  *
- * La seguretat es pot establir a nivel de url-pattern/http-method a dins
- * web.xml, o amb l'etiqueta {@link RolesAllowed} a nivell de tota la classe o
- * de recurs. Per poder-la emprar cal que marquem el recurs com un bean
- * {@link Stateless}. Fixam també el {@link TransactionAttribute} al valor
- * {@link TransactionAttributeType#NOT_SUPPORTED} atès que no volem que demarqui
- * transaccions.
- *
- * @author areus
+ * @author Indra
  */
 @Stateless
 @Path("traduccion/v1")
@@ -57,13 +52,12 @@ public class TraduccionResource {
 
 	private static final Logger LOG = LoggerFactory.getLogger(TraduccionResource.class);
 
-	@EJB
+	@Inject
 	private TraduccionService traduccionService;
 
 	/**
 	 * Obté un procediment
 	 *
-	 * @param id identificador
 	 * @return Resposta amb status 200 i la informació del procediment o un resposta
 	 *         amb estatus 404 si l'identificador no existeix.
 	 */
@@ -74,11 +68,11 @@ public class TraduccionResource {
 	public Response get() {
 		LOG.error("TraduccionResources.TEST");
 		final String textoEntrada = "traducir";
-		final es.caib.translatorib.ejb.api.model.TipoEntrada tipoEntrada = es.caib.translatorib.ejb.api.model.TipoEntrada.TEXTO_PLANO;
-		final es.caib.translatorib.ejb.api.model.Idioma idiomaEntrada = es.caib.translatorib.ejb.api.model.Idioma.CASTELLANO;
-		final es.caib.translatorib.ejb.api.model.Idioma idiomaSalida = es.caib.translatorib.ejb.api.model.Idioma.CATALAN_BALEAR;
-		final es.caib.translatorib.ejb.api.model.Opciones opciones = new es.caib.translatorib.ejb.api.model.Opciones();
-		final es.caib.translatorib.ejb.api.model.ResultadoTraduccionTexto resultado = traduccionService
+		final es.caib.translatorib.core.api.model.TipoEntrada tipoEntrada = es.caib.translatorib.core.api.model.TipoEntrada.TEXTO_PLANO;
+		final es.caib.translatorib.core.api.model.Idioma idiomaEntrada = es.caib.translatorib.core.api.model.Idioma.CASTELLANO;
+		final es.caib.translatorib.core.api.model.Idioma idiomaSalida = es.caib.translatorib.core.api.model.Idioma.CATALAN_BALEAR;
+		final es.caib.translatorib.core.api.model.Opciones opciones = new es.caib.translatorib.core.api.model.Opciones();
+		final es.caib.translatorib.core.api.model.ResultadoTraduccionTexto resultado = traduccionService
 				.realizarTraduccion(textoEntrada, tipoEntrada, idiomaEntrada, idiomaSalida, null, opciones);
 		return Response.ok(cast(resultado)).build();
 	}
@@ -97,13 +91,13 @@ public class TraduccionResource {
 	public Response realizarTraduccion(
 			@RequestBody(description = "Parametros para la traducción", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ParametrosTraduccionTexto.class))) @Valid final ParametrosTraduccionTexto parametros) {
 		LOG.error("TraduccionResources.traduccion.text");
-		final es.caib.translatorib.ejb.api.model.TipoEntrada tipoEntrada = es.caib.translatorib.ejb.api.model.TipoEntrada
+		final es.caib.translatorib.core.api.model.TipoEntrada tipoEntrada = es.caib.translatorib.core.api.model.TipoEntrada
 				.fromString(parametros.getTipoEntrada().toString());
-		final es.caib.translatorib.ejb.api.model.Idioma idiomaEntrada = getIdioma(parametros.getIdiomaEntrada());
-		final es.caib.translatorib.ejb.api.model.Idioma idiomaSalida = getIdioma(parametros.getIdiomaSalida());
-		final es.caib.translatorib.ejb.api.model.Opciones opciones = crearOpciones(parametros.getOpciones());
+		final es.caib.translatorib.core.api.model.Idioma idiomaEntrada = getIdioma(parametros.getIdiomaEntrada());
+		final es.caib.translatorib.core.api.model.Idioma idiomaSalida = getIdioma(parametros.getIdiomaSalida());
+		final es.caib.translatorib.core.api.model.Opciones opciones = crearOpciones(parametros.getOpciones());
 
-		final es.caib.translatorib.ejb.api.model.ResultadoTraduccionTexto resultado = traduccionService
+		final es.caib.translatorib.core.api.model.ResultadoTraduccionTexto resultado = traduccionService
 				.realizarTraduccion(parametros.getTextoEntrada(), tipoEntrada, idiomaEntrada, idiomaSalida,
 						parametros.getPlugin(), opciones);
 
@@ -115,24 +109,24 @@ public class TraduccionResource {
 		}
 	}
 
-	public es.caib.translatorib.ejb.api.model.Idioma getIdioma(final es.caib.translatorib.api.v1.model.Idioma idioma) {
-		es.caib.translatorib.ejb.api.model.Idioma idi = null;
+	public es.caib.translatorib.core.api.model.Idioma getIdioma(final es.caib.translatorib.api.v1.model.Idioma idioma) {
+		es.caib.translatorib.core.api.model.Idioma idi = null;
 		switch (idioma) {
 		case CASTELLANO:
-			idi = es.caib.translatorib.ejb.api.model.Idioma.CASTELLANO;
+			idi = es.caib.translatorib.core.api.model.Idioma.CASTELLANO;
 			break;
 		case CASTELLANO_ESPANYA:
-			idi = es.caib.translatorib.ejb.api.model.Idioma.CASTELLANO_ESPANYA;
+			idi = es.caib.translatorib.core.api.model.Idioma.CASTELLANO_ESPANYA;
 			break;
 		case CATALAN:
-			idi = es.caib.translatorib.ejb.api.model.Idioma.CATALAN;
+			idi = es.caib.translatorib.core.api.model.Idioma.CATALAN;
 			break;
 		case CATALAN_BALEAR:
-			idi = es.caib.translatorib.ejb.api.model.Idioma.CATALAN_BALEAR;
+			idi = es.caib.translatorib.core.api.model.Idioma.CATALAN_BALEAR;
 			break;
-		case CATALAN_CATALUNYA:
-			idi = es.caib.translatorib.ejb.api.model.Idioma.CATALAN_CATALUNYA;
-			break;
+	/*	case CATALAN_CATALUNYA:
+			idi = es.caib.translatorib.core.api.model.Idioma.CATALAN_CATALUNYA;
+			break;*/
 		}
 		return idi;
 	}
@@ -140,7 +134,8 @@ public class TraduccionResource {
 	/**
 	 * Realiza una traducción de un texto.
 	 *
-	 * @param textoEntrada Texto de enrrada
+	 * @param parametros Los parametros de consulta.
+	 *
 	 * @return Un codi 201 amb el text traduit.
 	 * @throws TraduccionException
 	 */
@@ -151,13 +146,13 @@ public class TraduccionResource {
 	public Response realizarTraduccionDocumento(
 			@RequestBody(description = "Parametros para la traducción", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ParametrosTraduccionDocumento.class))) @Valid final ParametrosTraduccionDocumento parametros) {
 		LOG.error("TraduccionResources.traduccion.documento");
-		final es.caib.translatorib.ejb.api.model.TipoDocumento tipoDocumento = es.caib.translatorib.ejb.api.model.TipoDocumento
+		final es.caib.translatorib.core.api.model.TipoDocumento tipoDocumento = es.caib.translatorib.core.api.model.TipoDocumento
 				.fromString(parametros.getTipoDocumento().toString());
-		final es.caib.translatorib.ejb.api.model.Idioma idiomaEntrada = getIdioma(parametros.getIdiomaEntrada());
-		final es.caib.translatorib.ejb.api.model.Idioma idiomaSalida = getIdioma(parametros.getIdiomaSalida());
-		final es.caib.translatorib.ejb.api.model.Opciones opciones = crearOpciones(parametros.getOpciones());
+		final es.caib.translatorib.core.api.model.Idioma idiomaEntrada = getIdioma(parametros.getIdiomaEntrada());
+		final es.caib.translatorib.core.api.model.Idioma idiomaSalida = getIdioma(parametros.getIdiomaSalida());
+		final es.caib.translatorib.core.api.model.Opciones opciones = crearOpciones(parametros.getOpciones());
 
-		final es.caib.translatorib.ejb.api.model.ResultadoTraduccionDocumento resultado = traduccionService
+		final es.caib.translatorib.core.api.model.ResultadoTraduccionDocumento resultado = traduccionService
 				.realizarTraduccionDocumento(parametros.getContenidoDocumento(), tipoDocumento, idiomaEntrada,
 						idiomaSalida, parametros.getPlugin(), opciones);
 
@@ -169,7 +164,7 @@ public class TraduccionResource {
 	}
 
 	/** Cast de Resultado ejb.abi a rest.api.model **/
-	private ResultadoTraduccionTexto cast(final es.caib.translatorib.ejb.api.model.ResultadoTraduccionTexto resultado) {
+	private ResultadoTraduccionTexto cast(final es.caib.translatorib.core.api.model.ResultadoTraduccionTexto resultado) {
 		ResultadoTraduccionTexto res = null;
 		if (resultado != null) {
 			res = new ResultadoTraduccionTexto();
@@ -182,7 +177,7 @@ public class TraduccionResource {
 
 	/** Cast de Resultado ejb.abi a rest.api.model **/
 	private ResultadoTraduccionDocumento cast(
-			final es.caib.translatorib.ejb.api.model.ResultadoTraduccionDocumento resultado) {
+			final es.caib.translatorib.core.api.model.ResultadoTraduccionDocumento resultado) {
 		ResultadoTraduccionDocumento res = null;
 		if (resultado != null) {
 			res = new ResultadoTraduccionDocumento();
@@ -199,11 +194,13 @@ public class TraduccionResource {
 	private Opciones crearOpciones(final es.caib.translatorib.api.v1.model.Opciones opciones) {
 		final Opciones resultado = new Opciones();
 		if (opciones != null && opciones.getPropiedades() != null && opciones.getPropiedades().isEmpty()) {
-			final List<PropiedadValor> propiedades = new ArrayList();
+			//final List<PropiedadValor> propiedades = new ArrayList<PropiedadValor>();
 			for (final es.caib.translatorib.api.v1.model.PropiedadValor prop : opciones.getPropiedades()) {
-				propiedades.add(new PropiedadValor(prop.getPropiedad(), prop.getValor()));
+			//	propiedades.add(new PropiedadValor(prop.getPropiedad(), prop.getValor()));
+				resultado.addPropiedadValor(prop.getPropiedad(), prop.getValor());
 			}
 		}
+
 		return resultado;
 	}
 }

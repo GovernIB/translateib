@@ -29,7 +29,7 @@ import org.slf4j.LoggerFactory;
  * Els mètodes d'actualització/borrat, PUT/DELETE, retornen un 204 si ha anat bé
  * (ja que no retornen cap entity), o 404 si no es troba el recurs.
  *
- * @author areus
+ * @author Indra
  */
 @ApplicationPath("/services")
 //JDK1.8 Borrar la siguiente linea

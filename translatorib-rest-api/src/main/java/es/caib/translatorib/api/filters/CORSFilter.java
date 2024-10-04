@@ -19,7 +19,7 @@ import javax.ws.rs.ext.Provider;
  * cap resource Amb la prioritat 200 asseguram que s'executa després del
  * logging, però abans que qualsevol altre.
  *
- * @author areus
+ * @author Indra
  */
 @Provider
 @PreMatching

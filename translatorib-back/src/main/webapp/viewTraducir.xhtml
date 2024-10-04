@@ -1,0 +1,169 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	template="layout/mainLayout.xhtml">
+
+
+
+	<f:metadata>
+		<f:viewAction action="#{viewTraducir.init}" />
+	</f:metadata>
+
+	<ui:define name="pageTitle">
+		<h:outputFormat value="#{msg['viewTraducir.titulo']}" />
+	</ui:define>
+
+	<ui:define name="content">
+
+		<h:form id="form" style=""  enctype="multipart/form-data">
+
+			<!-- Growl mensajes -->
+			<p:growl id="growl" widgetVar="growl" showDetail="false" life="2000" sticky="false" />
+			<!-- Contenido -->
+			<div class="col-12 card flex align-items-center justify-content-start pl-4">
+				<label for="txtPlugins" class="p-sr-only" >Plugin: </label>
+				<p:selectOneMenu   id="txtPlugins"
+								   value="#{viewTraducir.plugin}"
+								   styleClass="" autoWidth="false" >
+					<f:selectItems value="#{viewTraducir.plugins}" var="plugin"
+								   itemLabel="#{plugin.descripcion}"
+								   itemValue="#{plugin.identificador}"/>
+					<!-- Agregar p:ajax para escuchar el cambio y ejecutar el método -->
+					<p:ajax event="change" listener="#{viewTraducir.cambiarPlugin}" update="selectId1 selectId2"/>
+				</p:selectOneMenu>
+
+				<p:divider layout="vertical" />
+
+				<p:selectOneButton id="selectTipo" value="#{viewTraducir.tipo}"
+								   required="true" styleClass="noDisableColor">
+					<f:selectItem itemLabel="#{msg['dict.texto']}"  itemValue="0" itemDisabled="#{viewTraducir.tipo == 0}" />
+					<f:selectItem itemLabel="#{msg['dict.documento']}" itemValue="1" itemDisabled="#{viewTraducir.tipo == 1}" />
+					<p:ajax event="change" update="tipos selectTipo" />
+				</p:selectOneButton>
+			</div>
+
+			<!--	<p:tabView id="tabView">
+                     Primera pestaña: Texto
+				<p:tab id="tab1" title="#{msg['dict.texto']}" rendered="#{viewTraducir.tipo == 0}">-->
+			<p:card id="tipos" styleClass="limpiacardshadow limpiacardmargin pl-2" >
+
+				<div class="grid">
+					<div class="col-12 md:col-5 flex align-items-center justify-content-center">
+						<p:outputLabel value="#{msg['viewTraducir.idiomaOrigen']}:" styleClass="hidden" />
+						<p:selectOneButton  id="selectId1" value="#{viewTraducir.idiomaOrigen}"
+										 required="false" styleClass="noDisableColor">
+							<f:selectItems value="#{viewTraducir.idiomasOrigen}" var="lang"
+										   itemLabel="#{msg['' += lang.getLiteral()]}" itemValue="#{lang}" itemDisabled="#{viewTraducir.idiomaOrigen == lang}"
+							/>
+							<p:ajax event="change" listener="#{viewTraducir.cambiarIdiomaOrigenAux}" update="tradLiteral selectId1 selectId2"/>
+						</p:selectOneButton >
+					</div>
+					<div class="col-12 md:col-2 flex align-items-center justify-content-center">
+						<p:commandButton action="#{viewTraducir.cambioValores}"
+										 update="selectId1 selectId2 tradLiteral"
+										 icon="pi pi-arrow-right-arrow-left"
+										 process="@this"/>
+					</div>
+					<div class="col-12 md:col-5 flex align-items-center justify-content-center">
+						<p:outputLabel value="#{msg['viewTraducir.idiomaDestino']}:" styleClass="hidden"  />
+						<p:selectOneButton id="selectId2" value="#{viewTraducir.idiomaDestino}"
+										 required="false" styleClass="noDisableColor">
+							<f:selectItems value="#{viewTraducir.idiomasDestino}" var="lang"
+										   itemLabel="#{msg['' += lang.getLiteral()]}" itemValue="#{lang}"
+										   itemDisabled="#{viewTraducir.esDisabledDestino(lang) || viewTraducir.idiomaDestino == lang}"
+
+							/>
+							<p:ajax process="@this" listener="#{viewTraducir.cambiarIdiomaDestinoAux}"
+									update="tradLiteral selectId1 selectId2"/>
+						</p:selectOneButton>
+					</div>
+				</div>
+
+
+				<p:card id="tab1"  rendered="#{viewTraducir.tipo == 0}" styleClass="limpiacardshadow limpiacardmargin limpiacardpadding" >
+					<div class="grid">
+						<div class="col-12 md:col-6 flex align-items-top justify-content-center">
+							<p:inputTextarea id="textAreaOrigen" rows="20" cols="20" autoResize="true"
+											 styleClass="w-12" value="#{viewTraducir.textoOrigen}" />
+						</div>
+
+						<div class="col-12 md:col-6 flex align-items-top justify-content-center">
+							<p:inputTextarea id="textAreaDestino" rows="20" cols="20" autoResize="true"
+											 styleClass="w-12" value="#{viewTraducir.textoDestino}" />
+						</div>
+					</div>
+
+					<div class="formgroup-inline ">
+						<div class="form-row">
+							<div class="form-group col-md-12 col-xs-6 ">
+								<p:commandButton id="btnTraducir" value="#{msg['dict.traducir']}"
+												 styleClass="" icon="pi pi-search"
+												 actionListener="#{viewTraducir.traducir()}"
+												 update="textAreaDestino"
+												 process="@form"/>
+
+								<p:commandButton id="btnTraducirJAVA" value="#{msg['dict.traducir']} JAVA"
+												 rendered="#{viewTraducir.mostrarBotonJava}"
+												 styleClass="" icon="pi pi-search"
+												 actionListener="#{viewTraducir.traducirJAVA()}"
+												 update="textAreaDestino"
+												 process="@form"/>
+							</div>
+						</div>
+					</div>
+				<!--</p:tab>-->
+			</p:card>
+			<p:card id="tab2" rendered="#{viewTraducir.tipo == 1}" styleClass="limpiacardshadow limpiacardmargin limpiacardpadding" >
+				<!-- Segunda pestaña: Subir archivo-->
+					<p:fileUpload id="fic" listener="#{viewTraducir.file}"
+								  widgetVar="uploadDnd"
+								  mode="simple"
+								  skinSimple="true"
+								  auto="true"
+								  dragDropSupport="true"
+								  dropZone="customDropZone"
+								  fileLimit="1"
+								  label="#{msg['dict.elegirFichero']}"
+								  uploadLabel="#{msg['dict.subirFichero']}" cancelLabel="#{msg['botones.cancelar']}"
+								  update="messages cropperPanel fichero1 btntraducir"
+								  allowTypes="/(\.|\/)(pdf|doc|docx|xls|xlsx|xml|wxml|odp|ods|odt|ppt|pptx|html|txt)$/"
+								  style="display: none">
+
+						<div class="col-12 card flex align-items-center justify-content-center ui-fileupload-content" style="border-bottom: none"><p:outputLabel value="#{msg['dict.txtarrastraysuelta']}" styleClass="text-2xl" /></div>
+
+					</p:fileUpload>
+				<div class="grid">
+					<p:panel id="customDropZone" styleClass="col-5 zona-arrastrar">
+						<h2> <p:outputLabel value="#{msg['dict.txtarrastraysuelta']}"></p:outputLabel></h2>
+						<div class="contenedor flex justify-content-center align-items-center">
+							<i class="pi pi-upload"></i>
+						</div>
+					</p:panel>
+					<div class="col-2">
+						<p:divider layout="vertical">
+							<b>O</b>
+						</p:divider>
+					</div>
+					<div class="col-5 flex align-items-center justify-content-center">
+						<p:commandButton type="button" value="#{msg['dict.elegirFichero']}" icon="pi pi-upload" onclick="PF('uploadDnd').show();return false" styleClass="boton-color-principal"  />
+					</div>
+				</div>
+
+
+
+					<p>
+						<p:commandButton id="btntraducir" value="#{not empty viewTraducir.file ? msg['dict.traducir'].concat(' ').concat( viewTraducir.file.fileName) : msg['dict.ficheroVacio']}"
+										 actionListener="#{viewTraducir.descargarArchivo}"
+										 ajax="false" disabled="#{empty viewTraducir.file}"/>
+					</p>
+				<!--</p:tab>
+			</p:tabView>-->
+			</p:card>
+			</p:card>
+		</h:form>
+	</ui:define>
+
+</ui:composition>

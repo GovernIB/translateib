@@ -4,7 +4,7 @@ package es.caib.translatorib.commons.utils;
  * Constants emprades dins tota l'aplicació.
  *
  * @author anadal
- * @author areus
+ * @author Indra
  */
 public interface Constants {
 

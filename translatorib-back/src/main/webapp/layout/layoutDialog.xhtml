@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      lang="#{sessionBean.locale.toLanguageTag()}">
+<!--
+Plantilla.
+-->
+<f:view locale="#{sessionBean.locale}">
+    <!-- Espai perquè les pàgines que emprin el template defineixin els seus viewParam i viewAction -->
+    <ui:insert name="metadata"/>
+    <h:head class="bg-aplicacio x">
+        <!-- Necessari perquè PrimeFaces posi aquest tags al principi del HEAD -->
+        <f:facet name="first" class="bg-aplicacio x2">
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+            <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+            <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+            <title class="x3 bg-aplicacio"><ui:insert name="pageTitleDialog"/></title>
+            <link rel="shortcut icon" href="#{resource['img/GOIB_fav.png']}"/>
+        </f:facet>
+        <!--<h:outputScript name="js/bootstrap.min.js" />-->
+        <ui:insert name="icerik"/>
+
+        <!-- Traduccions personalitzades de PrimeFaces en català i castellà -->
+        <script src="#{resource['js/primefaceslocale_' += sessionBean.locale.toLanguageTag() += '.js']}"
+                type="text/javascript"></script>
+    </h:head>
+    <h:outputStylesheet library="css">
+        html, body, #formDialog {
+            height: 100%;
+            margin: 0;
+        }
+
+        .wrapper {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .contenido {
+            flex: 1;
+            overflow: auto;
+        }
+
+
+
+        .ui-dialog {
+            z-index: 1030 !important;
+        }
+
+        @media (max-width: 642px) {
+            .contenido {
+                margin-bottom: 0px;
+            }
+        }
+
+    </h:outputStylesheet>
+    <h:body style="z-index: 1050 !important;">
+        <!--
+        Les declaram aquí enlloc de a HEAD per assegurar que es carreguen després dels de Primefaces
+        Veure: https://stackoverflow.com/a/8774997/11751648
+        -->
+
+        <h:outputStylesheet name="css/style.css"/>
+        <h:outputStylesheet name="css/primeflex.3.1.1.css" />
+
+        <!-- Content -->
+        <h:form id="formDialog" enctype="multipart/form-data" >
+            <div class="wrapper">
+                <div class="contenido">
+                    <ui:insert name="contentDialog"/>
+                </div>
+
+				<p:dialog modal="true" widgetVar="statusDialog1"
+					header="#{msg['dict.cargandoLaInfo']}" draggable="false"
+					closable="false" resizable="False">
+					<div class="text-center">
+						<i class="pi pi-spin pi-spinner loading-icon" aria-hidden="true" />
+					</div>
+				</p:dialog>
+				<p:dialog modal="true" widgetVar="statusDialog2"
+					header="#{msg['dict.eliminandoDato']}" draggable="false"
+					closable="false" resizable="False">
+					<div class="text-center">
+						<i class="pi pi-spin pi-spinner loading-icon" aria-hidden="true" />
+					</div>
+				</p:dialog>
+
+				<div class="footer">
+                    <ui:include src="footerDialog.xhtml"/>
+                </div>
+            </div>
+        </h:form>
+
+
+        <!--
+            -->
+
+
+        <!-- FI Content
+        <div id="footer">
+            <ui:include src="/WEB-INF/includes/footerDialog.xhtml"/>
+        </div>-->
+    </h:body>
+</f:view>
+<script>
+    function startCargando() {
+    	PF('statusDialog1').show();
+	}
+
+	function stopCargando() {
+		PF('statusDialog1').hide();
+	}
+
+	function startEliminando() {
+		PF('statusDialog2').show();
+	}
+
+	function stopEliminando() {
+		PF('statusDialog2').hide();
+	}
+</script>
+</html>

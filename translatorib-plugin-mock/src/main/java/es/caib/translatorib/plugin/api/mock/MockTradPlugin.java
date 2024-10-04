@@ -1,11 +1,11 @@
 package es.caib.translatorib.plugin.api.mock;
 
-import es.caib.translatorib.ejb.api.model.Idioma;
-import es.caib.translatorib.ejb.api.model.Opciones;
-import es.caib.translatorib.ejb.api.model.ResultadoTraduccionDocumento;
-import es.caib.translatorib.ejb.api.model.ResultadoTraduccionTexto;
-import es.caib.translatorib.ejb.api.model.TipoDocumento;
-import es.caib.translatorib.ejb.api.model.TipoEntrada;
+import es.caib.translatorib.core.api.model.Idioma;
+import es.caib.translatorib.core.api.model.Opciones;
+import es.caib.translatorib.core.api.model.ResultadoTraduccionDocumento;
+import es.caib.translatorib.core.api.model.ResultadoTraduccionTexto;
+import es.caib.translatorib.core.api.model.TipoDocumento;
+import es.caib.translatorib.core.api.model.TipoEntrada;
 import es.caib.translatorib.plugin.api.ITraduccionPlugin;
 
 /**
@@ -21,7 +21,7 @@ public class MockTradPlugin implements ITraduccionPlugin {
 			final Idioma idiomaEntrada, final Idioma idiomaSalida, final Opciones opciones) {
 		final ResultadoTraduccionTexto resultado = new ResultadoTraduccionTexto();
 		resultado.setError(false);
-		resultado.setTextoTraducido("Hola");
+		resultado.setTextoTraducido(textoEntrada+" (TRADMOCK)");
 		return resultado;
 	}
 

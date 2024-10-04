@@ -1,0 +1,123 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	template="../../layout/mainLayout.xhtml">
+
+	<f:metadata>
+		<f:viewAction action="#{viewPlugins.init}" />
+	</f:metadata>
+
+	<ui:define name="pageTitle">
+		<h:outputFormat value="#{msg['viewPlugins.titulo']}" />
+	</ui:define>
+
+	<ui:define name="content">
+		 
+		<h:form id="form" style="height: 100%">
+
+			<!-- Growl mensajes -->
+			<p:growl id="growl" widgetVar="growl" showDetail="false" life="2000" sticky="false" /> 
+			<!-- Toolbar -->
+			<p:toolbar id="toolbar">
+		        <f:facet name="left">
+		        	<!-- Si se pone process="panelFiltro" en el commadButton solo se envian los datos de panelFiltro. Si no se pone process se envia todo el formulario. -->
+		        	<h:panelGrid id="panelFiltro" columns="8" cellspacing="5">
+						<h:outputFormat value="#{msg['dict.filtro']}:" styleClass="ml-3 mr-2" />
+						<p:inputText placeholder="#{msg['botones.buscar']}" value="#{viewPlugins.filtro}"/>
+						<p:commandButton id="btnBuscar" value="#{msg['dict.busqueda']}"
+										 styleClass="mr-2" icon="pi pi-search"
+										 actionListener="#{viewPlugins.buscar()}"
+										 update="messages dataTable"
+										 process="@form"/>
+	           		</h:panelGrid>
+		        </f:facet>
+
+		        <f:facet name="right">
+		        	<h:panelGrid id="panelBotones" columns="7" cellspacing="5" onchange="opcVista();">
+						<p:commandButton id="btnNew" value="#{msg['dict.nuevo']}" styleClass="mr-2"
+										 icon="pi pi-file-o" iconPos="top"
+										 actionListener="#{viewPlugins.nuevo}" process="@form"
+										 update="messages dataTable">
+							<p:ajax event="dialogReturn" listener="#{viewPlugins.returnDialogo}"
+									update="messages dataTable includeDetalle" />
+						</p:commandButton>
+						<p:commandButton id="btnEditar" value="#{msg['dict.editar']}" styleClass="mr-2"
+										 icon="pi pi-pencil" iconPos="top"
+										 actionListener="#{viewPlugins.editar}" process="@form"
+										 update="messages dataTable"
+										 disabled="#{viewPlugins.datoSeleccionado == null}">
+							<p:ajax event="dialogReturn" listener="#{viewPlugins.returnDialogo}"
+									update="messages dataTable includeDetalle" />
+						</p:commandButton>
+						<p:commandButton id="btnBorrar" value="#{msg['dict.borrar']}" styleClass="mr-2"
+										 icon="pi pi-trash"
+										 iconPos="top" action="#{viewPlugins.borrar}"
+										 process="@form" update="messages dataTable" onstart="startEliminando()"
+										 disabled="#{viewPlugins.datoSeleccionado == null}"
+										 oncomplete="stopEliminando()">
+							<p:confirm header="#{msg['msg.aviso']}" message="#{msg['msg.eliminarRegistro']}"/>
+						</p:commandButton>
+
+			        </h:panelGrid>
+		        </f:facet>
+		    </p:toolbar>
+
+
+			<!-- Data table -->
+			<p:dataTable  id="dataTable" var="td" value="#{viewPlugins.listaDatos}"
+						 rows="13" emptyMessage="#{msg['info.emptyRows']}"
+						 scrollable="true" scrollHeight="90%"
+                         paginator="true" paginatorPosition="bottom"
+                         paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                         rowsPerPageTemplate="5,10,15,30"
+			        	 selectionMode="single" selection="#{viewPlugins.datoSeleccionado}" rowKey="#{td.codigo}">
+
+
+				<!-- Necesario para actualizar en controlador la fila seleccionada -->
+				<p:ajax event="rowSelect" global="false" update="form:panelBotones"/>
+				<p:ajax event="rowDblselect" oncomplete="triggerDblClick();"/>
+				<p:ajax event="contextMenu" global="false" process="@this" update="form:panelBotones" oncomplete="opcVista();"/>
+
+
+				<!-- Columnas -->
+			    <p:column headerText="#{msg['dict.codigo']}" sortBy="#{td.codigo}" >
+			        <h:outputText value="#{td.codigo}" />
+			    </p:column>
+
+				<p:column headerText="#{msg['dict.identificador']}" sortBy="#{td.identificador}" >
+					<h:outputText value="#{td.identificador}" />
+				</p:column>
+
+				<p:column headerText="#{msg['dict.descripcion']}" sortBy="#{td.descripcion}" >
+					<h:outputText value="#{td.descripcion}" />
+				</p:column>
+
+				<p:column headerText="#{msg['dict.classname']}" sortBy="#{td.classname}" >
+					<h:outputText value="#{td.classname}" />
+				</p:column>
+
+				<p:column headerText="#{msg['dict.prefijo']}" sortBy="#{td.prefijo}" >
+					<h:outputText value="#{td.prefijo}" />
+				</p:column>
+
+				<p:column headerText="#{msg['dict.porDefecto']}">
+					<p:selectBooleanCheckbox id="txtPorDefecto" value="#{td.porDefecto}"
+											 styleClass="w1"
+											 disabled="true"  />
+				</p:column>
+
+			</p:dataTable>
+		</h:form>
+
+		<h:outputScript >
+	      function triggerDblClick() {
+	        	$('#form\\:btnEditar').click();
+	      }
+	    </h:outputScript>
+
+	</ui:define>
+
+</ui:composition>

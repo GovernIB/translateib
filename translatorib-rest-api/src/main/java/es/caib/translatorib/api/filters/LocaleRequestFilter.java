@@ -25,7 +25,7 @@ import javax.ws.rs.ext.Provider;
  * Filtre per garantir que la petició és retorna amb un dels idiomes soportats,
  * segons les preferències indicades a la petició.
  *
- * @author areus
+ * @author Indra
  */
 @Provider
 @PreMatching

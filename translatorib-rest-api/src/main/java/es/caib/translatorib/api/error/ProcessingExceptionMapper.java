@@ -14,7 +14,7 @@ import javax.ws.rs.ext.Provider;
  * una cadena JSON invàlida.
  * La resposta retornada serà un codi 400, ja que és un error del client.
  *
- * @author areus
+ * @author Indra
  */
 @Provider
 public class ProcessingExceptionMapper implements ExceptionMapper<ProcessingException> {

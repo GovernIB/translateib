@@ -44,6 +44,11 @@ public class TraduccionServiceTest {
 	private static final String USER = "usuario1";
 	private static final String PASSWORD = "1234";
 
+	// private static final String BASE_URL =
+	// "https://dev.caib.es/translatorib/api/services/traduccion/v1";
+	// private static final String USER = "$rolsac_translatorib";
+	// private static final String PASSWORD = "rolsac_translatorib";
+
 	// Client a reutilitzar durant test
 	private static Client client;
 
@@ -135,7 +140,6 @@ public class TraduccionServiceTest {
 
 	}
 
-
 	/**
 	 * Consulta totes les unitats.
 	 */
@@ -190,18 +194,17 @@ public class TraduccionServiceTest {
 		File file = new File("P://txtTraducido.txt");
 
 		FileOutputStream fos = null;
-	    try  {
-	      fos = new FileOutputStream(file);
-	      byte[] datos = Base64.getDecoder().decode(respuesta.getTextoTraducido());
-	      fos.write(datos);
-	      System.out.println("TXT File Saved");
-	    } catch (Exception e) {
-	      e.printStackTrace();
-	    } finally {
-	    	fos.close();
-	    }
+		try {
+			fos = new FileOutputStream(file);
+			byte[] datos = Base64.getDecoder().decode(respuesta.getTextoTraducido());
+			fos.write(datos);
+			System.out.println("TXT File Saved");
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			fos.close();
+		}
 	}
-
 
 	/**
 	 * Consulta totes les unitats.
@@ -231,17 +234,17 @@ public class TraduccionServiceTest {
 
 		File file = new File("P://odtTraducido.odt");
 
-		 FileOutputStream fos = null;
-	    try {
-	    	fos = new FileOutputStream(file);
-	    	byte[] datos = Base64.getDecoder().decode(respuesta.getTextoTraducido());
-		    fos.write(datos);
-	      System.out.println("ODT File Saved");
-	    } catch (Exception e) {
-	      e.printStackTrace();
-	    } finally {
-	    	fos.close();
-	    }
+		FileOutputStream fos = null;
+		try {
+			fos = new FileOutputStream(file);
+			byte[] datos = Base64.getDecoder().decode(respuesta.getTextoTraducido());
+			fos.write(datos);
+			System.out.println("ODT File Saved");
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			fos.close();
+		}
 	}
 
 	/**
@@ -268,31 +271,30 @@ public class TraduccionServiceTest {
 
 		final ResultadoTraduccionDocumento respuesta = response.readEntity(ResultadoTraduccionDocumento.class);
 
-
-
 		Assert.assertTrue(!respuesta.isError());
 		Assert.assertTrue(respuesta != null && !respuesta.isError());
 
 		File file = new File("P://pdfTraducido.pdf");
 
 		FileOutputStream fos = null;
-	    try {
-	      fos = new FileOutputStream(file);
-	      byte[] datos = Base64.getDecoder().decode(respuesta.getTextoTraducido());
-		    fos.write(datos);
-	      System.out.println("PDF File Saved");
-	    } catch (Exception e) {
-	      e.printStackTrace();
-	    } finally {
-	    	fos.close();
-	    }
+		try {
+			fos = new FileOutputStream(file);
+			byte[] datos = Base64.getDecoder().decode(respuesta.getTextoTraducido());
+			fos.write(datos);
+			System.out.println("PDF File Saved");
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			fos.close();
+		}
 
-		//byte[] datosTraducidos = Base64.getEncoder().encode(respuesta.getTextoTraducido().getBytes());
-		//byte[] datosTraducidos = Base64.getDecoder().decode(respuesta.getTextoTraducido());
-		//Path path = Paths.get("P://pdfTraducido.pdf");
-		//Files.write(path, datosTraducidos);
+		// byte[] datosTraducidos =
+		// Base64.getEncoder().encode(respuesta.getTextoTraducido().getBytes());
+		// byte[] datosTraducidos =
+		// Base64.getDecoder().decode(respuesta.getTextoTraducido());
+		// Path path = Paths.get("P://pdfTraducido.pdf");
+		// Files.write(path, datosTraducidos);
 	}
-
 
 	/**
 	 * Consulta totes les unitats.
@@ -324,18 +326,17 @@ public class TraduccionServiceTest {
 		File file = new File("P://docTraducido.doc");
 
 		FileOutputStream fos = null;
-	    try {
-	      fos = new FileOutputStream(file);
-	      byte[] datos = Base64.getDecoder().decode(respuesta.getTextoTraducido());
-		    fos.write(datos);
-		    System.out.println("DOC File Saved");
-	    } catch (Exception e) {
-	      e.printStackTrace();
-	    } finally {
-	    	fos.close();
-	    }
+		try {
+			fos = new FileOutputStream(file);
+			byte[] datos = Base64.getDecoder().decode(respuesta.getTextoTraducido());
+			fos.write(datos);
+			System.out.println("DOC File Saved");
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			fos.close();
+		}
 	}
-
 
 	/**
 	 * Consulta totes les unitats.
@@ -361,31 +362,29 @@ public class TraduccionServiceTest {
 
 		final ResultadoTraduccionDocumento respuesta = response.readEntity(ResultadoTraduccionDocumento.class);
 
-
-
 		Assert.assertTrue(!respuesta.isError());
 		Assert.assertTrue(respuesta != null && !respuesta.isError());
 
 		File file = new File("P://docxTraducido.docx");
 
 		FileOutputStream fos = null;
-	    try {
-	      fos = new FileOutputStream(file);
-	      byte[] datos = Base64.getDecoder().decode(respuesta.getTextoTraducido());
-		    fos.write(datos);
-		    System.out.println("DOCX File Saved");
-	    } catch (Exception e) {
-	      e.printStackTrace();
-	    } finally {
-	    	fos.close();
-	    }
+		try {
+			fos = new FileOutputStream(file);
+			byte[] datos = Base64.getDecoder().decode(respuesta.getTextoTraducido());
+			fos.write(datos);
+			System.out.println("DOCX File Saved");
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			fos.close();
+		}
 	}
 
 	/**
 	 * Consulta totes les unitats.
 	 */
-	//@Test
-	//Activar el test sólo si se está seguro que traduce al balear
+	// @Test
+	// Activar el test sólo si se está seguro que traduce al balear
 	public void testTraduccionTextABalear() {
 
 		final ParametrosTraduccionTexto parametros = new ParametrosTraduccionTexto();
@@ -401,8 +400,8 @@ public class TraduccionServiceTest {
 		final ResultadoTraduccionTexto respuesta = response.readEntity(ResultadoTraduccionTexto.class);
 
 		Assert.assertTrue(!respuesta.isError());
-		Assert.assertTrue(
-				respuesta != null && !respuesta.isError() && respuesta.getTextoTraducido().equals("Text a traduir. Moix. Petó. Ratapinyada."));
+		Assert.assertTrue(respuesta != null && !respuesta.isError()
+				&& respuesta.getTextoTraducido().equals("Text a traduir. Moix. Petó. Ratapinyada."));
 
 	}
 
@@ -410,7 +409,7 @@ public class TraduccionServiceTest {
 	 * Consulta totes les unitats.
 	 */
 	@Test
-	//Activar el test sólo si se está seguro que traduce al balear
+	// Activar el test sólo si se está seguro que traduce al balear
 	public void testTraduccionTextDesdeBalear() {
 
 		final ParametrosTraduccionTexto parametros = new ParametrosTraduccionTexto();
@@ -426,8 +425,8 @@ public class TraduccionServiceTest {
 		final ResultadoTraduccionTexto respuesta = response.readEntity(ResultadoTraduccionTexto.class);
 
 		Assert.assertTrue(!respuesta.isError());
-		Assert.assertTrue(
-				respuesta != null && !respuesta.isError() && respuesta.getTextoTraducido().equals("Texto a traducir. Gato. Beso. Murciélago."));
+		Assert.assertTrue(respuesta != null && !respuesta.isError()
+				&& respuesta.getTextoTraducido().equals("Texto a traducir. Gato. Beso. Murciélago."));
 
 	}
 }

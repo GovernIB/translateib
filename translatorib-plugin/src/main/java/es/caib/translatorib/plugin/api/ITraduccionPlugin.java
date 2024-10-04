@@ -2,12 +2,12 @@ package es.caib.translatorib.plugin.api;
 
 import org.fundaciobit.pluginsib.core.IPlugin;
 
-import es.caib.translatorib.ejb.api.model.Idioma;
-import es.caib.translatorib.ejb.api.model.Opciones;
-import es.caib.translatorib.ejb.api.model.ResultadoTraduccionDocumento;
-import es.caib.translatorib.ejb.api.model.ResultadoTraduccionTexto;
-import es.caib.translatorib.ejb.api.model.TipoDocumento;
-import es.caib.translatorib.ejb.api.model.TipoEntrada;
+import es.caib.translatorib.core.api.model.Idioma;
+import es.caib.translatorib.core.api.model.Opciones;
+import es.caib.translatorib.core.api.model.ResultadoTraduccionDocumento;
+import es.caib.translatorib.core.api.model.ResultadoTraduccionTexto;
+import es.caib.translatorib.core.api.model.TipoDocumento;
+import es.caib.translatorib.core.api.model.TipoEntrada;
 
 /**
  * Interface pasarela traducción.
@@ -28,11 +28,11 @@ public interface ITraduccionPlugin extends IPlugin {
 	/**
 	 * Realizar traduccion de un texto.
 	 *
-	 * @param textoEntrada
-	 * @param tipoEntrada
-	 * @param idiomaEntrada
-	 * @param idiomaSalida
-	 * @param opciones
+	 * @param textoEntrada Texto de entrada
+	 * @param tipoEntrada Tipo de entrada
+	 * @param idiomaEntrada Idioma entrada
+	 * @param idiomaSalida Idioma salida
+	 * @param opciones Opciones
 	 * @return
 	 * @throws TraduccionException
 	 */
@@ -42,11 +42,11 @@ public interface ITraduccionPlugin extends IPlugin {
 	/**
 	 * Realizar traducción de un documento.
 	 *
-	 * @param documentoEntrada
-	 * @param tipoDocumento
-	 * @param idiomaEntrada
-	 * @param idiomaSalida
-	 * @param opciones
+	 * @param documentoEntradaB64 Documento entrada b64
+	 * @param tipoDocumento Tipo Documento
+	 * @param idiomaEntrada Idioma entrada
+	 * @param idiomaSalida Idioma salida
+	 * @param opciones Opciones
 	 * @return
 	 */
 	ResultadoTraduccionDocumento realizarTraduccionDocumento(final String documentoEntradaB64,

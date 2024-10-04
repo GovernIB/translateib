@@ -1,0 +1,217 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+>
+<ui:composition template="../../layout/layoutDialog.xhtml">
+    <ui:define name="metadata">
+        <f:metadata>
+            <f:viewParam id="MODO_ACCESO" name="MODO_ACCESO" value="#{dialogPlugins.modoAcceso}"/>
+            <f:viewParam id="ID" name="ID" value="#{dialogPlugins.id}"/>
+            <f:viewAction action="#{dialogPlugins.load}"/>
+        </f:metadata>
+    </ui:define>
+    <ui:define name="pageTitleDialog">
+        <h:outputFormat value="#{msg['dialogPlugins.consulta']}"
+                        rendered="#{dialogPlugins.isConsulta()}"/>
+        <h:outputFormat value="#{msg['dialogPlugins.detalle']}"
+                        rendered="#{dialogPlugins.isEdicion()}"/>
+        <h:outputFormat value="#{msg['dialogPlugins.nuevo']}"
+                        rendered="#{dialogPlugins.isAlta()}"/>
+    </ui:define>
+    <ui:define name="contentDialog">
+        <h:outputStylesheet>
+            .pi-info-circle {
+                width: 30px;
+                height: 30px;
+            }
+        </h:outputStylesheet>
+        <p:panel id="form">
+            <p:growl id="messagesDialog"
+                     globalOnly="false"
+                     showDetail="false"
+                     life="5000"
+                     escape="false"/>
+            <div class="grid">
+                <div class="col-12 md:col-2">
+                    <p:outputLabel value="#{msg['dict.codigo']}:" for="txtCodigo"/>
+                </div>
+                <div class="col-12 md:col-4">
+                    <p:inputText id="txtCodigo" value="#{dialogPlugins.data.codigo}"
+                                 styleClass="w-11" disabled="true" maxlength="50"/>
+                </div>
+                <div class="col-12 md:col-2">
+                    <p:outputLabel value="#{msg['dict.porDefecto']}:" for="txtPorDefecto"/>
+                </div>
+                <div class="col-12 md:col-4">
+                    <p:selectBooleanCheckbox id="txtPorDefecto" value="#{dialogPlugins.data.porDefecto}"
+                                             styleClass="w-11"
+                                             disabled="#{dialogPlugins.isConsulta()}"  />
+                </div>
+
+                <div class="col-12 md:col-2">
+                    <p:outputLabel value="#{msg['dict.identificador']}:" for="txtIdentificador"/>
+                </div>
+                <div class="col-12 md:col-10">
+                    <p:inputText id="txtIdentificador" value="#{dialogPlugins.data.identificador}"
+                                 requiredMessage="#{msg['dict.obligatorio.identificador']}"
+                                 styleClass="w-11" required="#{empty param['formDialog:closeButton']}"
+                                 disabled="#{dialogPlugins.isConsulta()}" maxlength="50"/>
+                </div>
+
+                <div class="ui-g-12 ui-md-2 ui-lg-2">
+                    <p:outputLabel value="#{msg['dict.descripcion']}:" for="txtDescripcion"/>
+                </div>
+                <div class="ui-g-12 ui-md-10 ui-lg-10">
+                   <p:inputTextarea id="txtDescripcion" value="#{dialogPlugins.data.descripcion}"
+                                 requiredMessage="#{msg['dict.obligatorio.descripcion']}"
+                                 styleClass="w-11" required="#{empty param['formDialog:closeButton']}"
+                                 disabled="#{dialogPlugins.isConsulta()}" maxlength="50"/>
+                </div>
+
+
+
+                <div class="ui-g-12 ui-md-2 ui-lg-2">
+                    <p:outputLabel value="#{msg['dict.classname']}:" for="txtClassname"/>
+                </div>
+                <div class="ui-g-12 ui-md-10 ui-lg-10">
+                    <p:inputTextarea id="txtClassname" value="#{dialogPlugins.data.classname}"
+                                     requiredMessage="#{msg['dict.obligatorio.classname']}"
+                                     styleClass="w-11" required="#{empty param['formDialog:closeButton']}"
+                                     rows="3" autoResize="false"
+                                     disabled="#{dialogPlugins.isConsulta()}" maxlength="1000"/>
+                </div>
+
+                <div class="ui-g-12 ui-md-2 ui-lg-2">
+                    <p:outputLabel value="#{msg['dict.idiomasPermitidos']}:" for="txtidiomasPermitidos"/>
+                </div>
+                <div class="ui-g-12 ui-md-10 ui-lg-10">
+                    <p:selectManyCheckbox id="txtidiomasPermitidos" value="#{dialogPlugins.combinacionesSeleccionadas}" label="Idiomas"
+                                          layout="grid" columns="1" converter="parejaIdiomasConverter">
+                        <f:selectItems value="#{dialogPlugins.todasLasCombinaciones}" var="pareja"
+                                       itemLabel="#{msg[pareja.getLabel()]}"
+                                       itemValue="#{pareja}" />
+
+                    </p:selectManyCheckbox>
+
+                </div>
+
+                <div class="ui-g-12 ui-md-2 ui-lg-2">
+                    <p:outputLabel value="#{msg['dict.prefijo']}:" for="txtPrefijo"/>
+                </div>
+                <div class="ui-g-12 ui-md-10 ui-lg-10">
+                    <p:inputText id="txtPrefijo" value="#{dialogPlugins.data.prefijo}"
+                                 requiredMessage="#{msg['dict.obligatorio.prefijo']}"
+                                 styleClass="w-11" required="#{empty param['formDialog:closeButton']}"
+                                 disabled="#{dialogPlugins.isConsulta()}" maxlength="500"/>
+                </div>
+            </div>
+            <div class="grid mt-2 mt2">
+
+                <div class="ui-g-12 ui-md-2 ui-lg-2">
+                    <p:outputLabel value="#{msg['dict.propiedades']}:" for="dataTablePropiedades"/>
+                </div>
+                <div class="ui-g-10 ui-md-9 ui-lg-9 grid">
+                    <p:dataTable id="dataTablePropiedades" var="td" value="#{dialogPlugins.data.propiedades}"
+                                 rows="25" scrollable="true" style=" margin-right:0px !important;  flex: 1;"
+                                 paginator="false" selectionMode="single"
+                                 selection="#{dialogPlugins.propiedadSeleccionada}" rowKey="#{td.codigo}">
+
+                        <!-- Necesario para actualizar en controlador la fila seleccionada -->
+                        <p:ajax event="rowSelect" global="false"/>
+                        <p:ajax event="rowUnselect"/>
+                        <p:ajax event="rowDblselect"
+                                oncomplete="rcEditarPropiedad();"
+                                disabled="#{dialogPlugins.modoAcceso=='TypeModoAcceso.CONSULTA'}"
+                        />
+
+                        <!-- Columnas -->
+                        <p:column headerText="#{msg['dict.codigo']}" class="ui-panelgrid-cell">
+                            <p:outputLabel value="#{td.codigo}"/>
+                        </p:column>
+
+                        <p:column headerText="#{msg['dict.valor']}" class="ui-panelgrid-cell">
+                            <p:outputLabel value="#{td.valor}"/>
+                        </p:column>
+
+                    </p:dataTable>
+                </div>
+                <!--    <div class="w5 ml-2 d-flex flex-column align-items-center g-5">-->
+                <div class="ui-g-2 ui-md-1 ui-lg-1">
+                        <p>
+                            <p:commandButton id="btnNuevaPropiedad" icon="pi pi-plus"
+                                             title="#{msg['dict.nuevo']}"
+                                             actionListener="#{dialogPlugins.nuevaPropiedad()}" process="@this"
+                                             update="messagesDialog"
+                                             rendered="#{dialogPlugins.modoAcceso!='TypeModoAcceso.CONSULTA'}"
+                                             styleClass="p-2">
+                                <p:ajax event="dialogReturn" listener="#{dialogPlugins.returnDialogo}"
+                                        update="messagesDialog dataTablePropiedades"/>
+                            </p:commandButton>
+                        </p>
+                        <p>
+                            <p:commandButton id="btnEditarPropiedad" icon="pi pi-pencil"
+                                             title="#{msg['dict.editar']}"
+                                             actionListener="#{dialogPlugins.editarPropiedad()}" process="@this"
+                                             update="messagesDialog"
+                                             rendered="#{dialogPlugins.modoAcceso!='TypeModoAcceso.CONSULTA'}"
+                                             styleClass="p-2">
+                                <p:ajax event="dialogReturn" listener="#{dialogPlugins.returnDialogo}"
+                                        update="messagesDialog dataTablePropiedades"/>
+                            </p:commandButton>
+                        </p>
+                        <p>
+                            <p:commandButton id="btnEliminarPropiedad" icon="pi pi-minus"
+                                             title="#{msg['dict.eliminar']}"
+                                             actionListener="#{dialogPlugins.quitarPropiedad()}" process="@this"
+                                             update="messagesDialog dataTablePropiedades"
+                                             rendered="#{dialogPlugins.modoAcceso!='TypeModoAcceso.CONSULTA'}"
+                                             styleClass="p-2"/>
+                        </p>
+                        <p>
+                            <p:commandButton icon="pi pi-arrow-up" title="#{msg['dict.subir']}"
+                                             actionListener="#{dialogPlugins.subirPropiedad()}" process="@this"
+                                             update="messagesDialog dataTablePropiedades"
+                                             rendered="#{dialogPlugins.modoAcceso!='TypeModoAcceso.CONSULTA'}"
+                                             styleClass="p-2"/>
+                        </p>
+                        <p>
+                            <p:commandButton icon="pi pi-arrow-down" title="#{msg['dict.bajar']}"
+                                             actionListener="#{dialogPlugins.bajarPropiedad()}" process="@this"
+                                             update="messagesDialog dataTablePropiedades"
+                                             rendered="#{dialogPlugins.modoAcceso!='TypeModoAcceso.CONSULTA'}"
+                                             styleClass="p-2"/>
+                        </p>
+
+                </div>
+            </div>
+        </p:panel>
+        <h:outputScript rendered="#{dialogPlugins.modoAcceso!='TypeModoAcceso.CONSULTA'}">
+            function rcEditarPropiedad() {
+                document.getElementById("formDialog:btnEditarPropiedad").click();
+            }
+
+            function rcBorrarPropiedad() {
+                document.getElementById("formDialog:btnEliminarPropiedad").click();
+            }
+        </h:outputScript>
+    </ui:define>
+    <ui:define name="contentFooterDialogRight">
+        <p:commandButton action="#{dialogPlugins.guardar}"
+                         value="#{msg['dict.guardar']}" update="messagesDialog form"
+                         process="@all" styleClass="mr-3"/>
+        <p:commandButton action="#{dialogPlugins.cerrar}" id="closeButton"
+                         value="#{msg['dict.cerrar']}" update="messagesDialog"
+                         process="@all" oncomplete="stopCargando()" onstart="startCargando()"/>
+        <p:confirmDialog showEffect="fade" hideEffect="fade" header="#{msg['dict.cerrar.cambiosSinGuardar.titulo']}"
+                         update="messagesDialog form" responsive="true" width="458px"
+                         message="#{msg['dict.cerrar.cambiosSinGuardar.mensaje']}" widgetVar="confirmCerrar">
+            <p:commandButton value="Sí" process="@this" action="#{dialogPlugins.cerrarDefinitivo}"
+                             oncomplete="PF('confirmCerrar').hide();"/>
+            <p:commandButton value="No" onclick="PF('confirmCerrar').hide();"/>
+        </p:confirmDialog>
+    </ui:define>
+</ui:composition>
+</html>
