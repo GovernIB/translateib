@@ -115,9 +115,9 @@ public class TraduccionResource {
 		case CASTELLANO:
 			idi = es.caib.translatorib.core.api.model.Idioma.CASTELLANO;
 			break;
-		case CASTELLANO_ESPANYA:
+		/*case CASTELLANO_ESPANYA:
 			idi = es.caib.translatorib.core.api.model.Idioma.CASTELLANO_ESPANYA;
-			break;
+			break;*/
 		case CATALAN:
 			idi = es.caib.translatorib.core.api.model.Idioma.CATALAN;
 			break;

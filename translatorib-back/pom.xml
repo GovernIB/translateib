@@ -199,7 +199,7 @@
 						<configuration>
 							<files>
 								<file>${project.basedir}/../translatorib.properties</file>
-								<!--<file>${project.basedir}/../target/translatorib-commit.properties</file>-->
+								<file>${project.basedir}/../target/translatorib-commit.properties</file>
 							</files>
 						</configuration>
 					</execution>

@@ -54,30 +54,31 @@
 					<div class="col-12 md:col-5 flex align-items-center justify-content-center">
 						<p:outputLabel value="#{msg['viewTraducir.idiomaOrigen']}:" styleClass="hidden" />
 						<p:selectOneButton  id="selectId1" value="#{viewTraducir.idiomaOrigen}"
-										 required="false" styleClass="noDisableColor">
+										 required="false" styleClass="dms-selectonebutton">
 							<f:selectItems value="#{viewTraducir.idiomasOrigen}" var="lang"
 										   itemLabel="#{msg['' += lang.getLiteral()]}" itemValue="#{lang}" itemDisabled="#{viewTraducir.idiomaOrigen == lang}"
 							/>
-							<p:ajax event="change" listener="#{viewTraducir.cambiarIdiomaOrigenAux}" update="tradLiteral selectId1 selectId2"/>
+							<p:ajax event="change" listener="#{viewTraducir.cambiarIdiomaOrigenAux}" update="tradLiteral selectId1 selectId2 btnIntercambiarBoton"/>
 						</p:selectOneButton >
 					</div>
 					<div class="col-12 md:col-2 flex align-items-center justify-content-center">
-						<p:commandButton action="#{viewTraducir.cambioValores}"
+						<p:commandButton id="btnIntercambiarBoton" action="#{viewTraducir.cambioValores}"
 										 update="selectId1 selectId2 tradLiteral"
 										 icon="pi pi-arrow-right-arrow-left"
+										 disabled="#{viewTraducir.desactivarBotonCambioValores()}"
 										 process="@this"/>
 					</div>
 					<div class="col-12 md:col-5 flex align-items-center justify-content-center">
 						<p:outputLabel value="#{msg['viewTraducir.idiomaDestino']}:" styleClass="hidden"  />
 						<p:selectOneButton id="selectId2" value="#{viewTraducir.idiomaDestino}"
-										 required="false" styleClass="noDisableColor">
+										 required="false" styleClass="dms-selectonebutton">
 							<f:selectItems value="#{viewTraducir.idiomasDestino}" var="lang"
 										   itemLabel="#{msg['' += lang.getLiteral()]}" itemValue="#{lang}"
 										   itemDisabled="#{viewTraducir.esDisabledDestino(lang) || viewTraducir.idiomaDestino == lang}"
 
 							/>
 							<p:ajax process="@this" listener="#{viewTraducir.cambiarIdiomaDestinoAux}"
-									update="tradLiteral selectId1 selectId2"/>
+									update="tradLiteral selectId1 selectId2 btnIntercambiarBoton"/>
 						</p:selectOneButton>
 					</div>
 				</div>
@@ -135,7 +136,7 @@
 						<div class="col-12 card flex align-items-center justify-content-center ui-fileupload-content" style="border-bottom: none"><p:outputLabel value="#{msg['dict.txtarrastraysuelta']}" styleClass="text-2xl" /></div>
 
 					</p:fileUpload>
-				<div class="grid">
+				<div class="grid zona-arrastrar-contenedor">
 					<p:panel id="customDropZone" styleClass="col-5 zona-arrastrar">
 						<h2> <p:outputLabel value="#{msg['dict.txtarrastraysuelta']}"></p:outputLabel></h2>
 						<div class="contenedor flex justify-content-center align-items-center">

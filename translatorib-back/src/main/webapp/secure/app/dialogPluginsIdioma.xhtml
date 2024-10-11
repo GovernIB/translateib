@@ -34,13 +34,26 @@
                     <p:outputLabel value="#{msg['dialogPluginsIdioma.indiqueIdioma']}:" for="txtidiomasPermitidos"/>
                 </div>
                 <div class="ui-g-12 ui-md-8 ui-lg-8">
-                    <p:selectManyCheckbox id="txtidiomasPermitidos" value="#{dialogPluginsIdioma.combinacionesSeleccionadas}" label="Idiomas"
-                                          layout="grid" columns="1" converter="parejaIdiomasConverter">
-                        <f:selectItems value="#{dialogPluginsIdioma.todasLasCombinaciones}" var="pareja"
-                                       itemLabel="#{msg[pareja.getLabel()]}"
-                                       itemValue="#{pareja}" />
+                           <p:selectManyCheckbox id="txtidiomasPermitidos" value="#{dialogPluginsIdioma.combinacionesSeleccionadas}" label="Idiomas"
+                                                    layout="grid" columns="1" converter="parejaIdiomasConverter">
+                                  <f:selectItems value="#{dialogPluginsIdioma.todasLasCombinaciones}" var="pareja"
+                                                 itemLabel="#{msg[pareja.getLabel()]}"
+                                                 itemValue="#{pareja}" />
 
-                    </p:selectManyCheckbox>
+                              </p:selectManyCheckbox>
+                         <!--
+                              <p:selectManyCheckbox id="txtidiomasPermitidos" value="#{dialogPluginsIdioma.combinacionesSeleccionadas}" label="Idiomas"
+                                                    layout="pageDirection" columns="1"  styleClass="">
+                                  <f:selectItems value="#{dialogPluginsIdioma.todasLasCombinacionesSI}" var="pareja"
+                                                 itemLabel="#{pareja.getLabel()}"
+                                                 itemValue="#{pareja}" />
+
+                              </p:selectManyCheckbox>
+
+                         -->
+
+
+
 
                 </div>
 

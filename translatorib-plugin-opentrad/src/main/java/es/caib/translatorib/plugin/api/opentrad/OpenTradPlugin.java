@@ -230,7 +230,7 @@ public class OpenTradPlugin extends AbstractPluginProperties implements ITraducc
 	 *
 	 * @param propiedad propiedad
 	 * @return valor
-	 * @throws AutenticacionPluginException
+	 * @throws TraduccionException
 	 */
 	private String getPropiedad(final String propiedad) throws TraduccionException {
 		final String res = getProperty(IMPLEMENTATION_BASE_PROPERTY + propiedad);

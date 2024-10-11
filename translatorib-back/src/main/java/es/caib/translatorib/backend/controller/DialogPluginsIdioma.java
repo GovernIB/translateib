@@ -18,6 +18,9 @@ import org.slf4j.LoggerFactory;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
+import javax.faces.model.SelectItem;
+import javax.faces.model.SelectItemGroup;
 import javax.inject.Inject;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -45,6 +48,9 @@ public class DialogPluginsIdioma extends ViewControllerBase  {
     // Lista de combinaciones seleccionadas
     private List<ParejaIdiomas> combinacionesSeleccionadas;
 
+
+ //   private List<SelectItem> todasLasCombinacionesSI;
+
     /**
      * Propiedad seleccionada.
      */
@@ -56,6 +62,8 @@ public class DialogPluginsIdioma extends ViewControllerBase  {
 
         todasLasCombinaciones = new ArrayList<>();
         combinacionesSeleccionadas = new ArrayList<>();
+
+      //  todasLasCombinacionesSI= new ArrayList<>();
 
         data = pluginService.getPluginByCodigo(Long.valueOf(id));
         if (data.getIdiomasPermitidos() != null && !data.getIdiomasPermitidos().isEmpty()) {
@@ -179,7 +187,40 @@ public class DialogPluginsIdioma extends ViewControllerBase  {
                 }
             }
         }
+
+ //       todasLasCombinacionesSI = createSelectItemGroups(todasLasCombinaciones);
     }
+
+
+
+  /*  public List<SelectItem> createSelectItemGroups(List<ParejaIdiomas> todasLasCombinaciones) {
+
+
+        Map<String, List<SelectItem>> groupedItems = new HashMap<>();
+
+        ResourceBundle bundle = ResourceBundle.getBundle("i18n/messages", FacesContext.getCurrentInstance().getViewRoot().getLocale());
+
+        for (ParejaIdiomas pareja : todasLasCombinaciones) {
+            String origenKey = bundle.getString("idiomas."+pareja.getOrigen().getLocale());
+            groupedItems.computeIfAbsent(origenKey, k -> new ArrayList<>())
+                    .add(new SelectItem(pareja,
+                            bundle.getString("idiomas.deAaB") +  bundle.getString("idiomas."+pareja.getDestino().getLocale())));
+        }
+
+        List<SelectItem> selectItemGroups = new ArrayList<>();
+        for (Map.Entry<String, List<SelectItem>> entry : groupedItems.entrySet()) {
+            SelectItemGroup group = new SelectItemGroup(entry.getKey());
+            group.setSelectItems(entry.getValue().toArray(new SelectItem[0]));
+            selectItemGroups.add(group);
+        }
+
+        return selectItemGroups;
+    }*/
+
+
+
+
+
 
     // Método para cargar las combinaciones seleccionadas a partir de un String de plugin
     public void cargarSeleccionados(String combinacionesString) {
@@ -220,4 +261,12 @@ public class DialogPluginsIdioma extends ViewControllerBase  {
             }
         }
     }
+
+   /* public List<SelectItem> getTodasLasCombinacionesSI() {
+        return todasLasCombinacionesSI;
+    }
+
+    public void setTodasLasCombinacionesSI(List<SelectItem> todasLasCombinacionesSI) {
+        this.todasLasCombinacionesSI = todasLasCombinacionesSI;
+    }*/
 }

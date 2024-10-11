@@ -148,7 +148,7 @@ public class ViewTraducir extends ViewControllerBase {
 		if (file == null || contenido == null) {
 			UtilJSF.addMessageContext(TypeNivelGravedad.ERROR, "No se ha subido ningún archivo");
 		} else {
-
+			if (plugin != null && idiomaDestino != null && idiomaOrigen != null) {
 
 				try {
 					// Conectarse por restapi a un servicio de traduccion utilizando ParametrosTraduccionTexto
@@ -161,7 +161,7 @@ public class ViewTraducir extends ViewControllerBase {
 
 					String authHeader = null;
 					String user = configuracionGlobalService.findConfGlobalByPropiedad(Constantes.PROPIEDAD_GLOBAL_FRONTAL_USER).getValor();
-					String pwd =  configuracionGlobalService.findConfGlobalByPropiedad(Constantes.PROPIEDAD_GLOBAL_FRONTAL_PWD).getValor();
+					String pwd = configuracionGlobalService.findConfGlobalByPropiedad(Constantes.PROPIEDAD_GLOBAL_FRONTAL_PWD).getValor();
 					if (user != null && pwd != null) {
 						// Codificar user y pass en Base64
 						String auth = user + ":" + pwd;
@@ -221,7 +221,7 @@ public class ViewTraducir extends ViewControllerBase {
 					LOG.error("Error al realizar la traducción", e);
 					UtilJSF.addMessageContext(TypeNivelGravedad.ERROR, "Error al realizar la traducción");
 				}
-
+			}
 		}
 	}
 
@@ -287,7 +287,7 @@ public class ViewTraducir extends ViewControllerBase {
 	 */
 	public void traducir() {
 
-		if (plugin != null) {
+		if (plugin != null && idiomaDestino != null && idiomaOrigen != null) {
 
 			try {
 				// Conectarse por restapi a un servicio de traduccion utilizando ParametrosTraduccionTexto
@@ -552,6 +552,37 @@ public class ViewTraducir extends ViewControllerBase {
 
 	public void setTipo(Integer tipo) {
 		this.tipo = tipo;
+	}
+
+	/**
+	 * Desactivar boton cambio valores.
+	 * @return the boolean
+	 */
+	public boolean desactivarBotonCambioValores() {
+		if (idiomaOrigen == null || idiomaDestino == null || plugin == null) {
+			return true;
+		}
+
+		return comprobarIntercambiarIdiomas(pluginDTO.getIdiomasFrontal(), idiomaOrigen, idiomaDestino);
+	}
+
+	/**
+	 * Tiene que comportar si existe en idiomasFrontal si existe la tupla idiomaDestino con idiomaOrigen
+	 * @param idiomasFrontal Idiomas del frontal del plugin
+	 * @param idiomaOrigen Idioma origen
+	 * @param idiomaDestino Idioma destino
+	 * @return the boolean (true lo desactiva, false lo activa)
+	 */
+	private boolean comprobarIntercambiarIdiomas(String idiomasFrontal, Idioma idiomaOrigen, Idioma idiomaDestino) {
+		//Tiene que comportar si existe en idiomasFrontal si existe la tupla idiomaDestino con idiomaOrigen
+		String[] idiomasFrontalArray = idiomasFrontal.split(",");
+		for (String idioma : idiomasFrontalArray) {
+			String[] idiomaArray = idioma.split("->");
+			if (idiomaArray[0].equals(idiomaDestino.toString()) && idiomaArray[1].equals(idiomaOrigen.toString())) {
+				return false;
+			}
+		}
+		return true;
 	}
 }
 
