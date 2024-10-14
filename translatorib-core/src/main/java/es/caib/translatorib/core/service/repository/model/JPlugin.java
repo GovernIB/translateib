@@ -56,7 +56,7 @@ public class JPlugin implements IModelApi {
     private String idiomasFrontal;
 
     /** User */
-    @Column(name = "PLG_PREFIJO", nullable = false, length = 50)
+    @Column(name = "PLG_PREFIJO", nullable = false, length = 500)
     private String prefijo;
 
     /** Lista serializada propiedades (codigo - valor) */

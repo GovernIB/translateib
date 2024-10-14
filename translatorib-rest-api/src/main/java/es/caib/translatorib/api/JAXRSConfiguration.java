@@ -43,7 +43,7 @@ import javax.ws.rs.core.Application;
                 scheme = "bearer"
         )
 })
-@OpenAPIDefinition(info = @Info(title = "API REST INTERNA", version = "1.0.0"), servers = {@Server(url = "/translatorib/")}, security = {@SecurityRequirement(name = "basicAuth"), @SecurityRequirement(name = "bearerAuth")})
+@OpenAPIDefinition(info = @Info(title = "API REST INTERNA", version = "2.0.0"), servers = {@Server(url = "/translatorib/")}, security = {@SecurityRequirement(name = "basicAuth"), @SecurityRequirement(name = "bearerAuth")})
 public class JAXRSConfiguration extends Application {
 
     private static final Logger LOG = LoggerFactory.getLogger(JAXRSConfiguration.class);

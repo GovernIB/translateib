@@ -35,7 +35,7 @@ import org.slf4j.LoggerFactory;
 //JDK1.8 Borrar la siguiente linea
 @SecuritySchemes({ @SecurityScheme(securitySchemeName = "basicAuth", type = SecuritySchemeType.HTTP, scheme = "basic"),
 		@SecurityScheme(securitySchemeName = "bearerAuth", type = SecuritySchemeType.HTTP, scheme = "bearer") })
-@OpenAPIDefinition(info = @Info(title = "API REST", version = "1.0.0"), servers = {
+@OpenAPIDefinition(info = @Info(title = "API REST", version = "2.0.0"), servers = {
 		@Server(url = "/translatorib/api") }, security = { @SecurityRequirement(name = "basicAuth"),
 				@SecurityRequirement(name = "bearerAuth") })
 public class ApiConfiguration extends Application {

@@ -58,7 +58,7 @@
                     <p:inputText id="txtIdentificador" value="#{dialogPlugins.data.identificador}"
                                  requiredMessage="#{msg['dict.obligatorio.identificador']}"
                                  styleClass="w-11" required="#{empty param['formDialog:closeButton']}"
-                                 disabled="#{dialogPlugins.isConsulta()}" maxlength="50"/>
+                                 disabled="#{dialogPlugins.isConsulta()}" maxlength="255"/>
                 </div>
 
                 <div class="ui-g-12 ui-md-2 ui-lg-2">
@@ -68,7 +68,7 @@
                    <p:inputTextarea id="txtDescripcion" value="#{dialogPlugins.data.descripcion}"
                                  requiredMessage="#{msg['dict.obligatorio.descripcion']}"
                                  styleClass="w-11" required="#{empty param['formDialog:closeButton']}"
-                                 disabled="#{dialogPlugins.isConsulta()}" maxlength="50"/>
+                                 disabled="#{dialogPlugins.isConsulta()}" maxlength="255"/>
                 </div>
 
 
@@ -81,7 +81,7 @@
                                      requiredMessage="#{msg['dict.obligatorio.classname']}"
                                      styleClass="w-11" required="#{empty param['formDialog:closeButton']}"
                                      rows="3" autoResize="false"
-                                     disabled="#{dialogPlugins.isConsulta()}" maxlength="1000"/>
+                                     disabled="#{dialogPlugins.isConsulta()}" maxlength="500"/>
                 </div>
 
                 <div class="ui-g-12 ui-md-2 ui-lg-2">
