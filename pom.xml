@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>es.caib.translatorib</groupId>
     <artifactId>translatorib</artifactId>
-    <version>1.0.0</version>
+    <version>2.0.0</version>
     <packaging>pom</packaging>
     <name>translatorIB</name>
     <description>translatorIB Java EE 8 i JBOSS 7.2</description>
