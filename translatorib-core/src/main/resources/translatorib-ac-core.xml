@@ -35,8 +35,8 @@
     <tx:annotation-driven transaction-manager="transactionManager" order="2" />
 
     <!-- Conexion a datasource -->
-    <jee:jndi-lookup id="dataSource" jndi-name="java:/es.caib.translatorib.db" resource-ref="true" />
-    <!--<jee:jndi-lookup id="dataSource" jndi-name="${jdbc.jndi}" resource-ref="true" />-->
+    <!--<jee:jndi-lookup id="dataSource" jndi-name="java:/es.caib.translatorib.db" resource-ref="true" />-->
+    <jee:jndi-lookup id="dataSource" jndi-name="${jdbc.jndi}" resource-ref="true" />
 
 
     <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
