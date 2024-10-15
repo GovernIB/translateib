@@ -160,8 +160,8 @@ public class ViewTraducir extends ViewControllerBase {
 					parametros.setContenidoDocumento(Base64.getEncoder().encodeToString(contenido));
 
 					String authHeader = null;
-					String user = configuracionGlobalService.findConfGlobalByPropiedad(Constantes.PROPIEDAD_GLOBAL_FRONTAL_USER).getValor();
-					String pwd = configuracionGlobalService.findConfGlobalByPropiedad(Constantes.PROPIEDAD_GLOBAL_FRONTAL_PWD).getValor();
+					String user = configuracionGlobalService.valorByPropiedad(Constantes.PROPIEDAD_GLOBAL_FRONTAL_USER);
+					String pwd = configuracionGlobalService.valorByPropiedad(Constantes.PROPIEDAD_GLOBAL_FRONTAL_PWD);
 					if (user != null && pwd != null) {
 						// Codificar user y pass en Base64
 						String auth = user + ":" + pwd;
@@ -178,7 +178,7 @@ public class ViewTraducir extends ViewControllerBase {
 
 					// Crear una solicitud POST con el cuerpo en JSON
 					HttpRequest request;
-					String url = configuracionGlobalService.findConfGlobalByPropiedad(Constantes.PROPIEDAD_GLOBAL_FRONTAL_URL_DOC).getValor();
+					String url = configuracionGlobalService.valorByPropiedad(Constantes.PROPIEDAD_GLOBAL_FRONTAL_URL_DOC);
 					if (authHeader == null) {
 						request = HttpRequest.newBuilder()
 								.uri(URI.create(url))
@@ -299,8 +299,8 @@ public class ViewTraducir extends ViewControllerBase {
 				parametros.setTextoEntrada(textoOrigen);
 
 				String authHeader = null;
-				String user = configuracionGlobalService.findConfGlobalByPropiedad(Constantes.PROPIEDAD_GLOBAL_FRONTAL_USER).getValor();
-				String pwd =  configuracionGlobalService.findConfGlobalByPropiedad(Constantes.PROPIEDAD_GLOBAL_FRONTAL_PWD).getValor();
+				String user = configuracionGlobalService.valorByPropiedad(Constantes.PROPIEDAD_GLOBAL_FRONTAL_USER);
+				String pwd =  configuracionGlobalService.valorByPropiedad(Constantes.PROPIEDAD_GLOBAL_FRONTAL_PWD);
 				if (user != null && pwd != null) {
 					// Codificar user y pass en Base64
 					String auth = user + ":" + pwd;
@@ -317,7 +317,7 @@ public class ViewTraducir extends ViewControllerBase {
 
 				// Crear una solicitud POST con el cuerpo en JSON
 				HttpRequest request;
-				String url = configuracionGlobalService.findConfGlobalByPropiedad(Constantes.PROPIEDAD_GLOBAL_FRONTAL_URL_TEXT).getValor();
+				String url = configuracionGlobalService.valorByPropiedad(Constantes.PROPIEDAD_GLOBAL_FRONTAL_URL_TEXT);
 				if (authHeader == null) {
 					request = HttpRequest.newBuilder()
 							.uri(URI.create(url))

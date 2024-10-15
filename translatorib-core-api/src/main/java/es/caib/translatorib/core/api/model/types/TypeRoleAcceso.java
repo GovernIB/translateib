@@ -1,7 +1,7 @@
 package es.caib.translatorib.core.api.model.types;
 
 public enum TypeRoleAcceso {
-    SUPER_ADMIN("TIB_ADM");
+    SUPER_ADMIN("TIB_ADMIN");
 
     /** Rol **/
     private String role;

@@ -37,6 +37,13 @@ public interface ConfiguracionGlobalService {
     ConfiguracionGlobal findConfGlobalByPropiedad(String propiedad);
 
     /**
+     * Obtiene el valor de una propiedad
+     * @param propiedad Propiedad
+     * @return El valor de la propiedad
+     */
+    String valorByPropiedad(String propiedad);
+
+    /**
      * Devuelve una lista con configuraciones relacionados con los parámetros del filtro
      *
      * @param filtro filtro de la búsqueda

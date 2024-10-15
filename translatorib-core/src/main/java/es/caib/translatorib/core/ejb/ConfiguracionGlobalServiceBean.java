@@ -44,6 +44,12 @@ public class ConfiguracionGlobalServiceBean implements ConfiguracionGlobalServic
 
 	@Override
 	@PermitAll
+	public String valorByPropiedad(String propiedad) {
+		return service.valorByPropiedad(propiedad);
+	}
+
+	@Override
+	@PermitAll
 	public List<ConfiguracionGlobal> listConfGlobalByFiltro(ConfiguracionGlobalFiltro filtro) {
 		return service.listConfGlobalByFiltro(filtro);
 	}

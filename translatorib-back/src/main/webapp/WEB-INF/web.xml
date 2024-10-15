@@ -83,20 +83,9 @@
     </web-resource-collection>
     <auth-constraint>
       <!-- Solo usuarios con el rol TIB_ADMIN pueden acceder -->
-      <role-name>TIB_ADM</role-name>
+      <role-name>TIB_ADMIN</role-name>
     </auth-constraint>
   </security-constraint>
-  <!--
-  <security-constraint>
-    <web-resource-collection>
-      <web-resource-name>translatorib-backend</web-resource-name>
-      <url-pattern>/secure/*</url-pattern>
-    </web-resource-collection>
-    <auth-constraint>
-      <role-name>TIB_ADM</role-name>
-    </auth-constraint>
-  </security-constraint>
-  -->
   <!-- Configuración para el acceso a index.html solo requiere autenticación -->
   <login-config>
     <!--<auth-method>${loginConfig.authMethod}</auth-method>-->
@@ -105,7 +94,7 @@
     <realm-name>Autenticacion</realm-name>
   </login-config>
   <security-role>
-    <role-name>TIB_ADM</role-name>
+    <role-name>TIB_ADMIN</role-name>
   </security-role>
   <security-role>
     <role-name>*</role-name>

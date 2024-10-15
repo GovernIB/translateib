@@ -6,8 +6,10 @@
     <version>2.0.0</version>
   </parent>
   <artifactId>translatorib-core</artifactId>
+	<name>translatorIB - CORE </name>
+	<description>CORE de translatorIB</description>
 
-  	<dependencies>
+	<dependencies>
 
   		<!-- Modulo LIB -->
 		<dependency>

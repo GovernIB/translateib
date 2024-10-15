@@ -13,7 +13,7 @@ public final class ConstantesRolesAcceso {
         super();
     }
 
-    public static final String SUPER_ADMIN = "TIB_ADM";
+    public static final String SUPER_ADMIN = "TIB_ADMIN";
 
     public static final String CONSULTA = "TIB_CONS";
 

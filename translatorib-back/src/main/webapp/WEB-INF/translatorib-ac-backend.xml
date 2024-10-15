@@ -20,19 +20,19 @@
 			location="file:#{systemProperties['es.caib.translatorib.properties.path']}" />
 
 	<bean id="negocioModuleConfig" class="es.caib.translatorib.backend.model.comun.ModuleConfig">
-		<!--
+
 		<property name="entorno" value="TODO" />
 		<property name="version" value="TODO" />
 		<property name="commitSvn" value="TODO" />
 		<property name="commitGit" value="TODO" />
-        -->
-		<property name="entorno" value="${entorno}" />
-		<property name="version" value="${project.version}" />
-		<property name="commitSvn" value="${commitSvn}" />
-		<property name="commitGit" value="${commitGit}" />
-	</bean>
+	<!--
+     <property name="entorno" value="${entorno}" />
+     <property name="version" value="${project.version}" />
+     <property name="commitSvn" value="${commitSvn}" />
+     <property name="commitGit" value="${commitGit}" />-->
+ </bean>
 
-	<!-- Scope view para spring beans usados como backbeans de JSF: @Scope(view) -->
+ <!-- Scope view para spring beans usados como backbeans de JSF: @Scope(view) -->
 	<!-- Si usamos los ManagedBeans de JSF no hace falta
 	<bean class="org.springframework.beans.factory.config.CustomScopeConfigurer">
 		<property name="scopes">

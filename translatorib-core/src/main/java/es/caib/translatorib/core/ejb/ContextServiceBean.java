@@ -40,11 +40,7 @@ public class ContextServiceBean implements ContextService {
 	@PermitAll
 	public List<TypeRoleAcceso> getRoles() {
 		final List<TypeRoleAcceso> lista = new ArrayList<>();
-
-		/*if (ctx.isCallerInRole("TIB_ADM")) {
-			lista.add(TypeRoleAcceso.SUPER_ADMIN);
-		} **/
-		for (final TypeRoleAcceso role : TypeRoleAcceso.values()) {
+ 		for (final TypeRoleAcceso role : TypeRoleAcceso.values()) {
 			if (ctx.isCallerInRole(role.toString())) {
 				lista.add(role);
 			}
