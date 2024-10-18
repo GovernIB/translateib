@@ -98,8 +98,8 @@ public class TraduccionServiceImpl implements TraduccionService {
 			classname = plugin.getClassname();
 			if (plugin.getPropiedades() != null) {
 				for (final Propiedad key : plugin.getPropiedades()) {
-					//prop.put(ITraduccionPlugin.TRANSLATOR_BASE_PROPERTY + key.getCodigo(), key.getValor());
-					prop.put(ITraduccionPlugin.TRANSLATOR_BASE_PROPERTY + plugin.getPrefijo() +  key.getCodigo(), key.getValor());
+					String valor = configuracionComponent.replacePlaceholders(key.getValor());
+					prop.put(ITraduccionPlugin.TRANSLATOR_BASE_PROPERTY + plugin.getPrefijo() +  key.getCodigo(), valor);
 				}
 			}
 

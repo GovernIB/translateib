@@ -44,6 +44,7 @@ public class PlataPlugin extends AbstractPluginProperties implements ITraduccion
 	/** Prefix. */
 	public static final String IMPLEMENTATION_BASE_PROPERTY = "plata.";
 
+
 	/**
 	 * Constructor
 	 * @param prefijoPropiedades Prefijo propiedades

@@ -34,4 +34,18 @@ public interface ConfiguracionComponent {
      * @return Lista de propiedades
      */
     Set<String> getPropertiesNames();
+
+    /**
+     * Leer el valor de una propiedad para properties.
+     * @param propiedad La propiedad
+     * @return El valor de la propiedad.
+     */
+    String readPropiedad(String propiedad);
+
+    /**
+     * Obtiene el valor reemplazando los placeholders.
+     * @param valor Valor
+     * @return Valor con placeholders reemplazados
+     */
+    String replacePlaceholders(String valor);
 }

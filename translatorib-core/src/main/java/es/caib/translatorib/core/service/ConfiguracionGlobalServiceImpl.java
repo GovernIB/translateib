@@ -3,6 +3,7 @@ package es.caib.translatorib.core.service;
 import es.caib.translatorib.core.api.model.ConfiguracionGlobal;
 import es.caib.translatorib.core.api.model.filtro.ConfiguracionGlobalFiltro;
 import es.caib.translatorib.core.api.service.ConfiguracionGlobalService;
+import es.caib.translatorib.core.service.component.ConfiguracionComponentImpl;
 import es.caib.translatorib.core.service.repository.dao.ConfiguracionGlobalDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,6 +32,8 @@ public class ConfiguracionGlobalServiceImpl implements ConfiguracionGlobalServic
 	@Autowired
 	private ConfiguracionGlobalDao dao;
 
+    @Autowired
+    private ConfiguracionComponentImpl configuracionComponent;
 
 
 	@Override
@@ -47,7 +50,7 @@ public class ConfiguracionGlobalServiceImpl implements ConfiguracionGlobalServic
 	public ConfiguracionGlobal findConfGlobalByPropiedad(String propiedad) {
 		ConfiguracionGlobal conf =  dao.getConfiguracionGlobalByPropiedad(propiedad);
 		if (conf == null || conf.getValor() == null || conf.getValor().isEmpty()) {
-			String valor = getPropiedadSistema(propiedad);
+			String valor = configuracionComponent.readPropiedad(propiedad);
 			if (valor != null && valor.isEmpty()) {
 				conf = new ConfiguracionGlobal();
 				conf.setPropiedad(propiedad);
@@ -61,27 +64,12 @@ public class ConfiguracionGlobalServiceImpl implements ConfiguracionGlobalServic
 	public String valorByPropiedad(String propiedad) {
 		ConfiguracionGlobal conf =  dao.getConfiguracionGlobalByPropiedad(propiedad);
 		if (conf == null || conf.getValor() == null || conf.getValor().isEmpty()) {
-			return getPropiedadSistema(propiedad);
+			return configuracionComponent.readPropiedad(propiedad);
 		} else {
 			return conf.getValor();
 		}
 	}
 
-	private String getPropiedadSistema(String propiedad) {
-		String ruta = System.getProperty("es.caib.translatorib.properties.path");
-		if (ruta == null) {
-			return null;
-		}
-		//Cargar las propiedades a partir de la ruta
-		Properties propiedades = new Properties();
-		try (FileInputStream fis = new FileInputStream(ruta);) {
-			propiedades.load(fis);
-		} catch (final IOException e) {
-			LOG.error("Error cargando el fichero en la ruta " + ruta, e);
-			return "";
-		}
-		return propiedades.getProperty(propiedad);
-	}
 
 	@Override
 	public List<ConfiguracionGlobal> listConfGlobalByFiltro(ConfiguracionGlobalFiltro filtro) {

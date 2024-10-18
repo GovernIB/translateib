@@ -10,13 +10,19 @@ import java.util.Set;
 
 import javax.annotation.PostConstruct;
 
+import es.caib.translatorib.core.api.exception.ErrorNoControladoException;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import es.caib.translatorib.core.api.exception.ConfiguracionException;
-import es.caib.translatorib.core.api.exception.PluginErrorException;
 
 @Component("configuracionComponent")
 public class ConfiguracionComponentImpl implements ConfiguracionComponent {
+
+    /** LOG **/
+    private static final Logger LOG = LoggerFactory.getLogger(ConfiguracionComponentImpl.class);
 
     /**
      * Propiedades configuración especificadas en properties.
@@ -32,13 +38,28 @@ public class ConfiguracionComponentImpl implements ConfiguracionComponent {
     public void init() {
         final String pathProperties = System
                 .getProperty("es.caib.translatorib.properties.path");
+        propiedadesLocales = new Properties();
+
         // Carga fichero de propiedades
-        try (FileInputStream fis = new FileInputStream(pathProperties);) {
-            propiedadesLocales = new Properties();
-            propiedadesLocales.load(fis);
-        } catch (final IOException e) {
-            throw new ConfiguracionException(e);
+        if (pathProperties != null && !pathProperties.isEmpty()) {
+            try (FileInputStream fis = new FileInputStream(pathProperties);) {
+                propiedadesLocales.load(fis);
+            } catch (final IOException e) {
+                throw new ConfiguracionException(e);
+            }
         }
+
+        final String pathPropertiesSystem = System.getProperty("es.caib.translatorib.system.properties.path");
+        final Properties propSystem = new Properties();
+        if (pathPropertiesSystem != null && !pathPropertiesSystem.isEmpty()) {
+            try (FileInputStream fis = new FileInputStream(pathPropertiesSystem);) {
+                propSystem.load(fis);
+            } catch (final IOException e) {
+                throw new ConfiguracionException(e);
+            }
+        }
+        propiedadesLocales.putAll(propSystem);
+
         // Obtiene directorio configuracion
         final File f = new File(
                 System.getProperty("es.caib.translatorib.properties.path"));
@@ -76,11 +97,70 @@ public class ConfiguracionComponentImpl implements ConfiguracionComponent {
      *            propiedad
      * @return valor propiedad (nulo si no existe)
      */
-    private String readPropiedad(final String propiedad) {
+    @Override
+    public String readPropiedad(final String propiedad) {
         // Busca primero en propiedades locales
-        final String prop = propiedadesLocales
-                .getProperty(propiedad.toString());
-        return prop;
+        return propiedadesLocales.getProperty(propiedad);
+    }
+
+    /**
+     * Se le pasa un valor y lo reemplaza si tiene placeholders.
+     * @param valor Valor
+     * @return Valor con placeholders reemplazados
+     */
+    @Override
+    public String replacePlaceholders(final String valor) {
+        String res = replacePlaceHolders(valor, false);
+        res = replacePlaceHolders(res, true);
+        return res;
+    }
+
+    /**
+     * Reemplaza placeholders: sistema (${system.propiedad}) o configuración
+     * (${config.propiedad).
+     *
+     * @param valor
+     *                   Valor
+     * @param system
+     *                   Indica si es de sistema
+     * @return Valor reemplazado.
+     */
+    private String replacePlaceHolders(final String valor, final boolean system) {
+        String placeholder;
+
+        if (system) {
+            placeholder = "${system.";
+        } else {
+            placeholder = "${config.";
+        }
+
+        String res = valor;
+        if (res != null) {
+            int pos = valor.indexOf(placeholder);
+            while (pos >= 0) {
+                final int pos2 = res.indexOf("}", pos + 1);
+                if (pos2 >= 0) {
+                    final String propPlaceholder = res.substring(pos + placeholder.length(), pos2);
+                    String valuePlaceholder = "";
+                    if (system) {
+                        valuePlaceholder = System.getProperty(propPlaceholder);
+                    } else {
+                        valuePlaceholder = readPropiedad(propPlaceholder);
+                    }
+                    valuePlaceholder = StringUtils.defaultString(valuePlaceholder);
+                    if (valuePlaceholder.contains(placeholder)) {
+                        throw new ErrorNoControladoException(
+                                "Valor no válido para propiedad " + propPlaceholder + ": " + valuePlaceholder);
+                    }
+                    if (StringUtils.isBlank(valuePlaceholder)) {
+                        LOG.warn("Placeholder {} tiene valor vacío", propPlaceholder);
+                    }
+                    res = StringUtils.replace(res, placeholder + propPlaceholder + "}", valuePlaceholder);
+                }
+                pos = res.indexOf(placeholder);
+            }
+        }
+        return res;
     }
 
     /**

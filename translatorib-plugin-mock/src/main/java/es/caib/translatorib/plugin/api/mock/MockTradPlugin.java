@@ -7,6 +7,9 @@ import es.caib.translatorib.core.api.model.ResultadoTraduccionTexto;
 import es.caib.translatorib.core.api.model.TipoDocumento;
 import es.caib.translatorib.core.api.model.TipoEntrada;
 import es.caib.translatorib.plugin.api.ITraduccionPlugin;
+import org.fundaciobit.pluginsib.core.utils.AbstractPluginProperties;
+
+import java.util.Properties;
 
 /**
  * Implementacion Mockup.
@@ -14,14 +17,33 @@ import es.caib.translatorib.plugin.api.ITraduccionPlugin;
  * @author Indra
  *
  */
-public class MockTradPlugin implements ITraduccionPlugin {
+public class MockTradPlugin extends AbstractPluginProperties implements ITraduccionPlugin {
+
+	/**
+	 * Constructor
+	 * @param prefijoPropiedades Prefijo propiedades
+	 * @param properties Propiedades
+	 */
+	public MockTradPlugin(final String prefijoPropiedades, final Properties properties) {
+		super(prefijoPropiedades, properties);
+	}
+
+	/** Prefix. */
+	public static final String IMPLEMENTATION_BASE_PROPERTY = "mock.";
 
 	@Override
 	public ResultadoTraduccionTexto realizarTraduccion(final String textoEntrada, final TipoEntrada tipoEntrada,
 			final Idioma idiomaEntrada, final Idioma idiomaSalida, final Opciones opciones) {
 		final ResultadoTraduccionTexto resultado = new ResultadoTraduccionTexto();
 		resultado.setError(false);
-		resultado.setTextoTraducido(textoEntrada+" (TRADMOCK)");
+		String textoTraducido = textoEntrada + " (MOCKUP) ";
+		if (getProperty("mock.SYSTEM_PRUEBA") != null) {
+			textoTraducido+=" SYSTEM_PRUEBA:" + getProperty("mock.SYSTEM_PRUEBA");
+		}
+		if (getProperty("mock.CONFIG_PRUEBA") != null) {
+			textoTraducido+=" CONFIG_PRUEBA:" + getProperty("mock.CONFIG_PRUEBA");
+		}
+		resultado.setTextoTraducido(textoTraducido);
 		return resultado;
 	}
 
