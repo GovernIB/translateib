@@ -16,7 +16,7 @@
 	<properties>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
- 	</properties>
+	</properties>
 
 	<dependencies>
 
@@ -171,67 +171,6 @@
 				</dependency>
 			</dependencies>
 		</profile>
-
-		<!-- Perfil que carga el archivo real si existe -->
-    <profile>
-        <id>with-commit-file</id>
-        <activation>
-            <file>
-                <exists>${project.basedir}/../target/translatorib-commit.properties</exists>
-            </file>
-        </activation>
-        <build>
-            <plugins>
-                <plugin>
-                    <groupId>org.codehaus.mojo</groupId>
-                    <artifactId>properties-maven-plugin</artifactId>
-                    <executions>
-                        <execution>
-                            <goals>
-                                <goal>read-project-properties</goal>
-                            </goals>
-                            <configuration>
-                                <files>
-                                    <file>${project.basedir}/../target/translatorib-commit.properties</file>
-                                </files>
-                            </configuration>
-                        </execution>
-                    </executions>
-                </plugin>
-            </plugins>
-        </build>
-    </profile>
-
-    <!-- Perfil alternativo que carga un archivo de respaldo si el archivo no existe -->
-    <profile>
-        <id>without-commit-file</id>
-        <activation>
-            <file>
-                <missing>${project.basedir}/../target/translatorib-commit.properties</missing>
-            </file>
-        </activation>
-        <build>
-            <plugins>
-                <plugin>
-                    <groupId>org.codehaus.mojo</groupId>
-                    <artifactId>properties-maven-plugin</artifactId>
-                    <executions>
-                        <execution>
-                            <goals>
-                                <goal>read-project-properties</goal>
-                            </goals>
-                            <configuration>
-                                <files>
-                                    <!-- Archivo falso o alternativo -->
-                                    <file>${project.basedir}/src/main/resources/translatorib-commit.properties</file>
-                                </files>
-                            </configuration>
-                        </execution>
-                    </executions>
-                </plugin>
-            </plugins>
-        </build>
-    </profile>
 	</profiles>
 
 	<build>
@@ -249,6 +188,7 @@
 						<configuration>
 							<files>
 								<file>${project.basedir}/../translatorib.properties</file>
+								<file>${project.basedir}/../target/translatorib-commit.properties</file>
 							</files>
 						</configuration>
 					</execution>
