@@ -94,8 +94,10 @@ public class ViewTraducir extends ViewControllerBase {
 		ConfiguracionFrontal configuracionFrontal = configuracionFrontalService.findConfFrontalByDefault();
 
 		// Control acceso
-		plugin = configuracionFrontal.getPlugin().getIdentificador();
-		pluginDTO = configuracionFrontal.getPlugin();
+		if (configuracionFrontal.getPlugin() != null) {
+			plugin = configuracionFrontal.getPlugin().getIdentificador();
+			pluginDTO = configuracionFrontal.getPlugin();
+		}
 
 		// Si es nulo, hay que coger el por defecto
 		if (plugin == null) {
@@ -575,6 +577,9 @@ public class ViewTraducir extends ViewControllerBase {
 	 */
 	private boolean comprobarIntercambiarIdiomas(String idiomasFrontal, Idioma idiomaOrigen, Idioma idiomaDestino) {
 		//Tiene que comportar si existe en idiomasFrontal si existe la tupla idiomaDestino con idiomaOrigen
+		if (idiomasFrontal == null || idiomasFrontal.isEmpty()) {
+			return true;
+		}
 		String[] idiomasFrontalArray = idiomasFrontal.split(",");
 		for (String idioma : idiomasFrontalArray) {
 			String[] idiomaArray = idioma.split("->");

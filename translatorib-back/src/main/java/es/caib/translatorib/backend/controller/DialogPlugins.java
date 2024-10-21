@@ -57,7 +57,6 @@ public class DialogPlugins extends ViewControllerBase  {
     public void load() {
         LOG.debug("init");
 
-        //TODO <!-- itemLabel="#{msg['parejaIdiomas.' + pareja.toString()]}" -->
         //Cargamos todas las posibles combinaciones de parejas.
         // Generar todas las combinaciones posibles
         todasLasCombinaciones = new ArrayList<>();
