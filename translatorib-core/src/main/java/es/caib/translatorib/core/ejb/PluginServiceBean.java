@@ -60,4 +60,10 @@ public class PluginServiceBean implements PluginService {
 	public void actualizarPlg(Long codigo, String idiomasFrontal) {
 		service.actualizarPlg(codigo, idiomasFrontal);
 	}
+
+	@Override
+	@RolesAllowed({ ConstantesRolesAcceso.SUPER_ADMIN })
+	public void borrar(Plugin plugin) {
+		service.borrar(plugin);
+	}
 }

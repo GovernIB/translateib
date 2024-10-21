@@ -62,4 +62,10 @@ public interface PluginDao {
 	 * @param idiomasFrontal Idiomas del frontal
 	 */
 	void actualizarPlg(Long codigo, String idiomasFrontal);
+
+	/**
+	 * Borrar plugin.
+	 * @param plugin
+	 */
+    void borrar(Plugin plugin);
 }

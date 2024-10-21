@@ -132,4 +132,10 @@ public class PluginDaoImpl implements PluginDao {
 		jplugin.setIdiomasFrontal(idiomasFrontal);
 		entityManager.merge(jplugin);
 	}
+
+	@Override
+	public void borrar(Plugin plugin) {
+		JPlugin jplugin = entityManager.find(JPlugin.class, plugin.getCodigo());
+		entityManager.remove(jplugin);
+	}
 }

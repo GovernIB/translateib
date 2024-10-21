@@ -50,4 +50,10 @@ public interface PluginService {
 	 * @param idiomasFrontal Idiomas del frontal
 	 */
 	void actualizarPlg(Long codigo, String idiomasFrontal);
+
+	/**
+	 * Borrar plugin
+	 * @param plugin el plugin
+	 */
+    void borrar(Plugin plugin);
 }

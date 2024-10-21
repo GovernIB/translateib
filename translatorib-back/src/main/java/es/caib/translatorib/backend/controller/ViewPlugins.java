@@ -10,6 +10,8 @@ import es.caib.translatorib.core.api.model.types.TypeModoAcceso;
 import es.caib.translatorib.core.api.model.types.TypeNivelGravedad;
 import es.caib.translatorib.core.api.service.PluginService;
 import org.primefaces.event.SelectEvent;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.ejb.EJBException;
 import javax.faces.bean.ManagedBean;
@@ -28,6 +30,8 @@ import java.util.*;
 @ManagedBean
 @ViewScoped
 public class ViewPlugins extends ViewControllerBase {
+
+	private static final Logger LOG = LoggerFactory.getLogger(ViewPlugins.class);
 
 	@Inject
 	private PluginService	pluginService;
@@ -96,6 +100,26 @@ public class ViewPlugins extends ViewControllerBase {
 		final Map<String, String> params = new HashMap<>();
 		params.put(TypeParametroVentana.ID.toString(), String.valueOf(this.datoSeleccionado.getCodigo()));
 		UtilJSF.openDialog(DialogPlugins.class, TypeModoAcceso.EDICION, params, true, 900, 650);
+	}
+
+
+	/**
+	 * Abre dialogo para consultar dato.
+	 */
+	public void borrar() {
+
+		// Verifica si no hay fila seleccionada
+		if (!verificarFilaSeleccionada()) {
+			return;
+		}
+
+		if (datoSeleccionado.isPorDefecto()) {
+			UtilJSF.addMessageContext(TypeNivelGravedad.WARNING, UtilJSF.getLiteral("warning.pluginPorDefecto"));
+			return ;
+		}
+		pluginService.borrar(datoSeleccionado);
+		datoSeleccionado = null;
+		buscar();
 	}
 
 	/**

@@ -160,10 +160,10 @@ public class ViewConfiguracionesGlobales extends ViewControllerBase {
 
     public void returnDialogo(final SelectEvent event) {
         final DialogResult respuesta = (DialogResult) event.getObject();
-
         // Verificamos si se ha modificado
-        if (!respuesta.isCanceled() && !TypeModoAcceso.CONSULTA.equals(respuesta.getModoAcceso())) {
+        if (respuesta.getResult() != null) {
             this.buscar();
+            this.datoSeleccionado = (ConfiguracionGlobal) respuesta.getResult();
         }
     }
 
@@ -173,7 +173,7 @@ public class ViewConfiguracionesGlobales extends ViewControllerBase {
         if (this.datoSeleccionado != null && (modoAcceso == TypeModoAcceso.EDICION || modoAcceso == TypeModoAcceso.CONSULTA)) {
             params.put(TypeParametroVentana.ID.toString(), this.datoSeleccionado.getCodigo().toString());
         }
-        UtilJSF.openDialog("dialogConfiguracionGlobal", modoAcceso, params, true, 780, 450);
+        UtilJSF.openDialog("dialogConfiguracionGlobal", modoAcceso, params, true, 780, 505);
     }
 
     public ConfiguracionGlobal getDatoSeleccionado() {

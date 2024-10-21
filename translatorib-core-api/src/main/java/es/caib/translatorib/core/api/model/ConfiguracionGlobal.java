@@ -191,4 +191,10 @@ public class ConfiguracionGlobal implements Cloneable {
     public int hashCode() {
         return Objects.hash(codigo, propiedad, valor, descripcion, noModificable);
     }
+
+    @Override
+    public String toString() {
+        return "ConfiguracionGlobal{" + "codigo=" + codigo + ", propiedad='" + propiedad + '\'' + ", valor='" + valor
+                + '\'' + ", descripcion='" + descripcion + '\'' + ", noModificable=" + noModificable + '}';
+    }
 }

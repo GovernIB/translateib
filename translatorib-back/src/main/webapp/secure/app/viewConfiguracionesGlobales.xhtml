@@ -15,7 +15,7 @@
     </ui:define>
 
     <ui:define name="content">
-        <h:form>
+        <h:form id="form">
             <p:commandButton value="actualizarBusqueda" id="actualizarBusqueda" style="display:none" ajax="false"
                              action="#{viewConfiguracionesGlobales.buscar}" update="dataTable"/>
 
@@ -27,7 +27,7 @@
                                              actionListener="#{viewConfiguracionesGlobales.buscar()}" process="@form" />
                 </f:facet>
                 <f:facet name="right">
-                            <p:commandButton value="#{msg['dict.editar']}" icon="pi pi-pencil" iconPos="top" styleClass="mr-2"
+                            <p:commandButton id="btnEditar" value="#{msg['dict.editar']}" icon="pi pi-pencil" iconPos="top" styleClass="mr-2"
                                              actionListener="#{viewConfiguracionesGlobales.editarConfiguracionGlobal}"
                                              process="@form" update="messages">
                                 <p:ajax event="dialogReturn" listener="#{viewConfiguracionesGlobales.returnDialogo}"
@@ -81,8 +81,7 @@
 
             <h:outputScript>
                 function triggerDblClick() {
-                    myDoubleClickCommand();
-                    /*$('#form\\:btnConsultaHidden').click();*/
+                    $('#form\\:btnEditar').click();
                 }
             </h:outputScript>
 
@@ -91,7 +90,8 @@
                              action="#{viewConfiguracionesGlobales.editarConfiguracionGlobal}"
                              autoRun="false"
                              partialSubmit="true"
-                             process="@this"/>
+                             process="@this">
+            </p:remoteCommand>
             <p:commandButton id="btnConsultaHidden" name="btnConsultaHidden" widgetVar="btnConsultarHidden"
                              actionListener="#{viewConfiguracionesGlobales.consultarConfiguracionGlobal}"
                              process="@this" update="messages"

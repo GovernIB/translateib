@@ -71,6 +71,7 @@
     </ui:define>
     <ui:define name="contentFooterDialogRight">
         <p:commandButton action="#{dialogConfiguracionGlobal.guardar}"
+                         rendered="#{!dialogConfiguracionGlobal.data.noModificable}"
                          value="#{msg['dict.guardar']}" update="messagesDialog"
                          process="@all" styleClass="mr-3"/>
         <p:commandButton action="#{dialogConfiguracionGlobal.cerrar}" id="closeButton"

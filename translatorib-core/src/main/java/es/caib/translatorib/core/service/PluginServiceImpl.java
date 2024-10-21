@@ -60,4 +60,9 @@ public class PluginServiceImpl implements PluginService {
 	public void actualizarPlg(Long codigo, String idiomasFrontal) {
 		dao.actualizarPlg(codigo, idiomasFrontal);
 	}
+
+	@Override
+	public void borrar(Plugin plugin) {
+		dao.borrar(plugin);
+	}
 }

@@ -53,14 +53,13 @@
 									update="messages dataTable includeDetalle" />
 						</p:commandButton>
 						<p:commandButton id="btnBorrar" value="#{msg['dict.borrar']}" styleClass="mr-2"
-										 icon="pi pi-trash"
-										 iconPos="top" action="#{viewPlugins.borrar}"
-										 process="@form" update="messages dataTable" onstart="startEliminando()"
-										 disabled="#{viewPlugins.datoSeleccionado == null}"
-										 oncomplete="stopEliminando()">
-							<p:confirm header="#{msg['msg.aviso']}" message="#{msg['msg.eliminarRegistro']}"/>
+										 icon="pi pi-trash" iconPos="top"
+										 actionListener="#{viewPlugins.borrar}" process="@form"
+										 update="messages dataTable"
+										 disabled="#{viewPlugins.datoSeleccionado == null}">
+							<p:ajax event="dialogReturn" listener="#{viewPlugins.returnDialogo}"
+									update="messages dataTable" />
 						</p:commandButton>
-
 			        </h:panelGrid>
 		        </f:facet>
 		    </p:toolbar>
