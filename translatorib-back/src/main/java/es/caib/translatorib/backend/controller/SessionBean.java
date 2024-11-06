@@ -2,20 +2,17 @@ package es.caib.translatorib.backend.controller;
 
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Properties;
+import java.util.*;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.servlet.ServletContext;
 
+import es.caib.translatorib.core.api.model.comun.Constantes;
+import es.caib.translatorib.core.api.service.ConfiguracionGlobalService;
 import es.caib.translatorib.core.api.service.SecurityService;
 import org.primefaces.model.menu.DefaultMenuItem;
 import org.primefaces.model.menu.DefaultMenuModel;
@@ -75,16 +72,32 @@ public class SessionBean {
 
 	private boolean hayLogo;
 
+	private ArrayList<String> idiomasBackoffice;
+
+	private ArrayList<String> idiomasSoportadosAplicacion;
+
 	/**
 	 * Servicio seguridad.
 	 */
 	@Inject
 	private SecurityService securityService;
+	@Inject
+	private ConfiguracionGlobalService configuracionGlobalService;
 
 
 	/** Inicio sesión. */
 	@PostConstruct
 	public void init() throws IOException {
+			idiomasSoportadosAplicacion = new ArrayList<>();
+			idiomasSoportadosAplicacion.add("ca");
+			idiomasSoportadosAplicacion.add("es");
+
+
+			String idiomasBackofficeProps = configuracionGlobalService.valorByPropiedad(Constantes.PROPIEDAD_GLOBAL_IDIOMAS_BACKOFFICE);
+			rellenaIdiomasBackoffice(idiomasBackofficeProps);
+
+			// Establece idioma por defecto
+			FacesContext.getCurrentInstance().getViewRoot().setLocale(new Locale(getIdiomasBackoffice().get(0)));
 
 			// Recupera info usuario
 			userName = getSecurityService().getUsername();
@@ -119,6 +132,37 @@ public class SessionBean {
 			}
 			// inicializamos mochila
 			mochilaDatos = new HashMap<String, Object>();
+
+
+
+	}
+
+	/**
+	 * Recarga la sesión.
+	 * @throws IOException
+	 */
+	public void reloadSession() throws IOException {
+		init();
+	}
+
+	/**
+	 * Rellena los idiomas del backoffice.
+	 * si no hay idiomas permitidos, se establecen por defecto todos los soportados por la aplicacion.
+	 * @param idiomasBackofficeProps
+	 */
+	private void rellenaIdiomasBackoffice(String idiomasBackofficeProps) {
+		setIdiomasBackoffice(new ArrayList<>());
+		if(idiomasBackofficeProps != null && !idiomasBackofficeProps.isEmpty()) {
+			String[] idiomas = idiomasBackofficeProps.split(",");
+			for (String idioma : idiomas) {
+				if(idiomasSoportadosAplicacion.contains(idioma)) {
+					idiomasBackoffice.add(idioma);
+				}
+			}
+		}
+		if(idiomasBackoffice.isEmpty()) {
+			idiomasBackoffice.addAll(idiomasSoportadosAplicacion);
+		}
 	}
 
 	/** Cambio de idioma. */
@@ -128,9 +172,19 @@ public class SessionBean {
 		lang = FacesContext.getCurrentInstance().getViewRoot().getLocale().getLanguage();
 		locale = FacesContext.getCurrentInstance().getViewRoot().getLocale();
 
-		// Recarga pagina principal
-		UtilJSF.redirectJsfDefaultPageRole(activeRole);
+		//UtilJSF.redirectJsfDefaultPageRole(activeRole);
+		recargaPagina();
 	}
+
+	/**
+	 * Recarga la página principal
+	 */
+	public void recargaPagina() {
+
+		UtilJSF.redirectJsfPage(FacesContext.getCurrentInstance().getViewRoot().getViewId(), new HashMap<String, List<String>>());
+	}
+
+
 
 	/** Cambio role activo. */
 	public void cambiarRoleActivo(final String role) {
@@ -340,4 +394,34 @@ public class SessionBean {
 			activeRole = TypeRoleAcceso.SUPER_ADMIN;
 		}
 	}
+	public ArrayList<String> getIdiomasBackoffice() {
+		return idiomasBackoffice;
+	}
+
+	public void setIdiomasBackoffice(ArrayList<String> idiomasBackoffice) {
+		this.idiomasBackoffice = idiomasBackoffice;
+	}
+
+	public Boolean idiomaPermitido(String idioma) {
+		return idiomasBackoffice.contains(idioma);
+	}
+
+	/**
+	 * Comprueba si hay multiples idiomas permitidos.
+	 * @return true si hay dos o mas idiomas permitidos.
+	 */
+	public Boolean hayMultiplesIdiomasPermitidos() {
+		return idiomasBackoffice.contains("es") && idiomasBackoffice.contains("ca");
+	}
+
+
+    public ArrayList<String> getIdiomasSoportadosAplicacion() {
+        return idiomasSoportadosAplicacion;
+    }
+
+    public void setIdiomasSoportadosAplicacion(ArrayList<String> idiomasSoportadosAplicacion) {
+        this.idiomasSoportadosAplicacion = idiomasSoportadosAplicacion;
+    }
 }
+
+

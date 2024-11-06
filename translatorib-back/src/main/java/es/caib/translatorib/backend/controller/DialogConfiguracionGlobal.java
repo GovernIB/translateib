@@ -4,6 +4,7 @@ package es.caib.translatorib.backend.controller;
 import es.caib.translatorib.backend.model.DialogResult;
 import es.caib.translatorib.backend.util.UtilJSF;
 import es.caib.translatorib.core.api.model.ConfiguracionGlobal;
+import es.caib.translatorib.core.api.model.comun.Constantes;
 import es.caib.translatorib.core.api.model.types.TypeModoAcceso;
 import es.caib.translatorib.core.api.service.ConfiguracionGlobalService;
 import es.caib.translatorib.core.api.model.types.TypeNivelGravedad;
@@ -13,6 +14,7 @@ import org.slf4j.LoggerFactory;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import java.util.Objects;
 
@@ -59,6 +61,7 @@ public class DialogConfiguracionGlobal extends ViewControllerBase {
         } else {
             result.setModoAcceso(TypeModoAcceso.valueOf(this.getModoAcceso()));
         }
+
         result.setResult(data);
         UtilJSF.closeDialog(result);
     }

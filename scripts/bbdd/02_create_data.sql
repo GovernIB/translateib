@@ -8,6 +8,7 @@ INSERT INTO TIB_CNFGLO(CFG_CODIGO, CFG_PROP,CFG_VALOR,CFG_DESCR,CFG_NOMOD) VALUE
 INSERT INTO TIB_CNFGLO(CFG_CODIGO, CFG_PROP,CFG_VALOR,CFG_DESCR,CFG_NOMOD) VALUES (TIB_CNFGLO_SEQ.NEXTVAL, 'frontal.restapi.url.doc', 'http://www.caib.es/translatoribapi/interna/services/traduccion/v1/documento','Cuando se conecta desde el frontal, la url de doc.',0);
 INSERT INTO TIB_CNFGLO(CFG_CODIGO, CFG_PROP,CFG_VALOR,CFG_DESCR,CFG_NOMOD) VALUES (TIB_CNFGLO_SEQ.NEXTVAL, 'frontal.restapi.usr', 'api-tib','Cuando se conecta desde el frontal, el usuario.',0);
 INSERT INTO TIB_CNFGLO(CFG_CODIGO, CFG_PROP,CFG_VALOR,CFG_DESCR,CFG_NOMOD) VALUES (TIB_CNFGLO_SEQ.NEXTVAL, 'frontal.restapi.pwd', 'XXXX','Cuando se conecta desde el frontal, el pwd.',0);
+INSERT INTO TIB_CNFGLO(CFG_CODIGO, CFG_PROP,CFG_VALOR,CFG_DESCR,CFG_NOMOD) VALUES (TIB_CNFGLO_SEQ.NEXTVAL, 'backoffice.idiomas.soportados', 'ca,es','Indica los idiomas que permite el Backoffice separados por comas. opciones permitidas "ca,es" ',0);
 
 INSERT INTO TIB_CNFFRO (CFF_CODIGO, CFF_PLUGIN, CFF_IDIORI, CFF_IDIDES, CFF_PLGSOP)
 VALUES (

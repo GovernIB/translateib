@@ -4,6 +4,7 @@ package es.caib.translatorib.backend.controller;
 import es.caib.translatorib.backend.model.DialogResult;
 import es.caib.translatorib.backend.util.UtilJSF;
 import es.caib.translatorib.core.api.model.ConfiguracionGlobal;
+import es.caib.translatorib.core.api.model.comun.Constantes;
 import es.caib.translatorib.core.api.model.filtro.ConfiguracionGlobalFiltro;
 import es.caib.translatorib.core.api.model.types.TypeModoAcceso;
 import es.caib.translatorib.core.api.model.types.TypeNivelGravedad;
@@ -164,6 +165,16 @@ public class ViewConfiguracionesGlobales extends ViewControllerBase {
         if (respuesta.getResult() != null) {
             this.buscar();
             this.datoSeleccionado = (ConfiguracionGlobal) respuesta.getResult();
+
+            //si es configuracion de idiomas recargamos la sesion y la página para ver el resultado
+            if(((ConfiguracionGlobal) respuesta.getResult()).getPropiedad().equals(Constantes.PROPIEDAD_GLOBAL_IDIOMAS_BACKOFFICE)){
+                try {
+                    getSesion().reloadSession();
+                    getSesion().recargaPagina();
+                } catch (Exception e) {
+                    LOG.error("Error al recargar la sesion", e);
+                }
+            }
         }
     }
 

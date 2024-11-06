@@ -18,6 +18,7 @@ public final class Constantes {
     public static final String PROPIEDAD_GLOBAL_FRONTAL_URL_DOC = "frontal.restapi.url.doc";
     public static final String PROPIEDAD_GLOBAL_FRONTAL_USER = "frontal.restapi.usr";
     public static final String PROPIEDAD_GLOBAL_FRONTAL_PWD = "frontal.restapi.pwd";
+    public static final String PROPIEDAD_GLOBAL_IDIOMAS_BACKOFFICE = "backoffice.idiomas.soportados"; // Idiomas disponibles en el backoffice, codigos separados por comas ej: ca,es
 
 }
 
