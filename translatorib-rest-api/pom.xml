@@ -123,7 +123,6 @@
 					</webResources>
 				</configuration>
 			</plugin>
-<!--
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
@@ -134,7 +133,7 @@
                         </resource>
                     </webResources>
                 </configuration>
-            </plugin> -->
+            </plugin>
             <!-- Genera el descriptor openapi.json de forma estàtica després el posarem l'arrel del WAR -->
             <plugin>
                 <groupId>org.apache.geronimo</groupId>
