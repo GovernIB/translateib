@@ -36,6 +36,12 @@
 		<version>${project.version}</version>
 	</dependency>
 
+		<dependency>
+			<groupId>es.caib.translatorib</groupId>
+			<artifactId>translatorib-api</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
 		<!-- Spring -->
 		<dependency>
 			<groupId>org.springframework</groupId>
