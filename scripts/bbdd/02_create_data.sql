@@ -4,8 +4,8 @@ INSERT INTO  TIB_PLUGIN (  PLG_CODIGO, PLG_IDENTI, PLG_DESCR, PLG_CLASS, PLG_PRE
 
 INSERT INTO TIB_CNFGLO(CFG_CODIGO, CFG_PROP,CFG_VALOR,CFG_DESCR,CFG_NOMOD) VALUES (TIB_CNFGLO_SEQ.NEXTVAL, 'idiomaDefecto', 'ca','En el caso de los tipos que no cuelgan de entidad, en caso de no pasarse el idioma en el restapi, para saber que idioma coger.',0);
 
-INSERT INTO TIB_CNFGLO(CFG_CODIGO, CFG_PROP,CFG_VALOR,CFG_DESCR,CFG_NOMOD) VALUES (TIB_CNFGLO_SEQ.NEXTVAL, 'frontal.restapi.url', 'http://www.caib.es/translatorib/api/services/traduccion/v1/texto','Cuando se conecta desde el frontal, la url de texto.',0);
-INSERT INTO TIB_CNFGLO(CFG_CODIGO, CFG_PROP,CFG_VALOR,CFG_DESCR,CFG_NOMOD) VALUES (TIB_CNFGLO_SEQ.NEXTVAL, 'frontal.restapi.url.doc', 'http://www.caib.es/translatorib/api/services/traduccion/v1/documento','Cuando se conecta desde el frontal, la url de doc.',0);
+INSERT INTO TIB_CNFGLO(CFG_CODIGO, CFG_PROP,CFG_VALOR,CFG_DESCR,CFG_NOMOD) VALUES (TIB_CNFGLO_SEQ.NEXTVAL, 'frontal.restapi.url', 'http://www.caib.es/translatoribapi/interna/services/traduccion/v1/texto','Cuando se conecta desde el frontal, la url de texto.',0);
+INSERT INTO TIB_CNFGLO(CFG_CODIGO, CFG_PROP,CFG_VALOR,CFG_DESCR,CFG_NOMOD) VALUES (TIB_CNFGLO_SEQ.NEXTVAL, 'frontal.restapi.url.doc', 'http://www.caib.es/translatoribapi/interna/services/traduccion/v1/documento','Cuando se conecta desde el frontal, la url de doc.',0);
 INSERT INTO TIB_CNFGLO(CFG_CODIGO, CFG_PROP,CFG_VALOR,CFG_DESCR,CFG_NOMOD) VALUES (TIB_CNFGLO_SEQ.NEXTVAL, 'frontal.restapi.usr', 'api-tib','Cuando se conecta desde el frontal, el usuario.',0);
 INSERT INTO TIB_CNFGLO(CFG_CODIGO, CFG_PROP,CFG_VALOR,CFG_DESCR,CFG_NOMOD) VALUES (TIB_CNFGLO_SEQ.NEXTVAL, 'frontal.restapi.pwd', 'XXXX','Cuando se conecta desde el frontal, el pwd.',0);
 

@@ -109,7 +109,7 @@
             </dependency>-->
             <dependency>
                 <groupId>es.caib.translatorib</groupId>
-                <artifactId>translatorib-rest-api</artifactId>
+                <artifactId>translatorib-api-interna</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <!-- Definició de les versions de les llibreries, especificacions i eines disponibles dins JBoss -->
@@ -580,7 +580,7 @@
     <module>translatorib-plugin-opentrad</module>
     <module>translatorib-plugin-plata</module>
     <module>translatorib-plugin-mock</module>
-    <module>translatorib-rest-api</module>
+    <module>translatorib-api-interna</module>
 	<module>translatorib-back</module>
     <module>translatorib-ear</module>
   </modules>

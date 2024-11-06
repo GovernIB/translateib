@@ -39,7 +39,7 @@
         </dependency>
         <dependency>
             <groupId>es.caib.translatorib</groupId>
-            <artifactId>translatorib-rest-api</artifactId>
+            <artifactId>translatorib-api-interna</artifactId>
             <version>${project.version}</version>
             <type>war</type>
         </dependency>
@@ -104,9 +104,9 @@
                         </webModule>
                         <webModule>
                             <groupId>es.caib.translatorib</groupId>
-                            <artifactId>translatorib-rest-api</artifactId>
-                            <contextRoot>/translatorib/api</contextRoot>
-                            <bundleFileName>translatorib-rest-api.war</bundleFileName>
+                            <artifactId>translatorib-api-interna</artifactId>
+                            <contextRoot>/translatoribapi/interna</contextRoot>
+                            <bundleFileName>translatorib-api-interna.war</bundleFileName>
                         </webModule>
 
                     </modules>
