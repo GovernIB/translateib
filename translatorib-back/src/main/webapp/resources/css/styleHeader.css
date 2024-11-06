@@ -1,8 +1,6 @@
 body, html {
     margin: 0 !important;
     padding: 0 !important;
-    height: 100%;
-    font-family: Arial, sans-serif;
 }
 .container {
     display: flex;
@@ -50,7 +48,8 @@ header {
     min-width: 160px;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
     z-index: 1;
-    border-radius: 7px 7px;
+    border-radius: 4px 4px;
+    left: -4rem;
 }
 .dropdown-content a {
     color: black;
@@ -60,6 +59,7 @@ header {
 }
 .dropdown-content a:hover {
     background-color: #ddd;
+    border-radius: 4px 4px;
 }
 .dropdown:hover .dropdown-content {
     display: block;
@@ -80,7 +80,7 @@ header {
     color: white;
     text-decoration: none;
     border-radius: 4px;
-    font-size: 16px;
+    height: 2.5rem;
 }
 a.desplegable:hover {
     color: #FFF;

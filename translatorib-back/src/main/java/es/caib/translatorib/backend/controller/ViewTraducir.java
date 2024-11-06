@@ -11,17 +11,22 @@ import es.caib.translatorib.core.api.service.ConfiguracionFrontalService;
 import es.caib.translatorib.core.api.service.ConfiguracionGlobalService;
 import es.caib.translatorib.core.api.service.PluginService;
 import es.caib.translatorib.core.api.service.TraduccionService;
+import org.primefaces.PrimeFaces;
 import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
 import org.primefaces.model.file.UploadedFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
+import java.io.ByteArrayInputStream;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -77,6 +82,9 @@ public class ViewTraducir extends ViewControllerBase {
 	private Idioma idiomaOrigenOld;
 	private Idioma idiomaDestinoOld;
 	private Integer tipo = 0;
+
+	private StreamedContent fileDownload;
+
 	/**
 	 * Inicializacion.
 	 */
@@ -143,12 +151,14 @@ public class ViewTraducir extends ViewControllerBase {
 	public void handleFileUpload(FileUploadEvent event) {
 		this.file = event.getFile();
 		this.fileName = file.getFileName();
+		this.fileDownload=null;
 	}
 
 	public void descargarArchivo() {
+		fileDownload=null;
 		// Lógica para devolver el archivo subido
 		if (file == null || contenido == null) {
-			UtilJSF.addMessageContext(TypeNivelGravedad.ERROR, "No se ha subido ningún archivo");
+			UtilJSF.addMessageContext(TypeNivelGravedad.ERROR,  UtilJSF.getLiteral("viewTraducir.ArchivoNoSeleccionado"));
 		} else {
 			if (plugin != null && idiomaDestino != null && idiomaOrigen != null) {
 
@@ -203,26 +213,25 @@ public class ViewTraducir extends ViewControllerBase {
 					// Convertir la respuesta String a ResultadoTraduccionTexto
 					ResultadoTraduccionDocumento resultado = objectMapper.readValue(respuesta.body(), ResultadoTraduccionDocumento.class);
 
-					if (resultado.isError()) {
-						UtilJSF.addMessageContext(TypeNivelGravedad.WARNING, "Error en la traduccion:" + resultado.getDescripcionError());
+					if (resultado== null || resultado.isError()) {
+						UtilJSF.addMessageContext(TypeNivelGravedad.WARNING,  UtilJSF.getLiteral("viewTraducir.errorTraduccion") + resultado.getDescripcionError());
 					} else {
 						// Descargar el archivo
-						FacesContext context = FacesContext.getCurrentInstance();
-						context.getExternalContext().responseReset();
-						context.getExternalContext().setResponseContentType("application/octet-stream");
-						context.getExternalContext().setResponseHeader("Content-Disposition", "attachment; filename=\"" + file.getFileName() + "\"");
 
-						// Decodificar Base64 y escribir el resultado con la codificación adecuada (UTF-8)
-						byte[] decodedBytes = Base64.getDecoder().decode(resultado.getTextoTraducido());
-						context.getExternalContext().getResponseOutputStream().write(decodedBytes);
+						fileDownload = DefaultStreamedContent.builder()
+								.name(file.getFileName())
+								.contentType("application/octet-stream")
+								.stream(() -> new ByteArrayInputStream(Base64.getDecoder().decode(resultado.getTextoTraducido())))
+								.build();
 
-						// Completar la respuesta
-						context.responseComplete();
+						UtilJSF.addMessageContext(TypeNivelGravedad.INFO,  UtilJSF.getLiteral("viewTraducir.archivoDescargado")+"" );
 					}
 				} catch (Exception e) {
 					LOG.error("Error al realizar la traducción", e);
-					UtilJSF.addMessageContext(TypeNivelGravedad.ERROR, "Error al realizar la traducción");
+					UtilJSF.addMessageContext(TypeNivelGravedad.ERROR, UtilJSF.getLiteral( "viewTraducir.errorDescarga"));
 				}
+			}else{
+				UtilJSF.addMessageContext(TypeNivelGravedad.ERROR,  UtilJSF.getLiteral("viewTraducir.faltandatos"));
 			}
 		}
 	}
@@ -347,10 +356,13 @@ public class ViewTraducir extends ViewControllerBase {
 				} else {
 					textoDestino = resultado.getTextoTraducido();
 				}
+				//UtilJSF.addMessageContext(TypeNivelGravedad.INFO,  UtilJSF.getLiteral("viewTraducir.")+"" );
 			} catch (Exception e) {
 				LOG.error("Error al realizar la traducción", e);
-				UtilJSF.addMessageContext(TypeNivelGravedad.ERROR, "Error al realizar la traducción");
+				UtilJSF.addMessageContext(TypeNivelGravedad.ERROR,  UtilJSF.getLiteral("viewTraducir.errorTraduccion")+"" );
 			}
+		}else{
+			UtilJSF.addMessageContext(TypeNivelGravedad.ERROR,  UtilJSF.getLiteral("viewTraducir.faltandatos"));
 		}
 	}
 
@@ -540,12 +552,14 @@ public class ViewTraducir extends ViewControllerBase {
 		this.file = file.getFile();
 		this.fileName = file.getFile().getFileName();
 		this.contenido = file.getFile().getContent();
+		fileDownload=null;
 	}
 
 	public void setFile(UploadedFile file) {
 		this.file = file;
 		this.fileName = file.getFileName();
 		this.contenido = file.getContent();
+		fileDownload=null;
 	}
 
 	public Integer getTipo() {
@@ -589,5 +603,15 @@ public class ViewTraducir extends ViewControllerBase {
 		}
 		return true;
 	}
+
+
+    public StreamedContent getFileDownload() {
+		this.descargarArchivo();
+        return fileDownload;
+    }
+
+    public void setFiledownload(StreamedContent fileDownload) {
+        this.fileDownload = fileDownload;
+    }
 }
 

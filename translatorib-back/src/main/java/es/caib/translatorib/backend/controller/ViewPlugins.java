@@ -9,6 +9,7 @@ import es.caib.translatorib.core.api.model.Plugin;
 import es.caib.translatorib.core.api.model.types.TypeModoAcceso;
 import es.caib.translatorib.core.api.model.types.TypeNivelGravedad;
 import es.caib.translatorib.core.api.service.PluginService;
+import org.primefaces.PrimeFaces;
 import org.primefaces.event.SelectEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -120,6 +121,8 @@ public class ViewPlugins extends ViewControllerBase {
 		pluginService.borrar(datoSeleccionado);
 		datoSeleccionado = null;
 		buscar();
+		PrimeFaces.current().ajax().update("form:panelBotones");
+		UtilJSF.addMessageContext(TypeNivelGravedad.INFO, UtilJSF.getLiteral("msg.eliminadoCorrecto"));
 	}
 
 	/**
@@ -131,7 +134,23 @@ public class ViewPlugins extends ViewControllerBase {
 		final DialogResult respuesta = (DialogResult) event.getObject();
 		if (!respuesta.isCanceled()) {
 			this.buscar();
+
+			if(respuesta.getResult() != null) {
+				this.datoSeleccionado = (Plugin) respuesta.getResult();
+				final int indice = listaDatos.indexOf(datoSeleccionado);
+
+				if(indice>=0) {
+					listaDatos.set(indice, datoSeleccionado);
+				}
+
+				if(respuesta.getModoAcceso()==TypeModoAcceso.ALTA || respuesta.getModoAcceso()==TypeModoAcceso.EDICION) {
+					UtilJSF.addMessageContext(TypeNivelGravedad.INFO, UtilJSF.getLiteral("msg.guardadoCorrecto"));
+				}else if(respuesta.getModoAcceso()==TypeModoAcceso.CONSULTA) {
+					UtilJSF.addMessageContext(TypeNivelGravedad.INFO, UtilJSF.getLiteral("msg.guardadoCorrecto"));
+				}
+			}
 		}
+
 	}
 
 
@@ -143,10 +162,10 @@ public class ViewPlugins extends ViewControllerBase {
 	public void returnDialogoConfirmar(final SelectEvent event) {
 		final DialogResult respuesta = (DialogResult) event.getObject();
 		if (!respuesta.isCanceled()) {
-			final Plugin pagado = (Plugin) respuesta.getResult();
+			final Plugin plg = (Plugin) respuesta.getResult();
 			final int indice = listaDatos.indexOf(datoSeleccionado);
-			listaDatos.set(indice, pagado);
-			datoSeleccionado = pagado;
+			listaDatos.set(indice, plg);
+			datoSeleccionado = plg;
 		}
 	}
 

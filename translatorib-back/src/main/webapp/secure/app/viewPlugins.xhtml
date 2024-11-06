@@ -30,7 +30,7 @@
 						<p:commandButton id="btnBuscar" value="#{msg['dict.busqueda']}"
 										 styleClass="mr-2" icon="pi pi-search"
 										 actionListener="#{viewPlugins.buscar()}"
-										 update="messages dataTable"
+										 update="messages dataTable form:panelBotones"
 										 process="@form"/>
 	           		</h:panelGrid>
 		        </f:facet>
@@ -42,7 +42,7 @@
 										 actionListener="#{viewPlugins.nuevo}" process="@form"
 										 update="messages dataTable">
 							<p:ajax event="dialogReturn" listener="#{viewPlugins.returnDialogo}"
-									update="messages dataTable includeDetalle" />
+									update="messages dataTable includeDetalle form:panelBotones" />
 						</p:commandButton>
 						<p:commandButton id="btnEditar" value="#{msg['dict.editar']}" styleClass="mr-2"
 										 icon="pi pi-pencil" iconPos="top"
@@ -50,7 +50,7 @@
 										 update="messages dataTable"
 										 disabled="#{viewPlugins.datoSeleccionado == null}">
 							<p:ajax event="dialogReturn" listener="#{viewPlugins.returnDialogo}"
-									update="messages dataTable includeDetalle" />
+									update="messages dataTable includeDetalle form:panelBotones" />
 						</p:commandButton>
 						<p:commandButton id="btnBorrar" value="#{msg['dict.borrar']}" styleClass="mr-2"
 										 icon="pi pi-trash" iconPos="top"
@@ -58,7 +58,7 @@
 										 update="messages dataTable"
 										 disabled="#{viewPlugins.datoSeleccionado == null}">
 							<p:ajax event="dialogReturn" listener="#{viewPlugins.returnDialogo}"
-									update="messages dataTable" />
+									update="messages dataTable form:panelBotones" />
 						</p:commandButton>
 			        </h:panelGrid>
 		        </f:facet>
@@ -67,17 +67,17 @@
 
 			<!-- Data table -->
 			<p:dataTable  id="dataTable" var="td" value="#{viewPlugins.listaDatos}"
-						 rows="13" emptyMessage="#{msg['info.emptyRows']}"
+						 rows="10" emptyMessage="#{msg['info.emptyRows']}"
 						 scrollable="true" scrollHeight="90%"
                          paginator="true" paginatorPosition="bottom"
                          paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                         rowsPerPageTemplate="5,10,15,30"
+                         rowsPerPageTemplate="10,15,30"
 			        	 selectionMode="single" selection="#{viewPlugins.datoSeleccionado}" rowKey="#{td.codigo}">
 
 
 				<!-- Necesario para actualizar en controlador la fila seleccionada -->
 				<p:ajax event="rowSelect" global="false" update="form:panelBotones"/>
-				<p:ajax event="rowDblselect" oncomplete="triggerDblClick();"/>
+				<p:ajax event="rowDblselect" oncomplete="triggerDblClick();" update="form:panelBotones"/>
 				<p:ajax event="contextMenu" global="false" process="@this" update="form:panelBotones" oncomplete="opcVista();"/>
 
 

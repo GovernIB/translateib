@@ -10,6 +10,7 @@ import es.caib.translatorib.core.api.model.types.TypeModoAcceso;
 import es.caib.translatorib.core.api.model.types.TypeNivelGravedad;
 import es.caib.translatorib.core.api.model.types.TypeParametroVentana;
 import es.caib.translatorib.core.api.service.ConfiguracionGlobalService;
+import org.primefaces.PrimeFaces;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.model.FilterMeta;
 import org.primefaces.model.LazyDataModel;
@@ -165,14 +166,17 @@ public class ViewConfiguracionesGlobales extends ViewControllerBase {
         if (respuesta.getResult() != null) {
             this.buscar();
             this.datoSeleccionado = (ConfiguracionGlobal) respuesta.getResult();
+            UtilJSF.addMessageContext(TypeNivelGravedad.INFO, UtilJSF.getLiteral("msg.guardadoCorrecto"));
 
             //si es configuracion de idiomas recargamos la sesion y la página para ver el resultado
             if(((ConfiguracionGlobal) respuesta.getResult()).getPropiedad().equals(Constantes.PROPIEDAD_GLOBAL_IDIOMAS_BACKOFFICE)){
                 try {
                     getSesion().reloadSession();
-                    getSesion().recargaPagina();
+                   // getSesion().recargaPagina();
+                    PrimeFaces.current().ajax().update("botonesCambioIioma");
                 } catch (Exception e) {
                     LOG.error("Error al recargar la sesion", e);
+                    UtilJSF.addMessageContext(TypeNivelGravedad.INFO, UtilJSF.getLiteral("msg.errorRecargarSesion"));
                 }
             }
         }

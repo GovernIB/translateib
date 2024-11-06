@@ -20,8 +20,6 @@
 
 		<h:form id="form" style=""  enctype="multipart/form-data">
 
-			<!-- Growl mensajes -->
-			<p:growl id="growl" widgetVar="growl" showDetail="false" life="2000" sticky="false" />
 			<!-- Contenido -->
 			<div class="col-12 card flex align-items-center justify-content-start pl-4">
 				<label for="txtPlugins" class="p-sr-only" >Plugin: </label>
@@ -103,14 +101,14 @@
 								<p:commandButton id="btnTraducir" value="#{msg['dict.traducir']}"
 												 styleClass="" icon="pi pi-search"
 												 actionListener="#{viewTraducir.traducir()}"
-												 update="textAreaDestino"
+												 update="textAreaDestino messages"
 												 process="@form"/>
 
 								<p:commandButton id="btnTraducirJAVA" value="#{msg['dict.traducir']} JAVA"
 												 rendered="#{viewTraducir.mostrarBotonJava}"
 												 styleClass="" icon="pi pi-search"
 												 actionListener="#{viewTraducir.traducirJAVA()}"
-												 update="textAreaDestino"
+												 update="textAreaDestino textAreaDestino messages"
 												 process="@form"/>
 							</div>
 						</div>
@@ -152,14 +150,15 @@
 						<p:commandButton type="button" value="#{msg['dict.elegirFichero']}" icon="pi pi-upload" onclick="PF('uploadDnd').show();return false" styleClass="boton-color-principal"  />
 					</div>
 				</div>
+				<p>
+					<p:commandButton id="btntraducir"
+									 value="#{not empty viewTraducir.file ? msg['dict.traducir'].concat(' ').concat( viewTraducir.file.fileName) : msg['dict.ficheroVacio']}"
+									 disabled="#{empty viewTraducir.file}"
+									 update="messages">
+						<p:fileDownload value="#{viewTraducir.fileDownload}" />
+					</p:commandButton>
 
-
-
-					<p>
-						<p:commandButton id="btntraducir" value="#{not empty viewTraducir.file ? msg['dict.traducir'].concat(' ').concat( viewTraducir.file.fileName) : msg['dict.ficheroVacio']}"
-										 actionListener="#{viewTraducir.descargarArchivo}"
-										 ajax="false" disabled="#{empty viewTraducir.file}"/>
-					</p>
+				</p>
 				<!--</p:tab>
 			</p:tabView>-->
 			</p:card>
