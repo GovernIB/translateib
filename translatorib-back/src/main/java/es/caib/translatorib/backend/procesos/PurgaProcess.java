@@ -1,16 +1,15 @@
 package es.caib.translatorib.backend.procesos;
 
+import javax.inject.Inject;
 import javax.servlet.ServletContext;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import es.caib.translatorib.core.api.service.SystemService;
-import es.caib.translatorib.core.api.util.GeneradorId;
+import es.caib.translatorib.service.service.SystemService;
+import es.caib.translatorib.service.util.GeneradorId;
 
 /**
  * Proceso que arranca proceso purga ficheros.
@@ -24,10 +23,10 @@ public final class PurgaProcess {
     /** Log. */
     private static Logger log = LoggerFactory.getLogger(PurgaProcess.class);
 
-    @Autowired
+    //@Inject
     private SystemService systemService;
 
-    @Autowired
+    //@Inject
     private ServletContext servletContext;
 
     /**

@@ -4,7 +4,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
 import es.caib.translatorib.backend.model.DialogResult;
-import es.caib.translatorib.core.api.model.types.TypeModoAcceso;
+import es.caib.translatorib.service.model.types.TypeModoAcceso;
 import es.caib.translatorib.backend.util.UtilJSF;
 
 /**

@@ -4,8 +4,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import es.caib.translatorib.backend.util.UtilJSF;
-import es.caib.translatorib.core.api.model.types.TypeModoAcceso;
-import es.caib.translatorib.core.api.model.types.TypeNivelGravedad;
+import es.caib.translatorib.service.model.types.TypeModoAcceso;
+import es.caib.translatorib.service.model.types.TypeNivelGravedad;
 
 /**
  * Clase de las que heredan los Dialog.

@@ -1,6 +1,6 @@
 package es.caib.translatorib.backend.model;
 
-import es.caib.translatorib.core.api.model.types.TypeModoAcceso;
+import es.caib.translatorib.service.model.types.TypeModoAcceso;
 
 /**
  * Resultado de ventana de dialogo.

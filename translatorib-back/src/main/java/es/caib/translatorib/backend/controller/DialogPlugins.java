@@ -3,25 +3,24 @@ package es.caib.translatorib.backend.controller;
 import es.caib.translatorib.backend.model.DialogResult;
 import es.caib.translatorib.backend.util.UtilJSF;
 
-import es.caib.translatorib.core.api.model.Idioma;
-import es.caib.translatorib.core.api.model.ParejaIdiomas;
-import es.caib.translatorib.core.api.model.Plugin;
-import es.caib.translatorib.core.api.model.comun.Propiedad;
-import es.caib.translatorib.core.api.model.types.TypeModoAcceso;
-import es.caib.translatorib.core.api.model.types.TypeNivelGravedad;
-import es.caib.translatorib.core.api.model.types.TypeParametroVentana;
-import es.caib.translatorib.core.api.service.PluginService;
-import es.caib.translatorib.core.api.util.UtilJSON;
+import es.caib.translatorib.service.model.Idioma;
+import es.caib.translatorib.service.model.ParejaIdiomas;
+import es.caib.translatorib.service.model.Plugin;
+import es.caib.translatorib.service.model.comun.Propiedad;
+import es.caib.translatorib.service.model.types.TypeModoAcceso;
+import es.caib.translatorib.service.model.types.TypeNivelGravedad;
+import es.caib.translatorib.service.model.types.TypeParametroVentana;
+import es.caib.translatorib.service.service.PluginService;
+import es.caib.translatorib.service.util.UtilJSON;
 import org.primefaces.PrimeFaces;
 import org.primefaces.event.SelectEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
-import javax.inject.Named;
-import java.io.Serializable;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -29,7 +28,7 @@ import java.util.stream.Collectors;
 @ViewScoped
 public class DialogPlugins extends ViewControllerBase  {
 
-    @Inject
+    @EJB
     private PluginService pluginService;
 
     private static final Logger LOG = LoggerFactory.getLogger(DialogPlugins.class);
@@ -59,7 +58,7 @@ public class DialogPlugins extends ViewControllerBase  {
 
         //Cargamos todas las posibles combinaciones de parejas.
         // Generar todas las combinaciones posibles
-        todasLasCombinaciones = new ArrayList<>();
+        todasLasCombinaciones = new ArrayList<ParejaIdiomas>();
         for (Idioma origen : Idioma.values()) {
             for (Idioma destino : Idioma.values()) {
                 if (!origen.equals(destino)) {

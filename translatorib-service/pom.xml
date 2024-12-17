@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<parent>
+		<artifactId>translatorib</artifactId>
+		<groupId>es.caib.translatorib</groupId>
+		<version>2.0.0</version>
+	</parent>
+	<modelVersion>4.0.0</modelVersion>
+
+	<artifactId>translatorib-service</artifactId>
+	<packaging>jar</packaging>
+	<name>translatorib - SERVICE</name>
+	<description>Mòdul amb la interfície de serveis de translatorib</description>
+
+	<dependencies>
+
+		<!--Importamos librería de commons-->
+		<dependency>
+			<groupId>es.caib.translatorib</groupId>
+			<artifactId>translatorib-commons</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<!-- Especificacions i llibreries proporcionades per JBoss -->
+		<dependency>
+			<groupId>org.jboss.spec</groupId>
+			<artifactId>jboss-javaee-8.0</artifactId>
+			<type>pom</type>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<!-- Anotacions de documentació de openapi -->
+		<dependency>
+			<groupId>org.eclipse.microprofile.openapi</groupId>
+			<artifactId>microprofile-openapi-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+		</dependency>
+
+		<!--Para la interfaz IPlugin-->
+		<dependency>
+			<groupId>org.fundaciobit.pluginsib.core</groupId>
+			<artifactId>pluginsib-core</artifactId>
+			<version>${plugins-ib.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>${commons-lang3.version}</version>
+			<scope>provided</scope>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<finalName>${project.artifactId}</finalName>
+	</build>
+</project>

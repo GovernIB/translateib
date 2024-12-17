@@ -24,8 +24,8 @@
 	        </dependency>
         <dependency>
             <groupId>es.caib.translatorib</groupId>
-            <artifactId>translatorib-core-api</artifactId>
-            <version>2.0.0</version>
+            <artifactId>translatorib-service</artifactId>
+            <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
 

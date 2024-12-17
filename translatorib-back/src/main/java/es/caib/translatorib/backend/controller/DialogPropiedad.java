@@ -2,12 +2,14 @@ package es.caib.translatorib.backend.controller;
 
 import es.caib.translatorib.backend.model.DialogResult;
 import es.caib.translatorib.backend.util.UtilJSF;
-import es.caib.translatorib.core.api.model.comun.Propiedad;
-import es.caib.translatorib.core.api.model.types.TypeModoAcceso;
-import es.caib.translatorib.core.api.util.UtilJSON;
+import es.caib.translatorib.service.model.comun.Propiedad;
+import es.caib.translatorib.service.model.types.TypeModoAcceso;
+import es.caib.translatorib.service.service.SessionService;
+import es.caib.translatorib.service.util.UtilJSON;
 
 import java.io.Serializable;
 
+import javax.ejb.SessionBean;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
@@ -16,8 +18,7 @@ import javax.inject.Inject;
 @ViewScoped
 public class DialogPropiedad  extends ViewControllerBase implements Serializable {
 
-	@Inject
-    private SessionBean sessionBean;
+
 	/**
 	 * Dato elemento en formato JSON.
 	 */

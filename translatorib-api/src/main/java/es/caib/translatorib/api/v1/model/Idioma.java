@@ -21,7 +21,18 @@ public enum Idioma implements Serializable {
 		this.locale = ivalor;
 	}
 
-	public String getIdioma() {
+	public static Idioma fromString(String idiomaEntrada) {
+		String idiomaEntrada1 = idiomaEntrada.split(" ")[0];
+		String idiomaEntrada2 = idiomaEntrada.split(" ")[1];
+		for(Idioma idioma : Idioma.values()) {
+			if(idioma.getIdioma().equals(idiomaEntrada1) && idioma.getLocale().equals(idiomaEntrada2)) {
+				return idioma;
+			}
+		}
+		return null;
+	}
+
+    public String getIdioma() {
 		return this.idioma;
 	}
 

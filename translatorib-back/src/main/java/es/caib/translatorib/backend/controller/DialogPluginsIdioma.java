@@ -2,25 +2,20 @@ package es.caib.translatorib.backend.controller;
 
 import es.caib.translatorib.backend.model.DialogResult;
 import es.caib.translatorib.backend.util.UtilJSF;
-import es.caib.translatorib.core.api.model.Idioma;
-import es.caib.translatorib.core.api.model.ParejaIdiomas;
-import es.caib.translatorib.core.api.model.Plugin;
-import es.caib.translatorib.core.api.model.comun.Propiedad;
-import es.caib.translatorib.core.api.model.types.TypeModoAcceso;
-import es.caib.translatorib.core.api.model.types.TypeNivelGravedad;
-import es.caib.translatorib.core.api.model.types.TypeParametroVentana;
-import es.caib.translatorib.core.api.service.PluginService;
-import es.caib.translatorib.core.api.util.UtilJSON;
+import es.caib.translatorib.service.model.Idioma;
+import es.caib.translatorib.service.model.ParejaIdiomas;
+import es.caib.translatorib.service.model.Plugin;
+import es.caib.translatorib.service.model.comun.Propiedad;
+import es.caib.translatorib.service.model.types.TypeModoAcceso;
+import es.caib.translatorib.service.model.types.TypeNivelGravedad;
+import es.caib.translatorib.service.service.PluginService;
 import org.primefaces.PrimeFaces;
-import org.primefaces.event.SelectEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
-import javax.faces.model.SelectItem;
-import javax.faces.model.SelectItemGroup;
 import javax.inject.Inject;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -29,7 +24,7 @@ import java.util.stream.Collectors;
 @ViewScoped
 public class DialogPluginsIdioma extends ViewControllerBase  {
 
-    @Inject
+    @EJB
     private PluginService pluginService;
 
     private static final Logger LOG = LoggerFactory.getLogger(DialogPluginsIdioma.class);
@@ -57,8 +52,8 @@ public class DialogPluginsIdioma extends ViewControllerBase  {
     public void load() {
         LOG.debug("init");
 
-        todasLasCombinaciones = new ArrayList<>();
-        combinacionesSeleccionadas = new ArrayList<>();
+        todasLasCombinaciones = new ArrayList<ParejaIdiomas>();
+        combinacionesSeleccionadas = new ArrayList<ParejaIdiomas>();
 
         data = pluginService.getPluginByCodigo(Long.valueOf(id));
         if (data.getIdiomasPermitidos() != null && !data.getIdiomasPermitidos().isEmpty()) {

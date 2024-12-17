@@ -1,7 +1,7 @@
 package es.caib.translatorib.backend.converters;
 
-import es.caib.translatorib.core.api.model.Idioma;
-import es.caib.translatorib.core.api.model.ParejaIdiomas;
+import es.caib.translatorib.service.model.Idioma;
+import es.caib.translatorib.service.model.ParejaIdiomas;
 
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;

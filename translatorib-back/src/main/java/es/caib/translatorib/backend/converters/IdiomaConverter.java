@@ -1,14 +1,11 @@
 package es.caib.translatorib.backend.converters;
 
-import es.caib.translatorib.core.api.model.Idioma;
-import es.caib.translatorib.core.api.model.ParejaIdiomas;
-import es.caib.translatorib.core.api.model.Plugin;
+import es.caib.translatorib.service.model.Idioma;
 
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
-import java.util.List;
 
 @FacesConverter("idiomaConverter")
 public class IdiomaConverter implements Converter {

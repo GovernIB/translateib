@@ -1,5 +1,5 @@
 /**
- *
+ * Clase ModuleConfig.java
  */
 package es.caib.translatorib.backend.model.comun;
 
@@ -7,6 +7,14 @@ package es.caib.translatorib.backend.model.comun;
  * @author Indra
  *
  */
+import org.springframework.stereotype.Component;
+
+import javax.enterprise.context.ApplicationScoped;
+import javax.faces.bean.ManagedBean;
+
+//@ApplicationScoped
+@ManagedBean(name = "negocioModuleConfig")
+@ApplicationScoped
 public final class ModuleConfig {
 
 	/** Entorno. **/

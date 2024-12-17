@@ -3,18 +3,17 @@ package es.caib.translatorib.backend.controller;
 
 import es.caib.translatorib.backend.model.DialogResult;
 import es.caib.translatorib.backend.util.UtilJSF;
-import es.caib.translatorib.core.api.model.ConfiguracionGlobal;
-import es.caib.translatorib.core.api.model.comun.Constantes;
-import es.caib.translatorib.core.api.model.types.TypeModoAcceso;
-import es.caib.translatorib.core.api.service.ConfiguracionGlobalService;
-import es.caib.translatorib.core.api.model.types.TypeNivelGravedad;
+import es.caib.translatorib.service.model.ConfiguracionGlobal;
+import es.caib.translatorib.service.model.types.TypeModoAcceso;
+import es.caib.translatorib.service.service.ConfiguracionGlobalService;
+import es.caib.translatorib.service.model.types.TypeNivelGravedad;
 import org.primefaces.PrimeFaces;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import java.util.Objects;
 
@@ -35,7 +34,7 @@ public class DialogConfiguracionGlobal extends ViewControllerBase {
 
     private ConfiguracionGlobal dataOriginal;
 
-    @Inject
+    @EJB
     private ConfiguracionGlobalService configuracionGlobalService;
 
     public void load() {

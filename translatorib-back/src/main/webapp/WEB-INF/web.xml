@@ -10,10 +10,9 @@
   </listener>
   <context-param>
     <param-name>contextConfigLocation</param-name>
-    <param-value>/WEB-INF/translatorib-ac-backend-jboss.xml
-    			 /WEB-INF/translatorib-ac-backend.xml
-    </param-value>
+    <param-value>/WEB-INF/beans.xml</param-value>
   </context-param>
+
   <filter>
     <filter-name>CharacterEncoding</filter-name>
     <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>

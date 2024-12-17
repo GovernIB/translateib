@@ -22,7 +22,7 @@
 
 			<dependency>
 				<groupId>es.caib.translatorib</groupId>
-				<artifactId>translatorib-core-api</artifactId>
+				<artifactId>translatorib-service</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			

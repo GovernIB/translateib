@@ -1,30 +1,24 @@
 package es.caib.translatorib.backend.controller;
 
 
-import es.caib.translatorib.backend.model.DialogResult;
 import es.caib.translatorib.backend.model.types.TypeParametroVentana;
 import es.caib.translatorib.backend.util.UtilJSF;
-import es.caib.translatorib.core.api.model.ConfiguracionFrontal;
-import es.caib.translatorib.core.api.model.ConfiguracionGlobal;
-import es.caib.translatorib.core.api.model.Idioma;
-import es.caib.translatorib.core.api.model.Plugin;
-import es.caib.translatorib.core.api.model.filtro.ConfiguracionGlobalFiltro;
-import es.caib.translatorib.core.api.model.types.TypeModoAcceso;
-import es.caib.translatorib.core.api.model.types.TypeNivelGravedad;
-import es.caib.translatorib.core.api.service.ConfiguracionFrontalService;
-import es.caib.translatorib.core.api.service.ConfiguracionGlobalService;
-import es.caib.translatorib.core.api.service.PluginService;
-import org.primefaces.event.SelectEvent;
-import org.primefaces.model.FilterMeta;
-import org.primefaces.model.LazyDataModel;
-import org.primefaces.model.SortMeta;
-import org.primefaces.model.SortOrder;
+import es.caib.translatorib.service.model.ConfiguracionFrontal;
+import es.caib.translatorib.service.model.Idioma;
+import es.caib.translatorib.service.model.ParejaIdiomas;
+import es.caib.translatorib.service.model.Plugin;
+import es.caib.translatorib.service.model.types.TypeModoAcceso;
+import es.caib.translatorib.service.model.types.TypeNivelGravedad;
+import es.caib.translatorib.service.service.ConfiguracionFrontalService;
+import es.caib.translatorib.service.service.PluginService;
+import es.caib.translatorib.service.service.SessionService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.ejb.EJB;
+import javax.ejb.SessionBean;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.event.ActionListener;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Inject;
 import java.util.*;
@@ -47,13 +41,10 @@ public class ViewConfiguracionFrontal extends ViewControllerBase {
      */
     private ConfiguracionFrontal dato;
 
-    @Inject
+    @EJB
     private ConfiguracionFrontalService configuracionFrontalService;
 
-    @Inject
-    private SessionBean	sessionBean;
-
-    @Inject
+    @EJB
     private PluginService pluginService;
 
     private List<Plugin> plugins;
@@ -71,7 +62,7 @@ public class ViewConfiguracionFrontal extends ViewControllerBase {
         // Control acceso
         UtilJSF.verificarAcceso();
 
-        selectedPlugins = new ArrayList<>();
+        selectedPlugins = new ArrayList<Plugin>();
         plugins = pluginService.lista(null);
         dato = configuracionFrontalService.findConfFrontalByDefault();
         if (dato == null) {

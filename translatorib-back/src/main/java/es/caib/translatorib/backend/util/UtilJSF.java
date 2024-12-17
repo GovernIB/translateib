@@ -17,23 +17,24 @@ import javax.faces.application.FacesMessage;
 import javax.faces.application.FacesMessage.Severity;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 import javax.servlet.ServletContext;
 
+import es.caib.translatorib.backend.controller.SessionBean;
 import es.caib.translatorib.backend.controller.ViewTraducir;
 import org.apache.commons.lang3.StringUtils;
 import org.primefaces.PrimeFaces;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import es.caib.translatorib.backend.controller.SessionBean;
 import es.caib.translatorib.backend.model.DialogResult;
 import es.caib.translatorib.backend.model.types.TypeParametroVentana;
-import es.caib.translatorib.core.api.exception.ErrorBackException;
-import es.caib.translatorib.core.api.model.comun.ConstantesNumero;
-import es.caib.translatorib.core.api.model.types.TypeEntorno;
-import es.caib.translatorib.core.api.model.types.TypeModoAcceso;
-import es.caib.translatorib.core.api.model.types.TypeRoleAcceso;
-import es.caib.translatorib.core.api.model.types.TypeNivelGravedad;
+import es.caib.translatorib.service.exception.ErrorBackException;
+import es.caib.translatorib.service.model.comun.ConstantesNumero;
+import es.caib.translatorib.service.model.types.TypeEntorno;
+import es.caib.translatorib.service.model.types.TypeModoAcceso;
+import es.caib.translatorib.service.model.types.TypeRoleAcceso;
+import es.caib.translatorib.service.model.types.TypeNivelGravedad;
 import es.caib.translatorib.backend.controller.DialogAyuda;
 
 /**
@@ -105,7 +106,7 @@ public final class UtilJSF {
 
 		// Parametros
 		String idParam = "";
-		final Map<String, List<String>> paramsDialog = new HashMap<>();
+		final Map<String, List<String>> paramsDialog = new HashMap<String, List<String>>();
 		paramsDialog.put(TypeParametroVentana.MODO_ACCESO.toString(), Collections.singletonList(modoAcceso.toString()));
 		if (params != null) {
 			for (final String key : params.keySet()) {
@@ -554,10 +555,18 @@ public final class UtilJSF {
 		}
 	}
 
+
+	public static void verificarAcceso(SessionBean sb) {
+		if (sb.isAnonimo()) {
+			sb.actualizar();
+		}
+		if (sb.getActiveRole() != TypeRoleAcceso.SUPER_ADMIN ) {
+			throw new ErrorBackException("No se está accediendo con perfil SuperAdministrador");
+		}
+	}
 	/**
 	 * Verifica el perfil pero comprueba si sigue siendo anónimo.
-	 *
-	 */
+	 **/
 	public static void verificarAcceso() {
 		final SessionBean sb = (SessionBean) FacesContext.getCurrentInstance().getExternalContext().getSessionMap()
 				.get("sessionBean");

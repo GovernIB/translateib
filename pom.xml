@@ -66,14 +66,16 @@
         <xmlbeans.version>2.4.0</xmlbeans.version>
         <slf4j.version>1.5.8</slf4j.version>
         <hibernate-jpa-2.1-api.version>1.0.0.Final</hibernate-jpa-2.1-api.version>
+        <hibernate.version>5.4.32.Final</hibernate.version>
         <jsr250-api.version>1.0</jsr250-api.version>
         <dom4j.version>1.6.1</dom4j.version>
+        <mapstruct.version>1.4.1.Final</mapstruct.version>
 
         <commons-io.version>2.6</commons-io.version>
         <commons-lang3.version>3.7</commons-lang3.version>
         <commons-codec.version>1.11</commons-codec.version>
         <commons-beanutils.version>1.9.3</commons-beanutils.version>
-
+        <jakarta.version>3.0.2</jakarta.version>
         <itext.version>2.1.7</itext.version>
         <jackson.version>2.9.5</jackson.version>
         <!-- <loginConfig.authMethod>BASIC</loginConfig.authMethod>-->
@@ -89,18 +91,24 @@
             </dependency>
             <dependency>
                 <groupId>es.caib.translatorib</groupId>
-                <artifactId>translatorib-core</artifactId>
+                <artifactId>translatorib-persistence</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>es.caib.translatorib</groupId>
                 <artifactId>translatorib-back</artifactId>
                 <version>${project.version}</version>
-            </dependency> 
+            </dependency>
             <dependency>
                 <groupId>es.caib.translatorib</groupId>
                 <artifactId>translatorib-api-interna</artifactId>
                 <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>es.caib.translatorib</groupId>
+                <artifactId>translatorib-ejb</artifactId>
+                <version>${project.version}</version>
+                <type>ejb</type>
             </dependency>
             <!-- Definició de les versions de les llibreries, especificacions i eines disponibles dins JBoss -->
             <dependency>
@@ -564,8 +572,9 @@
 <modules>
     <module>translatorib-lib</module>
     <module>translatorib-commons</module>
-    <module>translatorib-core-api</module>
-    <module>translatorib-core</module>
+    <module>translatorib-persistence</module>
+    <module>translatorib-ejb</module>
+    <module>translatorib-service</module>
     <module>translatorib-plugin</module>
     <module>translatorib-plugin-opentrad</module>
     <module>translatorib-plugin-plata</module>

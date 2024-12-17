@@ -9,7 +9,7 @@
 
     <artifactId>translatorib-api-interna</artifactId>
     <packaging>war</packaging>
-    <name>translatorIB - api - interna</name>
+    <name>translatorIB - API - INTERNA</name>
     <description>API REST de translatorIB</description>
 
     <dependencies>
@@ -40,13 +40,6 @@
             <type>pom</type>
         </dependency>
 
-        <!--
-        <dependency>
-            <groupId>es.caib.translatorib</groupId>
-            <artifactId>translatorib-core-api</artifactId>
-            <version>${project.version}</version>
-            <type>ejb</type>
-        </dependency>-->
         <!-- Anotacions de documentació de openapi -->
         <dependency>
             <groupId>org.eclipse.microprofile.openapi</groupId>
@@ -77,6 +70,12 @@
             <groupId>org.jboss.logging</groupId>
             <artifactId>commons-logging-jboss-logging</artifactId>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>es.caib.translatorib</groupId>
+            <artifactId>translatorib-api</artifactId>
+            <version>2.0.0</version>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
 
@@ -145,9 +144,9 @@
                             <goal>openapi.json</goal>
                         </goals>
                         <configuration>
-                            <application>es.caib.translatorib.api.config.ApiConfiguration</application>
+                            <application>es.caib.translatorib.api.interna.config.ApiConfiguration</application>
                             <endpointClasses>
-                                <endpointClass>es.caib.translatorib.api.v1.services.TraduccionResource</endpointClass>
+                                <endpointClass>es.caib.translatorib.api.interna.services.v1.TraduccionResource</endpointClass>
                             </endpointClasses>
                             <output>${project.build.directory}/openapi/openapi.json</output>
                             <info>
@@ -170,9 +169,9 @@
                             <goal>openapi.json</goal>
                         </goals>
                         <configuration>
-                            <application>es.caib.translatorib.api.JAXRSConfiguration</application>
+                            <application>es.caib.translatorib.api.interna.JAXRSConfiguration</application>
                             <endpointClasses>
-                                <endpointClass>es.caib.translatorib.api.v1.services.TraduccionResource</endpointClass>
+                                <endpointClass>es.caib.translatorib.api.interna.services.v1.TraduccionResource</endpointClass>
                             </endpointClasses>
                             <output>${project.build.directory}/openapi/openapi.json</output>
                             <info>
@@ -268,9 +267,9 @@
                                     <goal>openapi.json</goal>
                                 </goals>
                                 <configuration>
-                                    <application>es.caib.translatorib.api.config.ApiConfiguration</application>
+                                    <application>es.caib.translatorib.api.interna.config.ApiConfiguration</application>
                                     <endpointClasses>
-                                        <endpointClass>es.caib.translatorib.api.v1.services.TraduccionResource</endpointClass>
+                                        <endpointClass>es.caib.translatorib.api.interna.services.v1.TraduccionResource</endpointClass>
                                     </endpointClasses>
                                     <output>${project.build.directory}/openapi/openapi.json</output>
                                     <info>

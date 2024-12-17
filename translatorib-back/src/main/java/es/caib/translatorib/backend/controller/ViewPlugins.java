@@ -3,18 +3,21 @@ package es.caib.translatorib.backend.controller;
 import es.caib.translatorib.backend.model.DialogResult;
 import es.caib.translatorib.backend.model.types.TypeParametroVentana;
 import es.caib.translatorib.backend.util.UtilJSF;
-import es.caib.translatorib.core.api.exception.CargaConfiguracionException;
-import es.caib.translatorib.core.api.exception.MaxNumFilasException;
-import es.caib.translatorib.core.api.model.Plugin;
-import es.caib.translatorib.core.api.model.types.TypeModoAcceso;
-import es.caib.translatorib.core.api.model.types.TypeNivelGravedad;
-import es.caib.translatorib.core.api.service.PluginService;
+import es.caib.translatorib.service.exception.CargaConfiguracionException;
+import es.caib.translatorib.service.exception.MaxNumFilasException;
+import es.caib.translatorib.service.model.Plugin;
+import es.caib.translatorib.service.model.types.TypeModoAcceso;
+import es.caib.translatorib.service.model.types.TypeNivelGravedad;
+import es.caib.translatorib.service.service.PluginService;
+import es.caib.translatorib.service.service.SessionService;
 import org.primefaces.PrimeFaces;
 import org.primefaces.event.SelectEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.ejb.EJB;
 import javax.ejb.EJBException;
+import javax.ejb.SessionBean;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
@@ -34,11 +37,10 @@ public class ViewPlugins extends ViewControllerBase {
 
 	private static final Logger LOG = LoggerFactory.getLogger(ViewPlugins.class);
 
-	@Inject
+	@EJB
 	private PluginService	pluginService;
 
-	@Inject
-	private SessionBean	sessionBean;
+
 	/**
 	 * Filtro (puede venir por parametro).
 	 */
@@ -84,7 +86,7 @@ public class ViewPlugins extends ViewControllerBase {
 	 */
 	public void nuevo() {
 		// Muestra dialogo
-		final Map<String, String> params = new HashMap<>();
+		final Map<String, String> params = new HashMap<String, String>();
 		UtilJSF.openDialog(DialogPlugins.class, TypeModoAcceso.ALTA, params, true, 900, 650);
 	}
 

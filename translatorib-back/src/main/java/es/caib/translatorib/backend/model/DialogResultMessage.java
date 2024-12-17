@@ -1,6 +1,6 @@
 package es.caib.translatorib.backend.model;
 
-import es.caib.translatorib.core.api.model.types.TypeNivelGravedad;
+import es.caib.translatorib.service.model.types.TypeNivelGravedad;
 
 /**
  * Mensaje a mostrar al cerrar ventana de dialogo.

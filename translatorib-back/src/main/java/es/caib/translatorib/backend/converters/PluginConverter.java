@@ -1,16 +1,13 @@
 package es.caib.translatorib.backend.converters;
 
-import es.caib.translatorib.core.api.model.Plugin;
-import es.caib.translatorib.core.api.service.PluginService;
+import es.caib.translatorib.service.model.Plugin;
+import es.caib.translatorib.service.service.PluginService;
 
-import javax.faces.bean.ManagedBean;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
-import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
-import javax.inject.Named;
 import java.io.Serializable;
 import java.util.List;
 

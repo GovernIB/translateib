@@ -4,14 +4,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import es.caib.translatorib.api.v1.model.ParametrosTraduccionDocumento;
 import es.caib.translatorib.api.v1.model.ParametrosTraduccionTexto;
 import es.caib.translatorib.backend.util.UtilJSF;
-import es.caib.translatorib.core.api.model.*;
-import es.caib.translatorib.core.api.model.comun.Constantes;
-import es.caib.translatorib.core.api.model.types.TypeNivelGravedad;
-import es.caib.translatorib.core.api.service.ConfiguracionFrontalService;
-import es.caib.translatorib.core.api.service.ConfiguracionGlobalService;
-import es.caib.translatorib.core.api.service.PluginService;
-import es.caib.translatorib.core.api.service.TraduccionService;
-import org.primefaces.PrimeFaces;
+import es.caib.translatorib.service.model.*;
+import es.caib.translatorib.service.model.comun.Constantes;
+import es.caib.translatorib.service.model.types.TypeNivelGravedad;
+import es.caib.translatorib.service.service.ConfiguracionFrontalService;
+import es.caib.translatorib.service.service.ConfiguracionGlobalService;
+import es.caib.translatorib.service.service.PluginService;
+import es.caib.translatorib.service.service.TraduccionService;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
@@ -19,12 +18,11 @@ import org.primefaces.model.file.UploadedFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.faces.application.FacesMessage;
+import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
-import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
 import java.io.ByteArrayInputStream;
 import java.net.URI;
@@ -45,16 +43,16 @@ public class ViewTraducir extends ViewControllerBase {
 
 	private static final Logger LOG = LoggerFactory.getLogger(ViewTraducir.class);
 
-	@Inject
+	@EJB
 	private PluginService	pluginService;
 
-	@Inject
+	@EJB
 	private TraduccionService traduccionService;
 
-	@Inject
+	@EJB
 	private ConfiguracionGlobalService configuracionGlobalService;
 
-	@Inject
+	@EJB
 	private ConfiguracionFrontalService configuracionFrontalService;
 
 	/**
@@ -230,7 +228,7 @@ public class ViewTraducir extends ViewControllerBase {
 					LOG.error("Error al realizar la traducción", e);
 					UtilJSF.addMessageContext(TypeNivelGravedad.ERROR, UtilJSF.getLiteral( "viewTraducir.errorDescarga"));
 				}
-			}else{
+			} else {
 				UtilJSF.addMessageContext(TypeNivelGravedad.ERROR,  UtilJSF.getLiteral("viewTraducir.faltandatos"));
 			}
 		}
@@ -279,6 +277,11 @@ public class ViewTraducir extends ViewControllerBase {
 		idiomaDestino = previoIdiomaOrigen;
 	}
 
+	/**
+	 * Cambiar idioma origen.
+	 *
+	 * @param event the event
+	 */
 	public void cambiarIdiomaOrigenAux(AjaxBehaviorEvent event) {
 		if (idiomaOrigen.equals(idiomaDestino)) {
 			idiomaDestino = idiomaOrigenOld;
@@ -286,6 +289,11 @@ public class ViewTraducir extends ViewControllerBase {
 		idiomaOrigenOld = idiomaOrigen;
 	}
 
+	/**
+	 * Cambiar idioma destino.
+	 *
+	 * @param event the event
+	 */
 	public void cambiarIdiomaDestinoAux(AjaxBehaviorEvent event) {
 		if (idiomaOrigen.equals(idiomaDestino)) {
 			idiomaOrigen = idiomaDestinoOld;
@@ -385,6 +393,11 @@ public class ViewTraducir extends ViewControllerBase {
 		}
 	}
 
+	/**
+	 * Comprobar si el idioma destino esta deshabilitado.
+	 * @param idiomaDestino Idioma destino
+	 * @return the boolean (true lo desactiva, false lo activa)
+	 */
 	public boolean esDisabledDestino(Idioma idiomaDestino) {
 		if (idiomaOrigen == null || idiomaDestino == null || pluginDTO == null) {
 			return true;
@@ -402,7 +415,10 @@ public class ViewTraducir extends ViewControllerBase {
 		return true;
 	}
 
-
+	/**
+	 * Setear idiomas segun plugin
+	 * @param plg Plugin
+	 */
 	private void setearIdiomas(Plugin plg) {
 		if (plg.getIdiomasFrontal() == null || plg.getIdiomasFrontal().isEmpty()) {
 			idiomasDestino = new ArrayList<Idioma>();
@@ -414,6 +430,10 @@ public class ViewTraducir extends ViewControllerBase {
 		}
 	}
 
+	/**
+	 * Setear idiomas destino.
+	 * @param idiomasFrontal Idiomas del frontal
+	 */
 	private void setearIdiomasDestino(String idiomasFrontal) {
 		//Teniendo en cuenta que idiomasFronta tiene un valor asi : es es->ca ca_ES,ca ca_ES->es es
 		//La separación entre pares es la coma (',')
@@ -429,6 +449,10 @@ public class ViewTraducir extends ViewControllerBase {
 		}
 	}
 
+	/**
+	 * Setear idiomas origen.
+	 * @param idiomasFrontal Idiomas del frontal
+	 */
 	private void setearIdiomasOrigen(String idiomasFrontal) {
 		//Teniendo en cuenta que idiomasFronta tiene un valor asi : es es->ca ca_ES,ca ca_ES->es es
 		//La separación entre pares es la coma (',')

@@ -1,17 +1,15 @@
-/*
- *
- */
+
 package es.caib.translatorib.backend.controller;
 
-import javax.faces.bean.ManagedProperty;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import es.caib.translatorib.backend.util.UtilJSF;
-import es.caib.translatorib.core.api.model.types.TypeModoAcceso;
-import es.caib.translatorib.core.api.model.types.TypeNivelGravedad;
+import es.caib.translatorib.service.model.types.TypeModoAcceso;
+import es.caib.translatorib.service.model.types.TypeNivelGravedad;
+import javax.faces.bean.ManagedProperty;
 
 /**
  * Clase de las que heredan los View.
@@ -26,6 +24,7 @@ public abstract class ViewControllerBase {
 	 */
 	private static final Logger LOGGER = LoggerFactory.getLogger(ViewControllerBase.class);
 
+
 	/**
 	 * Modo de acceso a la ventana.
 	 */
@@ -36,6 +35,7 @@ public abstract class ViewControllerBase {
 	 */
 	@ManagedProperty(value = "#{sessionBean}")
 	private SessionBean sesion;
+
 
 	/**
 	 * Obtiene el valor del bean de sesion.
@@ -55,7 +55,6 @@ public abstract class ViewControllerBase {
 	public void setSesion(final SessionBean sesion) {
 		this.sesion = sesion;
 	}
-
 	/**
 	 * Establece el valor del titulo de la pantalla.
 	 *
@@ -78,7 +77,6 @@ public abstract class ViewControllerBase {
 	/**
 	 * Ventana principal de ayudar.
 	 *
-	 * @param event
 	 *            resultado
 	 */
 	public void ayuda() {

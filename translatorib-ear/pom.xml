@@ -10,12 +10,7 @@
     <artifactId>translatorib-ear</artifactId>
     <packaging>ear</packaging>
     <name>translatorIB - EAR</name>
-    <description>Arxiu d'aplicació EAR de translatorIB</description>
-
-    <properties>
-        <!-- Format del timestamp -->
-        <maven.build.timestamp.format>dd/MM/yyyy HH:mm</maven.build.timestamp.format>
-    </properties>
+    <description>Arxiu d'aplicació EAR de TRANSLATORIB</description>
 
     <dependencies>
         <!-- Especificacions i llibreries proporcionades per JBoss -->
@@ -33,22 +28,35 @@
         <!-- Mòduls que van dins l'application.xml -->
         <dependency>
             <groupId>es.caib.translatorib</groupId>
-            <artifactId>translatorib-core</artifactId>
+            <artifactId>translatorib-ejb</artifactId>
             <version>${project.version}</version>
             <type>ejb</type>
         </dependency>
-        <dependency>
-            <groupId>es.caib.translatorib</groupId>
-            <artifactId>translatorib-api-interna</artifactId>
-            <version>${project.version}</version>
-            <type>war</type>
-        </dependency>
+        <!-- BACK START -->
         <dependency>
             <groupId>es.caib.translatorib</groupId>
             <artifactId>translatorib-back</artifactId>
             <version>${project.version}</version>
             <type>war</type>
         </dependency>
+        <!-- BACK END -->
+
+        <!-- API INTERNA START -->
+        <dependency>
+            <groupId>es.caib.translatorib</groupId>
+            <artifactId>translatorib-api-interna</artifactId>
+            <version>${project.version}</version>
+            <type>war</type>
+        </dependency>
+        <!-- API INTERNA END -->
+
+        <dependency>
+            <groupId>es.caib.translatorib</groupId>
+            <artifactId>translatorib-lib</artifactId>
+            <version>${project.version}</version>
+            <type>pom</type>
+        </dependency>
+
         <!--
         Mòduls que van dins el lib/
         Tenir en compte a l'hora de incloure dependències només si és imprescindible i no està ja dins
@@ -57,20 +65,25 @@
         -->
         <dependency>
             <groupId>es.caib.translatorib</groupId>
+            <artifactId>translatorib-service</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>es.caib.translatorib</groupId>
+            <artifactId>translatorib-persistence</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>es.caib.translatorib</groupId>
             <artifactId>translatorib-commons</artifactId>
             <version>${project.version}</version>
         </dependency>
 
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-core</artifactId>
-            <version>5.4.32.Final</version>
-        </dependency>
 
     </dependencies>
 
     <build>
-        <!-- El nom del EAR sempre és el nom del projecte d'acord amb un 4.2 de l'Estàndard CAIB -->
+        <!-- El nom del EAR sempre és el codi de l'aplicació d'acord amb el punt 4.2 de l'Estàndard CAIB -->
         <finalName>${project.parent.artifactId}</finalName>
         <plugins>
             <plugin>
@@ -93,21 +106,28 @@
                     <modules>
                         <ejbModule>
                             <groupId>es.caib.translatorib</groupId>
-                            <artifactId>translatorib-core</artifactId>
-                            <bundleFileName>translatorib-core.jar</bundleFileName>
+                            <artifactId>translatorib-ejb</artifactId>
+                            <bundleFileName>translatorib-ejb.jar</bundleFileName>
                         </ejbModule>
+                        <!-- BACK START -->
                         <webModule>
                             <groupId>es.caib.translatorib</groupId>
                             <artifactId>translatorib-back</artifactId>
                             <contextRoot>/translatoribback</contextRoot>
                             <bundleFileName>translatorib-back.war</bundleFileName>
                         </webModule>
+                        <!-- BACK END -->
+
+                        <!-- API EXTERNA END -->
+                        <!-- API INTERNA START -->
                         <webModule>
                             <groupId>es.caib.translatorib</groupId>
                             <artifactId>translatorib-api-interna</artifactId>
+                            <!-- cuando se depura en local , cambiar /translatoribapi por translatorib-api-externa -->
                             <contextRoot>/translatoribapi/interna</contextRoot>
                             <bundleFileName>translatorib-api-interna.war</bundleFileName>
                         </webModule>
+                        <!-- API INTERNA END -->
 
                     </modules>
                 </configuration>

@@ -19,12 +19,12 @@ import org.fundaciobit.pluginsib.core.utils.AbstractPluginProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import es.caib.translatorib.core.api.model.Idioma;
-import es.caib.translatorib.core.api.model.Opciones;
-import es.caib.translatorib.core.api.model.ResultadoTraduccionDocumento;
-import es.caib.translatorib.core.api.model.ResultadoTraduccionTexto;
-import es.caib.translatorib.core.api.model.TipoDocumento;
-import es.caib.translatorib.core.api.model.TipoEntrada;
+import es.caib.translatorib.service.model.Idioma;
+import es.caib.translatorib.service.model.Opciones;
+import es.caib.translatorib.service.model.ResultadoTraduccionDocumento;
+import es.caib.translatorib.service.model.ResultadoTraduccionTexto;
+import es.caib.translatorib.service.model.TipoDocumento;
+import es.caib.translatorib.service.model.TipoEntrada;
 import es.caib.translatorib.opentrad.rest.cxf.CustomFileResponse;
 import es.caib.translatorib.opentrad.rest.cxf.TranslatorV2;
 import es.caib.translatorib.opentrad.rest.cxf.TranslatorV2Service;

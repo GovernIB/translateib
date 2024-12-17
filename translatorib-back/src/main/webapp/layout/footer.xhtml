@@ -7,17 +7,7 @@
 
 <h:body>
 	<ui:composition>
-
-	<!--	<p:panelGrid columns="2" layout="grid" columnClasses="grid-left grid-nobgcolor,grid-right grid-nobgcolor" styleClass="ui-noborder">
-			<p:outputPanel>
-				<h:outputText value="translatorib #{negocioModuleConfig.version}" styleClass="pie_celda1"/>
-				<h:outputLink value = "https://github.com/GovernIB/translatorib/commit/#{negocioModuleConfig.commitGit}" title="#{negocioModuleConfig.commitGit==''?negocioModuleConfig.commitSvn:negocioModuleConfig.commitGit}" styleClass="pie_celda1" target="_blank">(<h:outputText value="#{negocioModuleConfig.commitGit==''?negocioModuleConfig.commitSvn:negocioModuleConfig.commitGit}" />)</h:outputLink>
-				<h:graphicImage value="/resources/images/#{negocioModuleConfig.entorno.toLowerCase()}_#{sessionBean.lang}.png" height="20" styleClass="pie_celda1"/>
-			</p:outputPanel>
-			<h:graphicImage value="/resources/images/feddr.png" height="38"/>
-		</p:panelGrid>-->
-
-		<div class="grid pl-4">
+ 		<div class="grid pl-4">
 			<div class="col-12 md:col-6 card flex align-items-center justify-content-center md:justify-content-start">
 				<h:outputText value="TranslatorIB #{negocioModuleConfig.version}" />
 				<h:outputLink value = "https://github.com/GovernIB/translatorib/commit/#{negocioModuleConfig.commitGit}"

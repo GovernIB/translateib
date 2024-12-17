@@ -3,13 +3,14 @@ package es.caib.translatorib.backend.controller;
 
 import es.caib.translatorib.backend.model.DialogResult;
 import es.caib.translatorib.backend.util.UtilJSF;
-import es.caib.translatorib.core.api.model.ConfiguracionGlobal;
-import es.caib.translatorib.core.api.model.comun.Constantes;
-import es.caib.translatorib.core.api.model.filtro.ConfiguracionGlobalFiltro;
-import es.caib.translatorib.core.api.model.types.TypeModoAcceso;
-import es.caib.translatorib.core.api.model.types.TypeNivelGravedad;
-import es.caib.translatorib.core.api.model.types.TypeParametroVentana;
-import es.caib.translatorib.core.api.service.ConfiguracionGlobalService;
+import es.caib.translatorib.service.model.ConfiguracionGlobal;
+import es.caib.translatorib.service.model.comun.Constantes;
+import es.caib.translatorib.service.model.filtro.ConfiguracionGlobalFiltro;
+import es.caib.translatorib.service.model.types.TypeModoAcceso;
+import es.caib.translatorib.service.model.types.TypeNivelGravedad;
+import es.caib.translatorib.service.model.types.TypeParametroVentana;
+import es.caib.translatorib.service.service.ConfiguracionGlobalService;
+import es.caib.translatorib.service.service.SessionService;
 import org.primefaces.PrimeFaces;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.model.FilterMeta;
@@ -19,10 +20,10 @@ import org.primefaces.model.SortOrder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
-import javax.inject.Named;
 import java.util.*;
 
 /**
@@ -43,11 +44,10 @@ public class ViewConfiguracionesGlobales extends ViewControllerBase {
      */
     private LazyDataModel<ConfiguracionGlobal> lazyModel;
 
-    @Inject
+    @EJB
     private ConfiguracionGlobalService configuracionGlobalService;
 
-    @Inject
-    private SessionBean	sessionBean;
+
 
     /**
      * Dato seleccionado
@@ -79,7 +79,7 @@ public class ViewConfiguracionesGlobales extends ViewControllerBase {
         filtro = new ConfiguracionGlobalFiltro();
 
         //filtro.setIdUA(sessionBean.getUnidadActiva().getCodigo());
-        filtro.setIdioma(sessionBean.getLang());
+        filtro.setIdioma(this.getSesion().getLang());
 
         // Generamos una búsqueda
         buscar();
@@ -94,7 +94,7 @@ public class ViewConfiguracionesGlobales extends ViewControllerBase {
     }
 
     public void buscar() {
-        lazyModel = new LazyDataModel<>() {
+        lazyModel = new LazyDataModel<ConfiguracionGlobal>() {
             private static final long serialVersionUID = 1L;
 
             @Override
@@ -123,7 +123,7 @@ public class ViewConfiguracionesGlobales extends ViewControllerBase {
             @Override
             public List<ConfiguracionGlobal> load(int first, int pageSize, Map<String, SortMeta> sortBy, Map<String, FilterMeta> filterBy) {
                 try {
-                    filtro.setIdioma(sessionBean.getLang());
+                    filtro.setIdioma(getSesion().getLang());
                     if (sortBy != null && !sortBy.isEmpty()) {
                         SortMeta sortMeta = sortBy.values().iterator().next();
                         SortOrder sortOrder = sortMeta.getOrder();
