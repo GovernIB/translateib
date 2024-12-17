@@ -78,8 +78,8 @@
         <jakarta.version>3.0.2</jakarta.version>
         <itext.version>2.1.7</itext.version>
         <jackson.version>2.9.5</jackson.version>
-        <!-- <loginConfig.authMethod>BASIC</loginConfig.authMethod>-->
-        <loginConfig.authMethod>KEYCLOAK</loginConfig.authMethod>
+        <!-- <webXml.loginConfig.authMethod>BASIC</webXml.loginConfig.authMethod>-->
+        <webXml.loginConfig.authMethod>KEYCLOAK</webXml.loginConfig.authMethod>
     </properties>
     <dependencyManagement>
         <dependencies>
