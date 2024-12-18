@@ -45,7 +45,7 @@
     </security-constraint>
 
     <login-config>
-        <auth-method>${loginConfig.authMethod}</auth-method>
+        <auth-method>${webXml.loginConfig.authMethod}</auth-method>
         <realm-name>Govern de les Illes Balears</realm-name>
     </login-config>
 

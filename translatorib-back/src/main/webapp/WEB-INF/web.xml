@@ -64,7 +64,7 @@
   <!-- Restringir acceso a cualquier URL bajo la raíz ("/") para cualquier usuario autenticado -->
   <security-constraint>
     <web-resource-collection>
-      <web-resource-name>${loginConfig.authMethod}</web-resource-name>
+      <web-resource-name>${webXml.loginConfig.authMethod}</web-resource-name>
       <!-- Protege todas las rutas que comienzan con / -->
       <url-pattern>/viewTraducir.xhtml</url-pattern>
     </web-resource-collection>
@@ -87,7 +87,7 @@
   </security-constraint>
   <!-- Configuración para el acceso a index.html solo requiere autenticación -->
   <login-config>
-    <auth-method>${loginConfig.authMethod}</auth-method>
+    <auth-method>${webXml.loginConfig.authMethod}</auth-method>
     <realm-name>Autenticacion</realm-name>
   </login-config>
   <security-role>
