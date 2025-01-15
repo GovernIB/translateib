@@ -79,7 +79,6 @@ public class TraduccionResource {
 	 *
 	 * @param parametros Los parametros de consulta.
 	 * @return Un codi 201 amb la traducción del texto.
-	 * @throws TraduccionException
 	 */
 	@POST
 	@Path("/texto")
@@ -116,14 +115,12 @@ public class TraduccionResource {
 			idi = es.caib.translatorib.persistence.api.model.Idioma.CASTELLANO_ESPANYA;
 			break;*/
 		case CATALAN:
-			idi = Idioma.CATALAN;
+			case CATALAN_CATALUNYA:
+				idi = Idioma.CATALAN;
 			break;
 		case CATALAN_BALEAR:
 			idi = Idioma.CATALAN_BALEAR;
 			break;
-	/*	case CATALAN_CATALUNYA:
-			idi = es.caib.translatorib.persistence.api.model.Idioma.CATALAN_CATALUNYA;
-			break;*/
 		}
 		return idi;
 	}
@@ -134,7 +131,6 @@ public class TraduccionResource {
 	 * @param parametros Los parametros de consulta.
 	 *
 	 * @return Un codi 201 amb el text traduit.
-	 * @throws TraduccionException
 	 */
 	@POST
 	@Path("/documento")
